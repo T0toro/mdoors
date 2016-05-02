@@ -36,6 +36,7 @@ module.exports = function (app, passport) {
   // Compression middleware
   // (should be placed before express.static)
   //--------------------------------------------
+
   app.use(compression({
     threshold: 512
   }));
@@ -133,7 +134,7 @@ module.exports = function (app, passport) {
 
   // adds CSRF support
   //--------------------------------------------
-  
+
   if (process.env.NODE_ENV !== 'test') {
     app.use(csrf());
 

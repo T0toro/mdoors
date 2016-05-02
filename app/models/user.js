@@ -1,10 +1,15 @@
-
+/**
+ * User model
+ *
+ * @module       :: model
+ * @description  :: Represent user in database
+ */
 
 /*
  * Module variables
  */
 
-var mongoose, userPlugin, Schema;
+var mongoose, userPlugin, UserSchema, Schema;
 
 /*
  * Module dependencies
@@ -18,7 +23,7 @@ Schema = mongoose.Schema;
  * User schema
  */
 
-var UserSchema = new Schema({
+UserSchema = new Schema({
   name: { type: String, default: '' },
   email: { type: String, default: '' },
   hashed_password: { type: String, default: '' },
