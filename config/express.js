@@ -4,7 +4,7 @@
  * Module variables
  */
 
-let express, session, compression, morgan, cookieParser, cookieSession, bodyParser, methodOverride, csrf, mongoStore, flash, winston, helpers, pkg, env, log;
+let express, session, compression, morgan, config, cookieParser, cookieSession, bodyParser, methodOverride, csrf, mongoStore, flash, winston, helpers, pkg, env, log;
 
 /**
  * Module dependencies.
@@ -18,13 +18,13 @@ cookieParser   = require('cookie-parser');
 cookieSession  = require('cookie-session');
 bodyParser     = require('body-parser');
 methodOverride = require('method-override');
+config         = require('./index');
 csrf           = require('csurf');
 
 mongoStore     = require('connect-mongo')(session);
 flash          = require('connect-flash');
 winston        = require('winston');
 helpers        = require('view-helpers');
-config         = require('config');
 pkg            = require('../package.json');
 
 env            = process.env.NODE_ENV || 'development';

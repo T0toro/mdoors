@@ -11,7 +11,7 @@
  * Module variables
  */
 
-let fs, express, mongoose, passport, app, port, connect, path;
+let fs, express, mongoose, passport, config, app, port, connect, path;
 
 /**
  * Module dependencies
@@ -22,6 +22,7 @@ path     = require('path');
 express  = require('express');
 mongoose = require('mongoose');
 passport = require('passport');
+config   = require('./config');
 
 app      = express();
 port = process.env.PORT || 3000;
