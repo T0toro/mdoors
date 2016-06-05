@@ -23,26 +23,26 @@ Schema = mongoose.Schema;
  */
 
 ArticleSchema = new Schema({
-    'title': {
+    title: {
         type: String,
         default: ''
     },
-    'description': {
+    description: {
         type: String,
         default: ''
     },
-    'name': {
+    name: {
         type: String,
         default: ''
     },
-    'content': {
+    content: {
         type: String,
         default: ''
     },
-    'status': {
+    status: {
         type: String,
         default: ''
-    },
+    }
 });
 
 

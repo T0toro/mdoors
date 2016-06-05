@@ -1,12 +1,18 @@
+'use strict';
 
 /**
  * Module dependencies.
  */
 
-var mongoose = require('mongoose');
-var LocalStrategy = require('passport-local').Strategy;
-var config = require('config');
-var User = mongoose.model('User');
+let mongoose, User, LocalStrategy, config;
+
+/**
+ * Module dependencies.
+ */
+
+mongoose      = require('mongoose');
+LocalStrategy = require('passport-local').Strategy;
+User          = mongoose.model('User');
 
 /**
  * Expose

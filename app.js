@@ -11,7 +11,7 @@
  * Module variables
  */
 
-var fs, express, mongoose, passport, config, app, port, connect, path;
+let fs, express, mongoose, passport, app, port, connect, path;
 
 /**
  * Module dependencies
@@ -22,14 +22,22 @@ path     = require('path');
 express  = require('express');
 mongoose = require('mongoose');
 passport = require('passport');
-config   = require('config');
 
-app = express();
+app      = express();
 port = process.env.PORT || 3000;
 
 // Connect to mongodb
 connect = function() {
-  mongoose.connect(config.db, {server: {socketOptions: {keepAlive: 1}}});
+  mongoose.connect(
+    'mongodb://localhost/jsbook',
+    {
+      server: {
+        socketOptions: {
+          keepAlive: 1
+        }
+      }
+    }
+  );
 };
 
 // Open db connection
@@ -50,7 +58,7 @@ fs.readdirSync(path.join(__dirname, '/app/models')).forEach(function(file) {
 // Bootstrap passport config
 //----------------------------------------------
 
-require('./config/passport')(passport, config);
+require('./config/passport')(passport);
 
 // Bootstrap application settings
 //----------------------------------------------

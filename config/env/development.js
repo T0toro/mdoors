@@ -1,10 +1,11 @@
+'use strict';
 
 /**
  * Expose
  */
 
 module.exports = {
-  db: 'mongodb://localhost/your_project_development',
+  db: 'mongodb://localhost/jsbook',
   facebook: {
     clientID: 'APP_ID',
     clientSecret: 'SECRET',

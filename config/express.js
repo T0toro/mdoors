@@ -1,8 +1,10 @@
+'use strict';
+
 /**
  * Module variables
  */
 
-var express, session, compression, morgan, cookieParser, cookieSession, bodyParser, methodOverride, csrf, mongoStore, flash, winston, helpers, config, pkg, env;
+let express, session, compression, morgan, cookieParser, cookieSession, bodyParser, methodOverride, csrf, mongoStore, flash, winston, helpers, pkg, env, log;
 
 /**
  * Module dependencies.
@@ -48,8 +50,6 @@ module.exports = function (app, passport) {
 
   // Use winston on production
   //--------------------------------------------
-
-  var log;
 
   if (env !== 'development') {
     log = {

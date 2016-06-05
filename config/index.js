@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Main config file
  *
@@ -9,7 +11,7 @@
  * Module variables.
  */
 
-var path, extend, test, production, defaults;
+let path, extend, development, test, production, defaults;
 
 /**
  * Module dependencies.
