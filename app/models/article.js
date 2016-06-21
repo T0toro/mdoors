@@ -31,6 +31,10 @@ ArticleSchema = new Schema({
         type: String,
         default: ''
     },
+    slug: {
+        type: String,
+        default: ''
+    },
     name: {
         type: String,
         default: ''

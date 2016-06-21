@@ -36,5 +36,5 @@ module.exports = function (app, passport) {
 
   app.get('/articles', article.index);
   app.get('/articles/create', article.create);
-
+  app.post('/articles/store', article.store);
 };

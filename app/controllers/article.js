@@ -41,8 +41,10 @@ exports.index = (req, res, next) => {
                 });
             }
         });
-}
+};
 
-exports.create = (req, res, next) => {
-    res.render('articles/create');
-}
+exports.create = (req, res, next) => res.render('articles/create');
+
+exports.store = (req, res, next) => {
+    console.info(req.params);
+};
