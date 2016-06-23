@@ -43,8 +43,46 @@ exports.index = (req, res, next) => {
         });
 };
 
-exports.create = (req, res, next) => res.render('articles/create');
+exports.create = (req, res) => res.render('articles/create');
 
 exports.store = (req, res, next) => {
-    console.info(req.params.all());
+    Article.create({
+        title: req.body.title,
+        description: req.body.description,
+        name: req.body.name,
+        content: req.body.content,
+        status: req.body.status
+    }, (err, article) => {
+        if (err) return next(err);
+
+        if (article) return res.redirect('/articles');
+    });
+};
+
+exports.edit = (req, res) => {
+    let id = req.body.id || '';
+
+    Article.find(id, (err, article) => {
+        if (err) return next(err);
+
+        if (article) return res.render('articles/create', { article: article.pop() });
+    });
+};
+
+exports.update = (req, res, next) => {
+    Article.update({
+        title: req.body.title,
+        description: req.body.description,
+        name: req.body.name,
+        content: req.body.content,
+        status: req.body.status
+    }, (err, article) => {
+        if (err) {
+            return next(err);
+        }
+
+        if (article) {
+            return res.redirect('/articles');
+        }
+    });
 };

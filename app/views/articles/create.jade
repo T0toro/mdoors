@@ -26,7 +26,6 @@ block content
           option(value="0") Черновик
           option(value="1") Опубликованно
       .form-group
-        - console.info(locals)
         input(type="hidden", name="_csrf", value="#{csrf}")
         input(type="submit", name="submit", value="Сохранить").btn.btn-default
 
