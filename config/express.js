@@ -10,138 +10,140 @@ let express, session, compression, morgan, config, cookieParser, cookieSession, 
  * Module dependencies.
  */
 
-express        = require('express');
-session        = require('express-session');
-compression    = require('compression');
-morgan         = require('morgan');
-cookieParser   = require('cookie-parser');
-cookieSession  = require('cookie-session');
-bodyParser     = require('body-parser');
+express = require('express');
+session = require('express-session');
+compression = require('compression');
+morgan = require('morgan');
+cookieParser = require('cookie-parser');
+cookieSession = require('cookie-session');
+bodyParser = require('body-parser');
 methodOverride = require('method-override');
-config         = require('./index');
-csrf           = require('csurf');
+config = require('./index');
+csrf = require('csurf');
 
-mongoStore     = require('connect-mongo')(session);
-flash          = require('connect-flash');
-winston        = require('winston');
-helpers        = require('view-helpers');
-pkg            = require('../package.json');
+mongoStore = require('connect-mongo')(session);
+flash = require('connect-flash');
+winston = require('winston');
+helpers = require('view-helpers');
+pkg = require('../package.json');
 
-env            = process.env.NODE_ENV || 'development';
+env = process.env.NODE_ENV || 'development';
 
 /**
  * Expose
  */
 
-module.exports = function (app, passport) {
+module.exports = function(app, passport) {
 
-  // Compression middleware
-  // (should be placed before express.static)
-  //--------------------------------------------
+    // Compression middleware
+    // (should be placed before express.static)
+    //--------------------------------------------
 
-  app.use(compression({
-    threshold: 512
-  }));
+    app.use(compression({
+        threshold: 512
+    }));
 
-  // Static files middleware
-  //--------------------------------------------
+    // Static files middleware
+    //--------------------------------------------
 
-  app.use(express.static(config.root + '/public'));
+    app.use(express.static(config.root + '/public'));
 
-  // Use winston on production
-  //--------------------------------------------
+    // Use winston on production
+    //--------------------------------------------
 
-  if (env !== 'development') {
-    log = {
-      stream: {
-        write: function (message, encoding) {
-          winston.info(message);
-        }
-      }
-    };
-  } else {
-    log = 'dev';
-  }
-
-  // Don't log during tests
-  // Logging middleware
-  //--------------------------------------------
-
-  if (env !== 'test') app.use(morgan(log));
-
-  // set views path and default layout
-  //--------------------------------------------
-
-  app.set('views', config.root + '/app/views');
-  app.set('view engine', 'jade');
-
-  // expose package.json to views
-  //--------------------------------------------
-
-  app.use(function (req, res, next) {
-    res.locals.pkg = pkg;
-    res.locals.env = env;
-    next();
-  });
-
-  // bodyParser should be above methodOverride
-  //--------------------------------------------
-
-  app.use(bodyParser.urlencoded({
-    extended: true
-  }));
-  app.use(bodyParser.json());
-  app.use(methodOverride(function (req, res) {
-    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
-      // look in urlencoded POST bodies and delete it
-      var method = req.body._method;
-      delete req.body._method;
-      return method;
+    if (env !== 'development') {
+        log = {
+            stream: {
+                write: function(message, encoding) {
+                    winston.info(message);
+                }
+            }
+        };
+    } else {
+        log = 'dev';
     }
-  }));
 
-  // cookieParser should be above session
-  //--------------------------------------------
+    // Don't log during tests
+    // Logging middleware
+    //--------------------------------------------
 
-  app.use(cookieParser());
-  app.use(cookieSession({ secret: 'secret' }));
-  app.use(session({
-    secret: pkg.name,
-    proxy: true,
-    resave: true,
-    saveUninitialized: true,
-    store: new mongoStore({
-      url: config.db,
-      collection : 'sessions'
-    })
-  }));
+    if (env !== 'test') app.use(morgan(log));
 
-  // use passport session
-  //--------------------------------------------
+    // set views path and default layout
+    //--------------------------------------------
 
-  app.use(passport.initialize());
-  app.use(passport.session());
+    app.set('views', config.root + '/app/views');
+    app.set('view engine', 'jade');
 
-  // connect flash for flash messages - should be declared after sessions
-  //--------------------------------------------
+    // expose package.json to views
+    //--------------------------------------------
 
-  app.use(flash());
-
-  // should be declared after session and flash
-  //--------------------------------------------
-
-  app.use(helpers(pkg.name));
-
-  // adds CSRF support
-  //--------------------------------------------
-
-  if (process.env.NODE_ENV !== 'test') {
-    app.use(csrf());
-
-    // This could be moved to view-helpers :-)
-    app.use(function(req, res, next){
-      res.locals.csrf_token = req.csrfToken();
-      next();
+    app.use(function(req, res, next) {
+        res.locals.pkg = pkg;
+        res.locals.env = env;
+        next();
     });
-  }
+
+    // bodyParser should be above methodOverride
+    //--------------------------------------------
+
+    app.use(bodyParser.urlencoded({
+        extended: true
+    }));
+    app.use(bodyParser.json());
+    app.use(methodOverride(function(req, res) {
+        if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+            // look in urlencoded POST bodies and delete it
+            var method = req.body._method;
+            delete req.body._method;
+            return method;
+        }
+    }));
+
+    // cookieParser should be above session
+    //--------------------------------------------
+
+    app.use(cookieParser());
+    app.use(cookieSession({
+        secret: 'secret'
+    }));
+    app.use(session({
+        secret: pkg.name,
+        proxy: true,
+        resave: true,
+        saveUninitialized: true,
+        store: new mongoStore({
+            url: config.db,
+            collection: 'sessions'
+        })
+    }));
+
+    // use passport session
+    //--------------------------------------------
+
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+    // connect flash for flash messages - should be declared after sessions
+    //--------------------------------------------
+
+    app.use(flash());
+
+    // should be declared after session and flash
+    //--------------------------------------------
+
+    app.use(helpers(pkg.name));
+
+    // adds CSRF support
+    //--------------------------------------------
+
+    if (process.env.NODE_ENV !== 'test') {
+        app.use(csrf());
+
+        // This could be moved to view-helpers :-)
+        app.use((req, res, next) => {
+            res.locals.csrf = req.csrfToken();
+            next();
+        });
+    }
 };

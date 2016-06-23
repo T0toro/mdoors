@@ -11,30 +11,30 @@
  * Module variables
  */
 
-var mongoose, home, article;
+var home, article;
 
 /**
  * Module dependencies.
  */
 
-home    = require('./../app/controllers/home');
+home = require('./../app/controllers/home');
 article = require('./../app/controllers/article');
 
 /**
  * Expose
  */
 
-module.exports = function (app, passport) {
+module.exports = function(app, passport) {
 
-  // Home
-  //--------------------------------------------
+    // Home
+    //--------------------------------------------
 
-  app.get('/', home.index);
+    app.get('/', home.index);
 
-  // Article
-  //--------------------------------------------
+    // Article
+    //--------------------------------------------
 
-  app.get('/articles', article.index);
-  app.get('/articles/create', article.create);
-  app.post('/articles/store', article.store);
+    app.get('/articles', article.index);
+    app.get('/articles/create', article.create);
+    app.post('/articles/store', article.store);
 };

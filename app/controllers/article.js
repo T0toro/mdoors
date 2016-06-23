@@ -11,14 +11,14 @@
  * Module variables
  */
 
-var mongoose, Article;
+let mongoose, Article;
 
 /*
  * Module dependencies
  */
 
 mongoose = require('mongoose');
-Article  = mongoose.model('Article');
+Article = mongoose.model('Article');
 
 /*
  * Expos
@@ -46,5 +46,5 @@ exports.index = (req, res, next) => {
 exports.create = (req, res, next) => res.render('articles/create');
 
 exports.store = (req, res, next) => {
-    console.info(req.params);
+    console.info(req.params.all());
 };
