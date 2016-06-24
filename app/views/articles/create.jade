@@ -4,6 +4,7 @@ block main
   h2 Новая статья
 
 block content
+  - console.info(article)
   form(action="/articles/store", method="POST")
     fieldset
       legend SEO
@@ -12,7 +13,7 @@ block content
       p.form-group
         input(type="text", name="description", placeholder="Кратское описание статьи").form-control
       p.form-group
-        input(type="text", slug, placeholder="url страницы").form-control
+        input(type="text", name="slug", placeholder="url страницы").form-control
     fieldset
       legend Контент
       p.form-group

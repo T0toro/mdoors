@@ -15,7 +15,8 @@ Article = mongoose.model('Article');
 
 exports.index = function(req, res, next) {
     Article
-        .find((err, articles) => {
+        .find({ status: 1 })
+        .exec((err, articles) => {
             if (err) {
                 return next(err);
             }

@@ -1,0 +1,7 @@
+extends ../layouts/app
+
+block content
+  section.list.list-articles
+    each article in articles
+      h2
+        a(href="/articles/edit/#{article.id}")= article.name

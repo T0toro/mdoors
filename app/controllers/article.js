@@ -36,7 +36,7 @@ exports.index = (req, res, next) => {
             if (err) return next(err);
 
             if (Array.isArray(articles)) {
-                res.json({
+                res.render('articles/index' ,{
                     articles: articles
                 });
             }
@@ -59,14 +59,16 @@ exports.store = (req, res, next) => {
     });
 };
 
-exports.edit = (req, res) => {
-    let id = req.body.id || '';
+exports.edit = (req, res, next) => {
+    let id = req.param('id') || '';
 
-    Article.find(id, (err, article) => {
-        if (err) return next(err);
+    Article
+        .findById(id)
+        .exec((err, article) => {
+            if (err) { return next(err); }
 
-        if (article) return res.render('articles/create', { article: article.pop() });
-    });
+            if (article) { return res.render('articles/edit', { article: article }); }
+        });
 };
 
 exports.update = (req, res, next) => {

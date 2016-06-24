@@ -44,7 +44,7 @@ ArticleSchema = new Schema({
         default: ''
     },
     status: {
-        type: String,
+        type: Number,
         default: ''
     }
 });
