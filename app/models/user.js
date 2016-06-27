@@ -26,20 +26,20 @@ Schema = mongoose.Schema;
 UserSchema = new Schema({
   name: {
     type: String,
-    default: ''
+    default: '',
   },
   email: {
     type: String,
-    default: ''
+    default: '',
   },
-  hashed_password: {
+  hashedPassword: {
     type: String,
-    default: ''
+    default: '',
   },
   salt: {
     type: String,
-    default: ''
-  }
+    default: '',
+  },
 });
 
 /**
