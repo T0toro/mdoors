@@ -18,7 +18,7 @@ let mongoose, Article;
  */
 
 mongoose = require('mongoose');
-Article = mongoose.model('Article');
+Article = mongoose.model('User');
 
 /*
  * Expos
@@ -28,7 +28,7 @@ Article = mongoose.model('Article');
 /**
  * Article list
  */
-
+/*
 exports.login = (req, res, next) => {
   Article
     .find()

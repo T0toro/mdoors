@@ -5,7 +5,6 @@ block main
     span.article-name= article.name
 
 block content
-  - console.info(article, article.content);
   form(action="/articles/update", method="POST")
     fieldset
       legend SEO
