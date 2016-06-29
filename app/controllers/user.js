@@ -1,58 +1,58 @@
 'use strict';
 
 /**
- * Article controller
+ * USer controller
  *
  * @module       :: controller
- * @description  :: keep logic for handle article ( CRUD and etc )
+ * @description  :: keep logic for handle user( login, logout and etc )
  */
 
-/*
+/*!
  * Module variables
  */
 
-let mongoose, Article;
+let mongoose, User;
 
-/*
+/*!
  * Module dependencies
  */
 
 mongoose = require('mongoose');
-Article = mongoose.model('User');
+User = mongoose.model('User');
 
-/*
+/*!
  * Expos
  */
 
 
 /**
- * Article list
+ * Login
  */
-/*
+
 exports.login = (req, res, next) => {
-  Article
+  User
     .find()
-    .exec((err, articles) => {
+    .exec((err, user) => {
       if (err) { return next(err); }
 
-      if (Array.isArray(articles)) {
+      if (Array.isArray(user)) {
         res.render('articles/index', {
-          articles: articles,
+          user: user,
         });
       }
     });
 };
 
 exports.logout = (req, res, next) => {
-  Article.create({
+  User.create({
     title: req.body.title,
     description: req.body.description,
     name: req.body.name,
     content: req.body.content,
     status: req.body.status,
-  }, (err, article) => {
+  }, (err, user) => {
     if (err) { return next(err); }
 
-    if (article) { return res.redirect('/articles'); }
+    if (user) { return res.redirect('/'); }
   });
 };

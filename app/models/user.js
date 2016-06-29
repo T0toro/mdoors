@@ -5,18 +5,18 @@
  * @description  :: Represent user in database
  */
 
-/*
+/*!
  * Module variables
  */
 
 var mongoose, userPlugin, UserSchema, Schema;
 
-/*
+/*!
  * Module dependencies
  */
 
 mongoose = require('mongoose');
-userPlugin = require('mongoose-user');
+// userPlugin = require('mongoose-user');
 Schema = mongoose.Schema;
 
 /**
@@ -46,7 +46,7 @@ UserSchema = new Schema({
  * User plugin
  */
 
-UserSchema.plugin(userPlugin, {});
+// UserSchema.plugin(userPlugin, {});
 
 /**
  * Add your
