@@ -1,0 +1,858 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"ma",
+				"mail"
+			],
+			[
+				"cons",
+				"console.log"
+			],
+			[
+				"cl",
+				"class	class …"
+			],
+			[
+				"уста",
+				"устаревшие"
+			],
+			[
+				"об",
+				"объяленный"
+			],
+			[
+				"Улуч",
+				"Улучшена"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"mar",
+				"margin-bottom"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"sea",
+				"searchQuery"
+			],
+			[
+				"inp",
+				"inputSearch"
+			],
+			[
+				"se",
+				"searchQuery"
+			],
+			[
+				"con",
+				"console"
+			],
+			[
+				"Di",
+				"Dictionary"
+			],
+			[
+				"столк",
+				"столкновение"
+			],
+			[
+				"стол",
+				"столкновение"
+			],
+			[
+				"столкно",
+				"столкновении"
+			],
+			[
+				"персо",
+				"персонаж"
+			],
+			[
+				"перс",
+				"персонаж"
+			],
+			[
+				"персонаж",
+				"персонажа"
+			],
+			[
+				"соз",
+				"создали"
+			],
+			[
+				"box-",
+				"box-shadow"
+			],
+			[
+				"im",
+				"important"
+			],
+			[
+				"th",
+				"thumb"
+			],
+			[
+				"po",
+				"portfolio"
+			],
+			[
+				"pd",
+				"padding-top"
+			],
+			[
+				"bar",
+				"background"
+			],
+			[
+				"le",
+				"letter-spacing"
+			],
+			[
+				"in",
+				"inline-block"
+			],
+			[
+				"изме",
+				"изменить"
+			],
+			[
+				"оши",
+				"ошибки"
+			],
+			[
+				"объявл",
+				"объявление"
+			],
+			[
+				"конста",
+				"константа"
+			],
+			[
+				"рассм",
+				"рассмотрим"
+			],
+			[
+				"фу",
+				"функции"
+			],
+			[
+				"зна",
+				"значения"
+			],
+			[
+				"воз",
+				"возникновению"
+			],
+			[
+				"уни",
+				"уничтожена"
+			],
+			[
+				"ima",
+				"image"
+			],
+			[
+				"_",
+				"_blank"
+			],
+			[
+				"дост",
+				"доступна"
+			],
+			[
+				"приме",
+				"примере"
+			],
+			[
+				"оп",
+				"определение"
+			],
+			[
+				"ини",
+				"инициализация"
+			],
+			[
+				"объя",
+				"объявленна"
+			],
+			[
+				"пере",
+				"переменная"
+			],
+			[
+				"объяв",
+				"объявление"
+			],
+			[
+				"перем",
+				"переменные"
+			],
+			[
+				"ви",
+				"видимость"
+			],
+			[
+				"и",
+				"интарпретатором"
+			],
+			[
+				"hoi",
+				"hoisting"
+			],
+			[
+				"J",
+				"JavaScript"
+			],
+			[
+				"синта",
+				"синтаксиса"
+			],
+			[
+				"бразуе",
+				"браузеры"
+			],
+			[
+				"ст",
+				"стандарта"
+			],
+			[
+				"из",
+				"известна"
+			],
+			[
+				"улу",
+				"улучшением"
+			],
+			[
+				"измене",
+				"изменения"
+			],
+			[
+				"верси",
+				"версию"
+			],
+			[
+				"являе",
+				"является"
+			],
+			[
+				"2",
+				"2015"
+			],
+			[
+				"испо",
+				"использует"
+			],
+			[
+				"new",
+				"news〔argument〕"
+			],
+			[
+				"ne",
+				"news"
+			],
+			[
+				"par",
+				"params"
+			],
+			[
+				"pra",
+				"params"
+			],
+			[
+				"on",
+				"onerror"
+			],
+			[
+				"net",
+				"negotiate"
+			],
+			[
+				"image",
+				"imageName〔variable〕"
+			],
+			[
+				"back",
+				"background"
+			],
+			[
+				"news",
+				"newsId"
+			],
+			[
+				"para",
+				"params"
+			],
+			[
+				"up",
+				"upload"
+			],
+			[
+				"data",
+				"dataObj"
+			],
+			[
+				"uti",
+				"utils〔variable〕"
+			],
+			[
+				"pa",
+				"params"
+			],
+			[
+				"file",
+				"filename"
+			],
+			[
+				"upl",
+				"uploads"
+			],
+			[
+				"fun",
+				"function〔keyword〕"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "app.js",
+			"settings":
+			{
+				"buffer_size": 2101,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 42.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"pai",
+				"Package Control: Install Package"
+			],
+			[
+				"in",
+				"Package Control: Install Package"
+			],
+			[
+				"htm",
+				"HTMLPrettify"
+			],
+			[
+				"list",
+				"Package Control: List Packages"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"sftp",
+				"SFTP: Browse Server…"
+			],
+			[
+				"ssh",
+				"Set Syntax: HTML"
+			],
+			[
+				"ht",
+				"HTMLPrettify"
+			],
+			[
+				"con",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"bro",
+				"SFTP: Browse Server…"
+			],
+			[
+				"mini",
+				"Minify Javascript"
+			],
+			[
+				"bros",
+				"SFTP: Browse Server…"
+			],
+			[
+				"h",
+				"HTMLPrettify"
+			],
+			[
+				"paci",
+				"Package Control: Install Package"
+			],
+			[
+				"ssco",
+				"Set Syntax: CoffeeScript"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"ssslim",
+				"Set Syntax: Ruby Slim"
+			],
+			[
+				"ssja",
+				"Set Syntax: Jade"
+			],
+			[
+				"ssst",
+				"Set Syntax: Stylus"
+			],
+			[
+				"converspa",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 575.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"sublime.log_commands(True)",
+			"\"key event: super+shift+p\"",
+			"sublime.log_input(True)",
+			"sublime.log_commands(True)",
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/evgenijtrojnov/www/jsbook"
+	],
+	"file_history":
+	[
+		"/Users/evgenijtrojnov/Library/Application Support/Sublime Text 3/Packages/User/Default (OSX).sublime-keymap",
+		"/Users/evgenijtrojnov/Library/Application Support/Sublime Text 3/Packages/Default/Default (OSX).sublime-keymap",
+		"/Users/evgenijtrojnov/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/evgenijtrojnov/Library/Application Support/Sublime Text 3/Packages/User/JSON.sublime-settings",
+		"/Users/evgenijtrojnov/www/challenge/imap.js",
+		"/Users/evgenijtrojnov/www/challenge/imap.rb",
+		"/pop.rb",
+		"/Users/evgenijtrojnov/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 74.0
+	},
+	"find_in_files":
+	{
+		"height": 173.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"friend-list",
+			"trim",
+			"icon",
+			"contact",
+			"orderproduct",
+			"url",
+			"background",
+			"onclick=\".*?\"",
+			"newsletter",
+			"news",
+			"log",
+			"_n.png",
+			"banne",
+			"Add to Cart",
+			"./assets/saved_resource",
+			"saved",
+			"fancy",
+			"script",
+			"scrip",
+			"faceboo",
+			"index_files",
+			"index",
+			"<a rel=\"nofollow\"",
+			"<a ",
+			"Криптография",
+			"slide",
+			".art-foo",
+			"tit",
+			".ope",
+			"art-foo",
+			"/*",
+			"assets/",
+			"img",
+			" title=\"\" alt=\"\"",
+			"img",
+			"script",
+			"scri",
+			"images",
+			"ima",
+			"./Главная_files/",
+			".art",
+			"figcaption",
+			"figure",
+			"contacts",
+			"cont",
+			"Like this",
+			"portfolio",
+			"Chapter",
+			"serverError",
+			"va",
+			"news",
+			"serverError",
+			"disk",
+			"next(err)",
+			"});",
+			"image-up",
+			"#homepa",
+			"url",
+			"car"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"orderproduct",
+			"",
+			"orderproduct",
+			"Заказать",
+			"#",
+			"./assets/saved_resource",
+			"assets",
+			"index_files",
+			"<a rel=\"nofollow\" ",
+			"<a rel=\"nofollow\"",
+			"",
+			"img",
+			"./assets/",
+			"Нравится",
+			"Глава",
+			"negotiate",
+			"serverError",
+			"res.serverError(err)",
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "app.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2101,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1798,
+								1798
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1757.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 74.0
+	},
+	"input":
+	{
+		"height": 75.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.doc":
+	{
+		"height": 0.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.sftp":
+	{
+		"height": 204.0
+	},
+	"pinned_build_system": "",
+	"project": "jsbook.sublime-project",
+	"replace":
+	{
+		"height": 68.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"game.ts",
+				"public/ts/game.ts"
+			],
+			[
+				"st",
+				"assets/stylesheet.css"
+			],
+			[
+				"commo",
+				"assets/js/common.js"
+			],
+			[
+				"materi",
+				"assets/material-design.css"
+			],
+			[
+				"scr",
+				"assets/script.js"
+			],
+			[
+				"rou",
+				"config/routes.js"
+			],
+			[
+				"contro/wor",
+				"app/controllers/words.js"
+			],
+			[
+				".js",
+				".jshintrc"
+			],
+			[
+				"style",
+				"public/css/style.css"
+			],
+			[
+				"sty",
+				"public/css/style.css"
+			],
+			[
+				"route",
+				"config/routes.js"
+			],
+			[
+				"rout",
+				"app/Http/routes.php"
+			],
+			[
+				"button",
+				"public/less/mixins/buttons.less"
+			],
+			[
+				"app",
+				"app.js"
+			],
+			[
+				"app.ja",
+				"views/app.jade"
+			],
+			[
+				"homein",
+				"views/home/index.jade"
+			],
+			[
+				"setings",
+				"public/less/settings.less"
+			],
+			[
+				"colors.les",
+				"node_modules/less/test/less/colors.less"
+			],
+			[
+				"modalsbas",
+				"public/less/modals/basic.less"
+			],
+			[
+				"setti",
+				"public/less/settings.less"
+			],
+			[
+				"butto",
+				"public/less/mixins/buttons.less"
+			],
+			[
+				"index.ja",
+				"views/index.jade"
+			],
+			[
+				"inde",
+				"views/index.jade"
+			],
+			[
+				"modalsba",
+				"public/less/modals/basic.less"
+			],
+			[
+				"modalsin",
+				"public/less/modals/index.less"
+			],
+			[
+				"tenthu",
+				"public/less/modals/tenthousend_points.less"
+			],
+			[
+				"page",
+				"api/controllers/PageController.js"
+			],
+			[
+				"admingllsh",
+				"views/admin/gallery/show.jade"
+			],
+			[
+				"gallerysho",
+				"views/gallery/show.jade"
+			],
+			[
+				"boot",
+				"config/bootstrap.js"
+			],
+			[
+				"home",
+				"views/home/index.jade"
+			],
+			[
+				"poli",
+				"config/policies.js"
+			],
+			[
+				"homeinde",
+				"views/home/index.jade"
+			],
+			[
+				"boo",
+				"config/bootstrap.js"
+			],
+			[
+				"admin.ja",
+				"views/admin/admin.jade"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/www/jsbook/jsbook.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 351.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
