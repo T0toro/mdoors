@@ -7,13 +7,13 @@
  * @description :: Load, modules, conrollers, routes, libs and start app
  */
 
-/**
+/*!
  * Module variables
  */
 
-let fs, express, mongoose, passport, config, app, port, connect, path;
+let fs, express, mongoose, passport, app, port, connect, path;
 
-/**
+/*!
  * Module dependencies
  */
 
@@ -22,7 +22,6 @@ path = require('path');
 express = require('express');
 mongoose = require('mongoose');
 passport = require('passport');
-config = require('./config');
 
 app = express();
 port = process.env.PORT || 3000;
@@ -30,13 +29,13 @@ port = process.env.PORT || 3000;
 // Connect to mongodb
 connect = function() {
   mongoose.connect(
-  'mongodb://localhost/jsbook', {
-    server: {
-      socketOptions: {
-        keepAlive: 1,
-      },
-    },
-  });
+    'mongodb://localhost/jsbook', {
+      server: {
+        socketOptions: {
+          keepAlive: 1
+        }
+      }
+    });
 };
 
 // Open db connection
@@ -51,7 +50,9 @@ mongoose.connection.on('disconnected', connect);
 // ----------------------------------------------
 
 fs.readdirSync(path.join(__dirname, '/app/models')).forEach(function(file) {
-  if (~file.indexOf('.js')) { require(path.join(__dirname, '/app/models/', file)); }
+  if (~file.indexOf('.js')) {
+    require(path.join(__dirname, '/app/models/', file));
+  }
 });
 
 // Bootstrap passport config
@@ -74,11 +75,13 @@ require('./config/routes')(app, passport);
 
 app.use(function(err, req, res, next) {
   // Treat as 404
-  if (err.message && (~err.message.indexOf('not found') || (~err.message.indexOf('Cast to ObjectId failed')))) { return next(); }
+  if (err.message && (~err.message.indexOf('not found') || (~err.message.indexOf('Cast to ObjectId failed')))) {
+    return next();
+  }
 
   // Error page
   res.status(500).render('500', {
-    error: err.stack,
+    error: err.stack
   });
 });
 
@@ -86,7 +89,7 @@ app.use(function(err, req, res, next) {
 app.use(function(req, res) {
   res.status(404).render('404', {
     url: req.originalUrl,
-    error: 'Not found',
+    error: 'Not found'
   });
 });
 

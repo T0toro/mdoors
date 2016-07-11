@@ -1,12 +1,13 @@
-include ../includes/head.jade
+include ../includes/head
 
   body
-    include ../includes/header.jade
-    .container
-      .page-header
-        block main
-      .messages
-        include ../includes/messages.jade
-      .content
-        block content
-    include ../includes/footer.jade
+    #page
+      include ../includes/header
+      .container
+        .page-header
+          block main
+        .messages
+          include ../includes/messages
+        main.content
+          block content
+      include ../includes/footer
