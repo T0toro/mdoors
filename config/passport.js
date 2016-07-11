@@ -1,28 +1,38 @@
 'use strict';
 
-/*!
+/**
+ * Passport auth strategies
+ */
+
+/**
+ * Module variables
+ */
+
+let mongoose, User, local;
+
+/**
  * Module dependencies.
  */
 
-var mongoose = require('mongoose');
-var User = mongoose.model('User');
+mongoose = require('mongoose');
+User = mongoose.model('User');
 
-var local = require('./passport/local');
+local = require('./passport/local');
 
 /**
  * Expose
  */
 
-module.exports = function(passport, config) {
+module.exports = (passport, config) => {
     // serialize sessions
-    passport.serializeUser(function(user, done) {
+    passport.serializeUser((user, done) => {
         done(null, user.id);
     });
 
-    passport.deserializeUser(function(id, done) {
+    passport.deserializeUser((id, done) => {
         User.findOne({
             _id: id
-        }, function(err, user) {
+        }, (err, user) => {
             done(err, user);
         });
     });
