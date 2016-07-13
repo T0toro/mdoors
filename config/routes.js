@@ -57,7 +57,8 @@ module.exports = function(app, passport) {
   // Dashboard
   // --------------------------------------------
   app.get('/dashboard', (req, res) => {
-    console.info(req.sessions);
+    console.info('Sessions: ', req.session);
+    res.render('dashboard/index');
   });
 
 };

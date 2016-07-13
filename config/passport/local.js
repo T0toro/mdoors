@@ -23,10 +23,7 @@ module.exports = new LocalStrategy({
         passwordField: 'password',
     },
     (email, password, done) => {
-      console.info(email, password);
-      
-        User.find({}, (err, user) => {
-          console.info(user);
+        User.findOne({ email: email}, (err, user) => {
             if (err) { return done(err); }
 
             if (Array.isArray(user) && !user.length) {
