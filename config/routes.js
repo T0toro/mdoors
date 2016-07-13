@@ -11,7 +11,7 @@
  * Module variables
  */
 
-var home, article;
+var home, user, article;
 
 /*!
  * Module dependencies.
@@ -19,6 +19,7 @@ var home, article;
 
 home = require('./../app/controllers/home');
 article = require('./../app/controllers/article');
+user = require('./../app/controllers/user');
 
 /*!
  * Expose
@@ -31,6 +32,16 @@ module.exports = function(app, passport) {
 
   app.get('/', home.index);
 
+  // Login/Logout
+  // --------------------------------------------
+
+  app.get('/login', user.login);
+  app.post('/login', passport.authenticate('local', {
+    failureRedirect: '/login',
+    successRedirect: '/dashboard',
+    failureFlash: true
+  }));
+
   // Article
   // --------------------------------------------
 
@@ -39,6 +50,7 @@ module.exports = function(app, passport) {
   app.get('/articles/edit/:id', article.edit);
   app.get('/articles/destroy/:id', article.destroy);
 
-  // app.post('/articles/store', article.store);
-  // app.post('/articles/update', article.update);
+  app.post('/articles/store', article.store);
+  app.post('/articles/update', article.update);
+
 };

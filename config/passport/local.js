@@ -10,33 +10,46 @@ let mongoose, User, LocalStrategy;
  * Module dependencies.
  */
 
-mongoose      = require('mongoose');
+mongoose = require('mongoose');
 LocalStrategy = require('passport-local').Strategy;
-User          = mongoose.model('User');
+User = mongoose.model('User');
 
 /**
  * Expose
  */
 
 module.exports = new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password',
-  },
-  (email, password, done) => {
+        usernameField: 'email',
+        passwordField: 'password',
+    },
+    (email, password, done) => {
+      var user = new User({
+        name: 'Totoro', 
+        email: 'troinof@gmail.com'
+      });
 
-    User.find({ email: email }, (err, user) => {
-      if (err) { return done(err); }
+      user.save();
+      
+      console.info(email, password);
+        User.find({
+        }, (err, user) => {
+          console.info(user);
+            if (err) { return done(err); }
 
-      if (!user) {
-        return done(null, false, { message: 'Unknown user' });
-      }
+            if (Array.isArray(user) && !user.length) {
+                return done(null, false, {
+                    message: 'Unknown user'
+                });
+            }
 
-      if (!user.authenticate(password)) {
-        return done(null, false, { message: 'Invalid password' });
-      }
+            if (!user.authenticate(password)) {
+                return done(null, false, {
+                    message: 'Invalid password'
+                });
+            }
 
-      return done(null, user);
-    });
+            return done(null, user);
+        });
 
-  }
+    }
 );

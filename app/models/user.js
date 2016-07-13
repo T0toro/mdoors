@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * User model
  *
@@ -32,7 +34,7 @@ UserSchema = new Schema({
     type: String,
     default: '',
   },
-  hashedPassword: {
+  password: {
     type: String,
     default: '',
   },
@@ -60,7 +62,10 @@ UserSchema = new Schema({
  */
 
 UserSchema.method({
-
+  authenticate: function() {
+    console.info('test pass');
+    return true;
+  }
 });
 
 /**

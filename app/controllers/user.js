@@ -30,17 +30,7 @@ User = mongoose.model('User');
  */
 
 exports.login = (req, res, next) => {
-  User
-    .find()
-    .exec((err, user) => {
-      if (err) { return next(err); }
-
-      if (Array.isArray(user)) {
-        res.render('articles/index', {
-          user: user,
-        });
-      }
-    });
+  res.render('user/login');
 };
 
 exports.logout = (req, res, next) => {

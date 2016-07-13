@@ -11,20 +11,25 @@ let express, session, compression, morgan, config, cookieParser, cookieSession, 
 */
 
 express = require('express');
+
 session = require('express-session');
 compression = require('compression');
+
 morgan = require('morgan');
+winston = require('winston');
+
 cookieParser = require('cookie-parser');
-cookieSession = require('cookie-session');
 bodyParser = require('body-parser');
+cookieSession = require('cookie-session');
+
 methodOverride = require('method-override');
-config = require('./index');
 csrf = require('csurf');
 
 mongoStore = require('connect-mongo')(session);
 flash = require('connect-flash');
-winston = require('winston');
 helpers = require('view-helpers');
+
+config = require('./index');
 pkg = require('../package.json');
 
 env = process.env.NODE_ENV || 'development';
