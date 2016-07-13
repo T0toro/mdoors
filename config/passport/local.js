@@ -23,16 +23,9 @@ module.exports = new LocalStrategy({
         passwordField: 'password',
     },
     (email, password, done) => {
-      var user = new User({
-        name: 'Totoro', 
-        email: 'troinof@gmail.com'
-      });
-
-      user.save();
-      
       console.info(email, password);
-        User.find({
-        }, (err, user) => {
+      
+        User.find({}, (err, user) => {
           console.info(user);
             if (err) { return done(err); }
 
@@ -42,11 +35,11 @@ module.exports = new LocalStrategy({
                 });
             }
 
-            if (!user.authenticate(password)) {
-                return done(null, false, {
-                    message: 'Invalid password'
-                });
-            }
+            // if (!user.authenticate(password)) {
+            //     return done(null, false, {
+            //         message: 'Invalid password'
+            //     });
+            // }
 
             return done(null, user);
         });

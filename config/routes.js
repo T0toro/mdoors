@@ -53,4 +53,11 @@ module.exports = function(app, passport) {
   app.post('/articles/store', article.store);
   app.post('/articles/update', article.update);
 
+
+  // Dashboard
+  // --------------------------------------------
+  app.get('/dashboard', (req, res) => {
+    console.info(req.sessions);
+  });
+
 };
