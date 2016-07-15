@@ -30,20 +30,22 @@ Article = mongoose.model('Article');
  */
 
 exports.index = (req, res, next) => {
+  let tpl = req.isAuthenticated() ? 'dashboard/articles/index' : 'articles/index';
+  
   Article
     .find()
     .exec((err, articles) => {
       if (err) { return next(err); }
 
       if (Array.isArray(articles)) {
-        res.render('articles/index' ,{
+        res.render(tpl ,{
           articles: articles,
         });
       }
     });
 };
 
-exports.create = (req, res) => res.render('articles/create');
+exports.create = (req, res) => res.render('dashboard/articles/create');
 
 exports.store = (req, res, next) => {
   Article.create({
@@ -55,7 +57,7 @@ exports.store = (req, res, next) => {
   }, (err, article) => {
     if (err) { return next(err); }
 
-    if (article) { return res.redirect('/articles'); }
+    if (article) { return res.redirect('/dashboard/articles'); }
   });
 };
 
@@ -67,22 +69,25 @@ exports.edit = (req, res, next) => {
     .exec((err, article) => {
       if (err) { return next(err); }
 
-      if (article) { return res.render('articles/edit', { article: article }); }
+      if (article) { return res.render('dashboard/articles/edit', { article: article }); }
     });
 };
 
 exports.update = (req, res, next) => {
-  Article.update({
+  let id = req.body.id || '';
+
+  Article.update({ _id: id }, {
     title: req.body.title,
     description: req.body.description,
     name: req.body.name,
     content: req.body.content,
     status: req.body.status,
+    slug: req.body.slug
   }, (err, article) => {
     if (err) { return next(err); }
 
-    if (article) { return res.redirect('/articles'); }
+    if (article) { return res.redirect('/dashboard/articles'); }
   });
 };
 
-exports.destroy = (req, res, next) => {}
+exports.destroy = (req, res, next) => {};

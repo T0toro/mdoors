@@ -26,10 +26,32 @@ user = require('./../app/controllers/user');
  */
 
 module.exports = function(app, passport) {
+
+  app.use((req, res, next) => {
+    if(!req.url.search('.*dashboard.*') && !req.isAuthenticated()) {
+      return res.redirect('/login');
+    }
+
+    return next();
+  });
+
   // Home
   // --------------------------------------------
 
   app.get('/', home.index);
+
+  // Article
+  // --------------------------------------------
+
+  app.get('/articles', article.index);
+
+  // --------------------------------------------
+  // ---------------- Dashboard -----------------
+  // --------------------------------------------
+
+  app.get('/dashboard', (req, res) => {
+    res.render('dashboard/home/index');
+  });
 
   // Login/Logout
   // --------------------------------------------
@@ -44,18 +66,13 @@ module.exports = function(app, passport) {
   // Article
   // --------------------------------------------
 
-  app.get('/articles', article.index);
-  app.get('/articles/create', article.create);
-  app.get('/articles/edit/:id', article.edit);
-  app.get('/articles/destroy/:id', article.destroy);
 
-  app.post('/articles/store', article.store);
-  app.post('/articles/update', article.update);
+  app.get('/dashboard/articles', article.index);
+  app.get('/dashboard/articles/create', article.create);
+  app.get('/dashboard/articles/edit/:id', article.edit);
+  app.get('/dashboard/articles/destroy/:id', article.destroy);
 
-  // Dashboard
-  // --------------------------------------------
-  app.get('/dashboard', (req, res) => {
-    console.info('Sessions: ', req.session);
-    res.render('dashboard/index');
-  });
+  app.post('/dashboard/articles/store', article.store);
+  app.post('/dashboard/articles/update', article.update);
+
 };

@@ -5,7 +5,7 @@ block main
     span.article-name= article.name
 
 block content
-  form(action="/articles/update", method="POST")
+  form(action="/dashboard/articles/update", method="POST")
     fieldset
       legend SEO
       p.form-group
@@ -31,5 +31,6 @@ block content
             option(value="0" selected) Черновик
             option(value="1") Опубликованно
       .form-group
+        input(type="hidden", name="id", value="#{article.id}")
         input(type="hidden", name="_csrf", value="#{csrf}")
         input(type="submit", name="submit", value="Сохранить").btn.btn-default

@@ -4,8 +4,7 @@ block main
   h2 Новая статья
 
 block content
-  - console.info(article)
-  form(action="/articles/store", method="POST")
+  form(action="/dashboard/articles/store", method="POST")
     fieldset
       legend SEO
       p.form-group
