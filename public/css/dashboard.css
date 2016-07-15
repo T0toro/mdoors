@@ -1,8 +1,16 @@
 .header .navbar {
-	margin-bottom: 0;
-	border-radius: 0;
+    margin-bottom: 0;
+    border-radius: 0;
 }
 
 .content-wrapper {
-	padding: 1rem 0;
+    padding: 1rem 0;
+}
+
+//
+//  Login screen
+// --------------------------------------------------
+
+.login-page {
+  background: #1abc9c;
 }
