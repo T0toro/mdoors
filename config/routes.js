@@ -11,7 +11,7 @@
  * Module variables
  */
 
-var home, user, article;
+let home, user, article;
 
 /*!
  * Module dependencies.
@@ -26,7 +26,6 @@ user = require('./../app/controllers/user');
  */
 
 module.exports = function(app, passport) {
-
   // Home
   // --------------------------------------------
 
@@ -53,12 +52,10 @@ module.exports = function(app, passport) {
   app.post('/articles/store', article.store);
   app.post('/articles/update', article.update);
 
-
   // Dashboard
   // --------------------------------------------
   app.get('/dashboard', (req, res) => {
     console.info('Sessions: ', req.session);
     res.render('dashboard/index');
   });
-
 };

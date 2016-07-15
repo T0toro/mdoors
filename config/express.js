@@ -61,8 +61,8 @@ module.exports = function(app, passport) {
       stream: {
         write: function(message, encoding) {
           winston.info(message);
-        },
-      },
+        }
+      }
     };
   } else {
     log = 'dev';
@@ -72,7 +72,9 @@ module.exports = function(app, passport) {
   // Logging middleware
   // --------------------------------------------
 
-  if (env !== 'test') { app.use(morgan(log)); }
+  if (env !== 'test') {
+    app.use(morgan(log));
+  }
 
   // Set views path and default layout
   // --------------------------------------------
@@ -112,7 +114,7 @@ module.exports = function(app, passport) {
 
   app.use(cookieParser());
   app.use(cookieSession({
-    secret: 'secret',
+    secret: 'secret'
   }));
   app.use(session({
     secret: pkg.name,
@@ -121,8 +123,8 @@ module.exports = function(app, passport) {
     saveUninitialized: true,
     store: new mongoStore({
       url: config.db,
-      collection: 'sessions',
-    }),
+      collection: 'sessions'
+    })
   }));
 
   // Use passport session

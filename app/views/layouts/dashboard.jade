@@ -16,3 +16,19 @@ html
       // link(href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css', rel='stylesheet')
       // link(href='//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css', rel='stylesheet')
       link(rel='stylesheet', href='/css/app.css')
+  body
+    #page
+      header
+        h1 Dashboard
+        ul
+          li
+            a(href="/articles") Статьи
+          li
+            a(href="/articles/create") Добавить статью
+      .container
+        .page-header
+          block main
+        .messages
+          include ../includes/messages
+        main.content
+          block content

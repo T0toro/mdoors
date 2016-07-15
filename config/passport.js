@@ -24,21 +24,20 @@ local = require('./passport/local');
  */
 
 module.exports = (passport, config) => {
-    // serialize sessions
-    passport.serializeUser((user, done) => {
-        done(null, user.id);
-    });
+  // serialize sessions
+  passport.serializeUser((user, done) => {
+    done(null, user.id);
+  });
 
-    passport.deserializeUser((id, done) => {
-      console.info('User id', id);
-        User.findOne({
-            _id: id
-        }, (err, user) => {
-        console.info('Same user: ', user);
-            done(err, user);
-        });
+  passport.deserializeUser((id, done) => {
+    console.info('User id', id);
+    User.findOne({
+      _id: id
+    }, (err, user) => {
+      done(err, user);
     });
+  });
 
-    // use these strategies
-    passport.use(local);
+  // use these strategies
+  passport.use(local);
 };

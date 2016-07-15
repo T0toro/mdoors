@@ -11,7 +11,7 @@
  * Module variables
  */
 
-var mongoose, userPlugin, UserSchema, Schema;
+let mongoose, userPlugin, UserSchema, Schema;
 
 /*!
  * Module dependencies
@@ -28,20 +28,20 @@ Schema = mongoose.Schema;
 UserSchema = new Schema({
   name: {
     type: String,
-    default: '',
+    default: ''
   },
   email: {
     type: String,
-    default: '',
+    default: ''
   },
   password: {
     type: String,
-    default: '',
+    default: ''
   },
   salt: {
     type: String,
-    default: '',
-  },
+    default: ''
+  }
 });
 
 /**
