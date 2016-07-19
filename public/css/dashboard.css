@@ -7,10 +7,26 @@
     padding: 1rem 0;
 }
 
-//
+/*
 //  Login screen
-// --------------------------------------------------
+// --------------------------------------------------*/
 
 .login-page {
   background: #1abc9c;
+}
+
+.login {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    max-width: 300px;
+    max-height: 250px;
+
+    padding: 0;
+    margin: auto;
+
+    background: none;
 }
