@@ -11,7 +11,7 @@
  * Module variables
  */
 
-let fs, express, mongoose, passport, app, port, connect, path;
+let fs, express, mongoose, passport, app, port, connect, path, User;
 
 /*!
  * Module dependencies
@@ -69,6 +69,10 @@ require('./config/express')(app, passport);
 // ----------------------------------------------
 
 require('./config/routes')(app, passport);
+
+// Bootstrap module
+// ----------------------------------------------
+require('./config/bootstrap')(app, passport);
 
 // Routes ext
 // ----------------------------------------------

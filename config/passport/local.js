@@ -23,9 +23,7 @@ module.exports = new LocalStrategy({
   passwordField: 'password'
 }, (email, password, done) => {
   User.findOne({email: email}, (err, user) => {
-    if (err) {
-      return done(err);
-    }
+    if (err) { return done(err); }
 
     if (Array.isArray(user) && !user.length) {
       return done(null, false, {
@@ -33,11 +31,11 @@ module.exports = new LocalStrategy({
       });
     }
 
-    // if (!user.authenticate(password)) {
-    //     return done(null, false, {
-    //         message: 'Invalid password'
-    //     });
-    // }
+    if (!user.authenticate(user, password)) {
+      return done(null, false, {
+        message: 'Invalid password'
+      });
+    }
 
     return done(null, user);
   });

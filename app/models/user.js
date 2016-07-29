@@ -11,15 +11,18 @@
  * Module variables
  */
 
-let mongoose, userPlugin, UserSchema, Schema;
+let mongoose, userPlugin, UserSchema, Schema, bcrypt;
 
 /*!
  * Module dependencies
  */
 
 mongoose = require('mongoose');
+bcrypt   = require('bcrypt-nodejs');
+
 // userPlugin = require('mongoose-user');
 Schema = mongoose.Schema;
+
 
 /**
  * User schema
@@ -61,12 +64,10 @@ UserSchema = new Schema({
  * Methods
  */
 
-UserSchema.method({
-  authenticate: function() {
-    console.info('test pass');
+UserSchema.methods.authenticate = (user, password) => {
+    console.info('test pass', this, user, password);
     return true;
-  }
-});
+}
 
 /**
  * Statics
