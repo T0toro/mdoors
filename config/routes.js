@@ -32,6 +32,8 @@ module.exports = function(app, passport) {
       return res.redirect('/login');
     }
 
+    res.locals.isAuthenticated = req.isAuthenticated();
+
     return next();
   });
 
@@ -62,6 +64,8 @@ module.exports = function(app, passport) {
     successRedirect: '/dashboard',
     failureFlash: true
   }));
+
+  app.get('/logout', user.logout);
 
   // Article
   // --------------------------------------------

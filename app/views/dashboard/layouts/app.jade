@@ -4,16 +4,10 @@ html
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
     meta(name='viewport', content='width=device-width,initial-scale=1')
-    style.
-      .table-controls a + a {
-        margin-left: 20px;
-      }
-
-
     if title
       title= title
     else
-      title= Jsbook
+      title Jsbook
 
     meta(name='description', content=pkg.description)
 
@@ -41,5 +35,11 @@ html
                     a(href="/dashboard/articles") Статьи
                   li
                     a(href="/dashboard/articles/create") Добавить статью
+            - console.info(isAuthenticated)
+            if (isAuthenticated)
+              ul.nav.navbar-nav.navbar-right
+                li
+                    a(href="/logout") Выйти
+
       main.content-wrapper.container
         block content
