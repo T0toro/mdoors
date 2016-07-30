@@ -18,7 +18,7 @@ let mongoose, userPlugin, UserSchema, Schema, bcrypt;
  */
 
 mongoose = require('mongoose');
-bcrypt   = require('bcrypt-nodejs');
+bcrypt   = require('bcryptjs');
 
 // userPlugin = require('mongoose-user');
 Schema = mongoose.Schema;
@@ -38,10 +38,6 @@ UserSchema = new Schema({
     default: ''
   },
   password: {
-    type: String,
-    default: ''
-  },
-  salt: {
     type: String,
     default: ''
   }
@@ -65,17 +61,14 @@ UserSchema = new Schema({
  */
 
 UserSchema.methods.authenticate = (user, password) => {
-    console.info('test pass', this, user, password);
-    return true;
+    return bcrypt.compareSync(password, user.password);
 }
 
 /**
  * Statics
  */
 
-UserSchema.static({
-
-});
+UserSchema.static({});
 
 /**
  * Register

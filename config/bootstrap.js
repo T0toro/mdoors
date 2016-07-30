@@ -9,14 +9,15 @@
  * Module variables
  */
 
-let mongoose, User;
+let mongoose, User, bcrypt, salt;
 
 /**
  * Module dependencies
  */
 
+bcrypt   = require('bcryptjs');
 mongoose = require('mongoose');
-User = mongoose.model('User');
+User     = mongoose.model('User');
 
 /*!
  * Expose
@@ -33,7 +34,7 @@ module.exports = (app, passport) => {
       User.create({
         name: 'admin',
         email: 'admin@mail.com',
-        password: '123'
+        password: bcrypt.hashSync('123', 8),
       }, (err, user) => {
         if (err) { return console.info('When user was creating, some error arose: ', err); }
 

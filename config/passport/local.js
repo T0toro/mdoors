@@ -25,15 +25,15 @@ module.exports = new LocalStrategy({
   User.findOne({email: email}, (err, user) => {
     if (err) { return done(err); }
 
-    if (Array.isArray(user) && !user.length) {
+    if (!user) {
       return done(null, false, {
-        message: 'Unknown user'
+        message: 'Пользователя с таким email не зарегестрированно'
       });
     }
 
-    if (!user.authenticate(user, password)) {
+    if (user && !user.authenticate(user, password)) {
       return done(null, false, {
-        message: 'Invalid password'
+        message: 'Неверный пароль'
       });
     }
 

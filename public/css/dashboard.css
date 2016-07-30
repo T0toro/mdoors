@@ -30,3 +30,16 @@
 
     background: none;
 }
+
+.list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.list-item {
+    padding: 5px 10px;
+    font-size: 1.5rem;
+    background: #e74c3c;
+    border-radius: 5px;
+}
