@@ -16,13 +16,17 @@ html
       link(rel='stylesheet', href='/css/app.css')
   body
     #page
-        header
-            h1
-                a(href='/') Jsbook
+      header#header
+        .container
+          h1
+            a(href='/') 
+              span JS
+              | book
+            p Мысли асинхронно
       .container
         .page-header
           block main
         .messages
           include ../includes/messages
-        main.content
+        main#content
           block content
