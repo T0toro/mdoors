@@ -77,5 +77,16 @@ body {
 }
 
 #content {
-    font-size: 1.6rem;
+    color: #222;
+    font-size: 2.2rem;
+
+    font-family: 'Cormorant', serif;
+    font-family: 'EB Garamond', serif;
+    font-family: 'Istok Web', sans-serif;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.5;
+}
+
+#content p {
+    margin-bottom: 25px;
 }
