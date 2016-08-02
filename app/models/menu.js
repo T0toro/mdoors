@@ -1,15 +1,15 @@
 /**
- * Article
+ * Menu
  *
  * @module       :: model
- * @description  :: Represent articles in database
+ * @description  :: Represent menu in database
  */
 
 /*
  * Module variables
  */
 
-let mongoose, Schema, ArticleSchema;
+let mongoose, Schema, MenuSchema;
 
 /*
  * Module dependencies
@@ -19,10 +19,10 @@ mongoose = require('mongoose');
 Schema = mongoose.Schema;
 
 /*
- * ArticleSchema
+ * MenuSchema
  */
 
-ArticleSchema = new Schema({
+MenuSchema = new Schema({
   title: {
     type: String,
     default: ''
@@ -60,7 +60,7 @@ ArticleSchema = new Schema({
  * Methods
  */
 
-ArticleSchema.method({
+MenuSchema.method({
 
 });
 
@@ -68,7 +68,7 @@ ArticleSchema.method({
  * Statics
  */
 
-ArticleSchema.static({
+MenuSchema.static({
 
 });
 
@@ -76,4 +76,4 @@ ArticleSchema.static({
  * Register
  */
 
-mongoose.model('Article', ArticleSchema);
+mongoose.model('Menu', MenuSchema);

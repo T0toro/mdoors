@@ -4,10 +4,9 @@ html
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
     meta(name='viewport', content='width=device-width,initial-scale=1')
-    link(href='https://fonts.googleapis.com/css?family=Cormorant&subset=latin,cyrillic' rel='stylesheet' type='text/css')
-    link(href='https://fonts.googleapis.com/css?family=EB+Garamond&subset=latin,cyrillic' rel='stylesheet' type='text/css')
-    link(href='https://fonts.googleapis.com/css?family=Istok+Web&subset=latin,cyrillic' rel='stylesheet' type='text/css')
-    link(href='https://fonts.googleapis.com/css?family=Roboto&subset=latin,cyrillic' rel='stylesheet' type='text/css')
+    link(href='https://fonts.googleapis.com/css?family=PT+Serif&subset=latin,cyrillic' rel='stylesheet' type='text/css')
+    link(href='https://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic' rel='stylesheet' type='text/css')
+    link(href='https://fonts.googleapis.com/css?family=Philosopher&subset=latin,cyrillic' rel='stylesheet' type='text/css')
 
     if title
       title= title
@@ -20,23 +19,23 @@ html
       link(rel='stylesheet', href='/css/app.css')
   body
     #page
-      header#header
+      header#header.clearfix
         .container
           h1
-            a(href='/') 
+            a(href='/').site-name
               span JS
               | book
-            p Мысли асинхронно
+            p мысли асинхронно
+          nav.nav.nav-main
+            ul
+              li
+                a(href="") главная
+              li
+                a(href="") блог
+              li
+                a(href="") мои работы
+              li
+                a(href="") обо мне
       .container
-        .page-header
-          block main
-        .messages
-          include ../includes/messages
         main#content
           block content
-          p Задача — проблемная ситуация с явно заданной целью, которую необходимо достичь; в более узком смысле задачей также называют саму эту цель, данную в рамках проблемной ситуации, то есть то, что требуется сделать. В первом значении задачей можно назвать, например, ситуацию, когда нужно достать предмет, находящийся очень высоко; второе значение слышно в указании: «Ваша задача — достать этот предмет». Несколько более жёсткое понимание «задачи» предполагает явными и определёнными не только цель, но и условия задачи, которая в этом случае определяется как осознанная проблемная ситуация с выделенными условиями (данным) и требованием (целью).[1] Ещё более узкое определение называет задачей ситуацию с известным начальным состоянием системы и конечным состоянием системы, причём алгоритм достижения конечного состояния от начального известен (в отличие от проблемы, в случае которой алгоритм достижения конечного состояния системы не известен).
-
-          p В более широком смысле под задачей также понимается то, что нужно выполнить — всякое задание, поручение, дело, — даже при отсутствии каких бы то ни было затруднений или препятствий в выполнении. В учебной и т. п. практике «задача», напротив, принимает более узкий смысл и обозначает упражнение, требующее нахождения решения по известным данным с помощью определённых действий (умозаключения, вычисления, перемещения элементов и т. п.) при соблюдении определённых правил совершения этих действий (логическая задача, математическая задача, шахматная задача).
-          p В отличие от функции, которая может осуществляться постоянно, задача может быть решена.
-
-          p Решение задачи обычно требует определённых знаний и размышления. Отсюда — понятие «озадачить»: это значит либо «заставить задуматься», либо «поручить выполнение задачи» (впрочем, последнее значение упоминается в словарях как шутливое, разговорное).

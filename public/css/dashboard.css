@@ -8,6 +8,18 @@
 }
 
 /*
+//  Table
+// --------------------------------------------------*/
+
+.table-controls {
+    text-align: center;
+}
+
+.table-controls a + a {
+    margin-left: 1.5rem;
+}
+
+/*
 //  Login screen
 // --------------------------------------------------*/
 

@@ -25,10 +25,9 @@ user = require('./../app/controllers/user');
  * Expose
  */
 
-module.exports = function(app, passport) {
-
+module.exports = (app, passport) => {
   app.use((req, res, next) => {
-    if(!req.url.search('.*dashboard.*') && !req.isAuthenticated()) {
+    if (!req.url.search('.*dashboard.*') && !req.isAuthenticated()) {
       return res.redirect('/login');
     }
 
@@ -70,7 +69,6 @@ module.exports = function(app, passport) {
   // Article
   // --------------------------------------------
 
-
   app.get('/dashboard/articles', article.index);
   app.get('/dashboard/articles/create', article.create);
   app.get('/dashboard/articles/edit/:id', article.edit);
@@ -78,5 +76,4 @@ module.exports = function(app, passport) {
 
   app.post('/dashboard/articles/store', article.store);
   app.post('/dashboard/articles/update', article.update);
-
 };

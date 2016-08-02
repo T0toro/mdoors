@@ -23,7 +23,6 @@ bcrypt   = require('bcryptjs');
 // userPlugin = require('mongoose-user');
 Schema = mongoose.Schema;
 
-
 /**
  * User schema
  */
@@ -61,8 +60,8 @@ UserSchema = new Schema({
  */
 
 UserSchema.methods.authenticate = (user, password) => {
-    return bcrypt.compareSync(password, user.password);
-}
+  return bcrypt.compareSync(password, user.password);
+};
 
 /**
  * Statics
