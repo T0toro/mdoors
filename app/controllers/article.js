@@ -31,7 +31,7 @@ Article = mongoose.model('Article');
 
 exports.index = (req, res, next) => {
   let tpl = req.isAuthenticated() ? 'dashboard/articles/index' : 'articles/index';
-  
+
   Article
     .find()
     .exec((err, articles) => {
@@ -62,7 +62,7 @@ exports.store = (req, res, next) => {
 };
 
 exports.edit = (req, res, next) => {
-  let id = req.param('id') || '';
+  let id = req.params.id || '';
 
   Article
     .findById(id)
@@ -90,4 +90,14 @@ exports.update = (req, res, next) => {
   });
 };
 
-exports.destroy = (req, res, next) => {};
+exports.destroy = (req, res, next) => {
+  let id = req.params.id || '';
+
+  Article
+    .findByIdAndRemove(id)
+    .exec((err, article) => {
+      if (err) { return next(err); }
+
+      req.redirect('/dashboard/articles');
+    });
+};

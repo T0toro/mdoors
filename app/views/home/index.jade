@@ -4,7 +4,7 @@ block content
   section.list.list-post
     each article in articles
       article.list-item
-        header
-          h2= article.title
+        header.list-item-header
+          h2= article.name
         section!= article.content
 

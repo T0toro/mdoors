@@ -9,13 +9,14 @@
  * Module variables
  */
 
-let mongoose, Schema, ArticleSchema;
+let mongoose, timestamps, Schema, ArticleSchema;
 
 /*
  * Module dependencies
  */
 
 mongoose = require('mongoose');
+timestamps = require('mongoose-timestamp');
 Schema = mongoose.Schema;
 
 /*
@@ -55,6 +56,12 @@ ArticleSchema = new Schema({
  * - validations
  * - virtuals
  */
+
+/**
+ * Plugins
+ */
+
+ArticleSchema.plugin(timestamps);
 
 /**
  * Methods
