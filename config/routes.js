@@ -11,15 +11,16 @@
  * Module variables
  */
 
-let home, user, article;
+let home, user, article, navigation;
 
 /*!
  * Module dependencies.
  */
 
-home = require('./../app/controllers/home');
-article = require('./../app/controllers/article');
-user = require('./../app/controllers/user');
+home       = require('./../app/controllers/home');
+user       = require('./../app/controllers/user');
+article    = require('./../app/controllers/article');
+navigation = require('./../app/controllers/navigation');
 
 /*!
  * Expose
@@ -76,4 +77,16 @@ module.exports = (app, passport) => {
 
   app.post('/dashboard/articles/store', article.store);
   app.post('/dashboard/articles/update', article.update);
+
+
+  // Navigation
+  // --------------------------------------------
+
+  app.get('/dashboard/nav', navigation.index);
+  app.get('/dashboard/nav/create', navigation.create);
+  app.get('/dashboard/nav/edit/:id', navigation.edit);
+  app.get('/dashboard/nav/destroy/:id', navigation.destroy);
+
+  app.post('/dashboard/nav/store', navigation.store);
+  app.post('/dashboard/nav/update', navigation.update);
 };

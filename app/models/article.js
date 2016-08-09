@@ -67,17 +67,13 @@ ArticleSchema.plugin(timestamps);
  * Methods
  */
 
-ArticleSchema.method({
-
-});
+ArticleSchema.methods = {};
 
 /**
  * Statics
  */
 
-ArticleSchema.static({
-
-});
+ArticleSchema.statics = {};
 
 /**
  * Register

@@ -67,7 +67,7 @@ UserSchema.methods.authenticate = (user, password) => {
  * Statics
  */
 
-UserSchema.static({});
+UserSchema.statics = {};
 
 /**
  * Register

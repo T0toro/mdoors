@@ -37,11 +37,9 @@ exports.index = (req, res, next) => {
     .exec((err, articles) => {
       if (err) { return next(err); }
 
-      if (Array.isArray(articles)) {
-        res.render(tpl ,{
-          articles: articles,
-        });
-      }
+      if (Array.isArray(articles)) { return res.render(tpl, { articles: articles }); }
+
+      return res.render(tpl);
     });
 };
 
@@ -53,11 +51,11 @@ exports.store = (req, res, next) => {
     description: req.body.description,
     name: req.body.name,
     content: req.body.content,
-    status: req.body.status,
+    status: req.body.status
   }, (err, article) => {
     if (err) { return next(err); }
 
-    if (article) { return res.redirect('/dashboard/articles'); }
+    return res.redirect('/dashboard/articles');
   });
 };
 
@@ -70,6 +68,8 @@ exports.edit = (req, res, next) => {
       if (err) { return next(err); }
 
       if (article) { return res.render('dashboard/articles/edit', { article: article }); }
+
+      return res.redirect('/dashboard/articles');
     });
 };
 
@@ -86,7 +86,7 @@ exports.update = (req, res, next) => {
   }, (err, article) => {
     if (err) { return next(err); }
 
-    if (article) { return res.redirect('/dashboard/articles'); }
+    return res.redirect('/dashboard/articles');
   });
 };
 
@@ -98,6 +98,6 @@ exports.destroy = (req, res, next) => {
     .exec((err, article) => {
       if (err) { return next(err); }
 
-      req.redirect('/dashboard/articles');
+      return res.redirect('/dashboard/articles');
     });
 };

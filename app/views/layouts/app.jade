@@ -26,16 +26,19 @@ html
               span JS
               | book
             p мысли асинхронно
-          nav.nav.nav-main
-            ul
-              li
-                a(href="") главная
-              li
-                a(href="") блог
-              li
-                a(href="") мои работы
-              li
-                a(href="") обо мне
+          if links
+            nav.nav.nav-main
+              ul
+                li
+                  a(href="/") Главная
+                each link, index in links
+                  li
+                    a(href="/#{link.href}")= link.anchor
+          else
+            nav.nav.nav-main
+              ul
+                li
+                  a(href="/") Главная
       .container
         main#content
           block content
