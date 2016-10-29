@@ -5,9 +5,7 @@
  *
  * @module       :: controller
  * @description  :: keep navigation app logic ( CRUD and etc )
- */
-
-/**
+ *
  * Module dependencies
  */
 
