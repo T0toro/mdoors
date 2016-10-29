@@ -11,7 +11,7 @@
  * Module variables
  */
 
-let home, user, article, navigation;
+let home, user, attributes;
 
 /*!
  * Module dependencies.
@@ -19,8 +19,7 @@ let home, user, article, navigation;
 
 home       = require('./../app/controllers/home');
 user       = require('./../app/controllers/user');
-article    = require('./../app/controllers/article');
-navigation = require('./../app/controllers/navigation');
+attributes = require('./../app/controllers/attributes');
 
 /*!
  * Expose
@@ -41,9 +40,9 @@ module.exports = (app, passport) => {
   // ---------------- Dashboard -----------------
   // --------------------------------------------
 
-  app.get('/', (req, res) => {
-    res.render('dashboard/home/index');
-  });
+  app.get('/', (req, res)          => { return res.redirect('/dashboard'); });
+
+  app.get('/dashboard', (req, res) => { return res.render('dashboard/home/index'); });
 
   // Login/Logout
   // --------------------------------------------
@@ -57,26 +56,14 @@ module.exports = (app, passport) => {
 
   app.get('/logout', user.logout);
 
-  // Article
+  // Attributes
   // --------------------------------------------
 
-  app.get('/dashboard/articles', article.index);
-  app.get('/dashboard/articles/create', article.create);
-  app.get('/dashboard/articles/edit/:id', article.edit);
-  app.get('/dashboard/articles/destroy/:id', article.destroy);
+  app.get('/dashboard/attributes', navigation.index);
+  app.get('/dashboard/attributes/create', navigation.create);
+  app.get('/dashboard/attributes/edit/:id', navigation.edit);
+  app.get('/dashboard/attributes/destroy/:id', navigation.destroy);
 
-  app.post('/dashboard/articles/store', article.store);
-  app.post('/dashboard/articles/update', article.update);
-
-
-  // Navigation
-  // --------------------------------------------
-
-  app.get('/dashboard/nav', navigation.index);
-  app.get('/dashboard/nav/create', navigation.create);
-  app.get('/dashboard/nav/edit/:id', navigation.edit);
-  app.get('/dashboard/nav/destroy/:id', navigation.destroy);
-
-  app.post('/dashboard/nav/store', navigation.store);
-  app.post('/dashboard/nav/update', navigation.update);
+  app.post('/dashboard/attributes/store', navigation.store);
+  app.post('/dashboard/attributes/update', navigation.update);
 };
