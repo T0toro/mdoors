@@ -37,21 +37,11 @@ module.exports = (app, passport) => {
     return next();
   });
 
-  // Home
-  // --------------------------------------------
-
-  app.get('/', home.index);
-
-  // Article
-  // --------------------------------------------
-
-  app.get('/articles', article.index);
-
   // --------------------------------------------
   // ---------------- Dashboard -----------------
   // --------------------------------------------
 
-  app.get('/dashboard', (req, res) => {
+  app.get('/', (req, res) => {
     res.render('dashboard/home/index');
   });
 

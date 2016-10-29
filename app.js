@@ -27,7 +27,7 @@ app = express();
 port = process.env.PORT || 3000;
 
 // Connect to mongodb
-connect = function() {
+connect = () => {
   mongoose.connect(
     'mongodb://localhost/jsbook', {
       server: {
@@ -49,7 +49,7 @@ mongoose.connection.on('disconnected', connect);
 // Bootstrap models
 // ----------------------------------------------
 
-fs.readdirSync(path.join(__dirname, '/app/models')).forEach(function(file) {
+fs.readdirSync(path.join(__dirname, '/app/models')).forEach((file) => {
   if (~file.indexOf('.js')) {
     require(path.join(__dirname, '/app/models/', file));
   }
@@ -77,7 +77,7 @@ require('./config/bootstrap')(app, passport);
 // Routes ext
 // ----------------------------------------------
 
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   // Treat as 404
   if (err.message && (~err.message.indexOf('not found') || (~err.message.indexOf('Cast to ObjectId failed')))) {
     return next();
@@ -90,7 +90,7 @@ app.use(function(err, req, res, next) {
 });
 
 // Assume 404 since no middleware responded
-app.use(function(req, res) {
+app.use((req, res) => {
   res.status(404).render('404', {
     url: req.originalUrl,
     error: 'Not found'

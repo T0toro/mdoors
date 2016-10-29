@@ -21,7 +21,7 @@ const mongoose = require('mongoose'),
  */
 
 exports.index = (req, res, next) => {
-  let tpl = req.isAuthenticated() ? 'dashboard/nav/index' : 'nav/index';
+  const tpl = req.isAuthenticated() ? 'dashboard/nav/index' : 'nav/index';
 
   Link
     .find()
@@ -50,7 +50,7 @@ exports.store = (req, res, next) => {
 };
 
 exports.edit = (req, res, next) => {
-  let id = req.params.id || '';
+  const id = req.params.id || '';
 
   Link
     .findById(id)
@@ -65,7 +65,7 @@ exports.edit = (req, res, next) => {
 };
 
 exports.update = (req, res, next) => {
-  let id = req.body.id || '';
+  const id = req.body.id || '';
 
   Link.update({ _id: id }, {
     anchor: req.body.anchor,
@@ -78,7 +78,7 @@ exports.update = (req, res, next) => {
 };
 
 exports.destroy = (req, res, next) => {
-  let id = req.params.id || '';
+  const id = req.params.id || '';
 
   Link
     .findByIdAndRemove(id)
