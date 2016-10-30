@@ -1,15 +1,15 @@
 /**
- * Attribute
+ * Order
  *
  * @module       :: model
- * @description  :: Represent Attributes in database
+ * @description  :: Represent Orders in database
  */
 
 /*
  * Module variables
  */
 
-let mongoose, timestamps, Schema, AttributeSchema;
+let mongoose, timestamps, Schema, OrderSchema;
 
 /*
  * Module dependencies
@@ -20,10 +20,10 @@ timestamps = require('mongoose-timestamp');
 Schema = mongoose.Schema;
 
 /*
- * AttributeSchema
+ * OrderSchema
  */
 
-AttributeSchema = new Schema({
+OrderSchema = new Schema({
   title: {
     type: String,
     default: ''
@@ -61,22 +61,22 @@ AttributeSchema = new Schema({
  * Plugins
  */
 
-AttributeSchema.plugin(timestamps);
+OrderSchema.plugin(timestamps);
 
 /**
  * Methods
  */
 
-AttributeSchema.methods = {};
+OrderSchema.methods = {};
 
 /**
  * Statics
  */
 
-AttributeSchema.statics = {};
+OrderSchema.statics = {};
 
 /**
  * Register
  */
 
-mongoose.model('Attribute', AttributeSchema);
+mongoose.model('Order', OrderSchema);

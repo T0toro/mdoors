@@ -5,20 +5,13 @@
  *
  * @module       :: controller
  * @description  :: keep logic for handle AttributeGroup ( CRUD and etc )
- */
-
-/*
- * Module variables
- */
-
-let mongoose, AttributeGroup;
-
-/*
+ *
+ *
  * Module dependencies
  */
 
-mongoose = require('mongoose');
-AttributeGroup = mongoose.model('AttributeGroup');
+const mongoose        = require('mongoose'),
+      AttributeGroups = mongoose.model('AttributeGroups');
 
 /*
  * Expos
@@ -30,14 +23,16 @@ AttributeGroup = mongoose.model('AttributeGroup');
  */
 
 exports.index = (req, res, next) => {
-  let tpl = req.isAuthenticated() ? 'dashboard/attribute_groups/index' : 'attribute_groups/index';
-
   AttributeGroup
     .find()
     .exec((err, attributeGroups) => {
       if (err) { return next(err); }
 
-      if (Array.isArray(attributeGroups)) { return res.render(tpl, { attributeGroups: attributeGroups }); }
+      if (Array.isArray(attributeGroups)) {
+        return res.render('dashboard/attribute_groups/index', {
+            attributeGroups: attributeGroups
+        });
+      }
 
       return res.render(tpl);
     });
@@ -55,7 +50,7 @@ exports.store = (req, res, next) => {
   }, (err, AttributeGroup) => {
     if (err) { return next(err); }
 
-    return res.redirect('/dashboard/attributeGroups');
+    return res.redirect('/dashboard/attribute-groups');
   });
 };
 
@@ -69,7 +64,7 @@ exports.edit = (req, res, next) => {
 
       if (attributeGroup) { return res.render('dashboard/attributeGroups/edit', { attributeGroup: attributeGroup }); }
 
-      return res.redirect('/dashboard/attributeGroups');
+      return res.redirect('/dashboard/attribute-groups');
     });
 };
 
@@ -86,7 +81,7 @@ exports.update = (req, res, next) => {
   }, (err, attributeGroup) => {
     if (err) { return next(err); }
 
-    return res.redirect('/dashboard/attributeGroups');
+    return res.redirect('/dashboard/attribute-groups');
   });
 };
 
@@ -98,6 +93,6 @@ exports.destroy = (req, res, next) => {
     .exec((err, attributeGroup) => {
       if (err) { return next(err); }
 
-      return res.redirect('/dashboard/attributeGroups');
+      return res.redirect('/dashboard/attribute-groups');
     });
 };

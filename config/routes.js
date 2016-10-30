@@ -66,4 +66,28 @@ module.exports = (app, passport) => {
 
   app.post('/dashboard/attributes/store', attributes.store);
   app.post('/dashboard/attributes/update', attributes.update);
+
+
+  // AttributeGroup
+  // --------------------------------------------
+
+  app.get('/dashboard/attribute-groups', attributeGroups.index);
+  app.get('/dashboard/attribute-groups/create', attributeGroups.create);
+  app.get('/dashboard/attribute-groups/edit/:id', attributeGroups.edit);
+  app.get('/dashboard/attribute-groups/destroy/:id', attributeGroups.destroy);
+
+  app.post('/dashboard/attribute-groups/store', attributeGroups.store);
+  app.post('/dashboard/attribute-groups/update', attributeGroups.update);
+
+
+  // Orders
+  // --------------------------------------------
+
+  app.get('/dashboard/orders', orders.index);
+  app.get('/dashboard/orders/create', orders.create);
+  app.get('/dashboard/orders/edit/:id', orders.edit);
+  app.get('/dashboard/orders/destroy/:id', orders.destroy);
+
+  app.post('/dashboard/orders/store', orders.store);
+  app.post('/dashboard/orders/update', orders.update);
 };
