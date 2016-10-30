@@ -1,101 +1,94 @@
 'use strict';
 
 /**
- * Attribute controller
+ * Order controller
  *
  * @module       :: controller
- * @description  :: keep logic for handle Attribute ( CRUD and etc )
- */
-
-/*
- * Module variables
- */
-
-let mongoose, Attribute;
-
-/*
+ * @description  :: keep logic for handle Order ( CRUD and etc )
+ *
+ *
  * Module dependencies
  */
 
-mongoose = require('mongoose');
-Attribute = mongoose.model('Attribute');
+const mongoose  = require('mongoose'),
+      Order     = mongoose.model('Order');
 
-/*
+/*!
  * Expos
  */
 
 
 /**
- * Attribute list
+ * Order list
  */
 
 exports.index = (req, res, next) => {
-  Attribute
+  Order
     .find()
-    .exec((err, attributes) => {
+    .exec((err, orders) => {
       if (err) { return next(err); }
 
-      if (Array.isArray(attributes)) { return res.render('dashboard/attributes/index', { attributes: attributes }); }
+      if (Array.isArray(orders)) { return res.render('dashboard/orders/index', { Orders: orders }); }
 
       return res.render(tpl);
     });
 };
 
-exports.create = (req, res) => res.render('dashboard/attributes/create');
+exports.create = (req, res) => res.render('dashboard/orders/create');
 
 exports.store = (req, res, next) => {
-  Attribute.create({
+  Order.create({
     title: req.body.title,
     description: req.body.description,
     name: req.body.name,
     content: req.body.content,
     status: req.body.status
-  }, (err, attribute) => {
+  }, (err, order) => {
     if (err) { return next(err); }
 
-    return res.redirect('/dashboard/attributes');
+    return res.redirect('/dashboard/orders');
   });
 };
 
 exports.edit = (req, res, next) => {
-  let id = req.params.id || '';
+  const id = req.params.id || '';
 
-  Attribute
+  Order
     .findById(id)
-    .exec((err, attribute) => {
+    .exec((err, order) => {
       if (err) { return next(err); }
 
-      if (attribute) { return res.render('dashboard/attributes/edit', { attribute: attribute }); }
+      if (Order) { return res.render('dashboard/orders/edit', { Order: Order }); }
 
-      return res.redirect('/dashboard/attributes');
+      return res.redirect('/dashboard/orders');
     });
 };
 
 exports.update = (req, res, next) => {
-  let id = req.body.id || '';
+  const id = req.body.id || '';
 
-  Attribute.update({ _id: id }, {
+  Order.update({ _id: id }, {
     title: req.body.title,
     description: req.body.description,
     name: req.body.name,
     content: req.body.content,
     status: req.body.status,
     slug: req.body.slug
-  }, (err, attribute) => {
+  }, (err, order) => {
     if (err) { return next(err); }
 
-    return res.redirect('/dashboard/attributes');
+    return res.redirect('/dashboard/orders');
   });
 };
 
 exports.destroy = (req, res, next) => {
-  let id = req.params.id || '';
+  const id = req.params.id || '';
 
-  Attribute
+  Order
     .findByIdAndRemove(id)
-    .exec((err, attribute) => {
+    .exec((err, order) => {
       if (err) { return next(err); }
 
-      return res.redirect('/dashboard/attributes');
+      return res.redirect('/dashboard/orders');
     });
 };

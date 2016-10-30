@@ -5,20 +5,13 @@
  *
  * @module       :: controller
  * @description  :: keep logic for handle Attribute ( CRUD and etc )
- */
-
-/*
- * Module variables
- */
-
-let mongoose, Attribute;
-
-/*
+ *
+ *
  * Module dependencies
  */
 
-mongoose = require('mongoose');
-Attribute = mongoose.model('Attribute');
+const mongoose = require('mongoose'),
+      Attribute = mongoose.model('Attribute');
 
 /*
  * Expos
@@ -58,7 +51,7 @@ exports.store = (req, res, next) => {
 };
 
 exports.edit = (req, res, next) => {
-  let id = req.params.id || '';
+  const id = req.params.id || '';
 
   Attribute
     .findById(id)
@@ -72,7 +65,7 @@ exports.edit = (req, res, next) => {
 };
 
 exports.update = (req, res, next) => {
-  let id = req.body.id || '';
+  const id = req.body.id || '';
 
   Attribute.update({ _id: id }, {
     title: req.body.title,
@@ -89,7 +82,7 @@ exports.update = (req, res, next) => {
 };
 
 exports.destroy = (req, res, next) => {
-  let id = req.params.id || '';
+  const id = req.params.id || '';
 
   Attribute
     .findByIdAndRemove(id)

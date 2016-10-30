@@ -7,6 +7,14 @@
     padding: 1rem 0;
 }
 
+form {
+    margin: 50px 0;
+}
+
+form legend {
+    border-bottom: 1px solid #eee;
+}
+
 /*
 //  Table
 // --------------------------------------------------*/

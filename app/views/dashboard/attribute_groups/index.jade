@@ -1,0 +1,30 @@
+extends ../layouts/app
+
+block content
+  article.content
+    header
+      h1 Группы атрибутов
+        a(href="/dashboard/attribute-groups/create").btn.btn-primary.pull-right
+          i.fa.fa-plus
+          | Добавить
+    table.table
+      theader
+        tr
+          th #
+          th Название
+          th(colspan="2") Псевдоним ( анг )
+      tbody
+        if (Array.isArray(attributeGroups) && !!attributeGroups.length)
+          each group, index in attributeGroups
+            tr
+              td= index + 1
+              td= group.name
+              td= group.slug
+              td.table-controls
+                a(href="/dashboard/attribute-groups/edit/#{group.id}").btn.btn-default.btn-primary
+                  i.fa.fa-pencil
+                a(href="/dashboard/attribute-groups/destroy/#{group.id}").btn.btn-default.btn-danger
+                  i.fa.fa-trash
+        else
+          tr
+            td(colspan="4").text-center На данный момент раздел пуст

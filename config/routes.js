@@ -5,21 +5,15 @@
  *
  * @module      :: app
  * @description :: main app routes
- */
-
-/*!
- * Module variables
- */
-
-let home, user, attributes;
-
-/*!
+ *
  * Module dependencies.
  */
 
-home       = require('./../app/controllers/home');
-user       = require('./../app/controllers/user');
-attributes = require('./../app/controllers/attributes');
+const home            = require('./../app/controllers/home'),
+      user            = require('./../app/controllers/user'),
+      orders          = require('./../app/controllers/orders'),
+      attributes      = require('./../app/controllers/attributes'),
+      attributeGroups = require('./../app/controllers/attributeGroups');
 
 /*!
  * Expose

@@ -1,0 +1,14 @@
+extends ../layouts/app
+
+block content
+  form(action="/dashboard/attribute-groups/update", method="POST")
+    fieldset
+      legend Редактирование группы
+      p.form-group
+        input(type="text", name="name", placeholder="Название группы атрибутов", value="#{!!attributeGroup.name.length ? attributeGroup.name : ''}").form-control
+      p.form-group
+        input(type="text", name="slug", placeholder="Псевдоним группы атрибутов ( анг )", value="#{!!attributeGroup.slug.length ? attributeGroup.slug : ''}").form-control
+      p.form-group
+        input(type="hidden", name="id", value="#{attributeGroup.id}")
+        input(type="hidden", name="_csrf", value="#{csrf}")
+        input(type="submit", name="submit", value="Сохранить").btn.btn-default.btn-primary

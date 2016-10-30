@@ -5,29 +5,22 @@
  *
  * @module       :: model
  * @description  :: Represent user in database
- */
-
-/*!
- * Module variables
- */
-
-let mongoose, userPlugin, UserSchema, Schema, bcrypt;
-
-/*!
+ *
+ *
  * Module dependencies
  */
 
-mongoose = require('mongoose');
-bcrypt   = require('bcryptjs');
+const mongoose = require('mongoose'),
+      bcrypt   = require('bcryptjs'),
+      Schema = mongoose.Schema;
 
 // userPlugin = require('mongoose-user');
-Schema = mongoose.Schema;
 
 /**
  * User schema
  */
 
-UserSchema = new Schema({
+const UserSchema = new Schema({
   name: {
     type: String,
     default: ''

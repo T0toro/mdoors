@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * USer controller
+ * User controller
  *
  * @module       :: controller
  * @description  :: keep logic for handle user( login, logout and etc )

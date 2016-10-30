@@ -3,21 +3,30 @@ extends ../layouts/app
 block content
   article.content
     header
-      h1 Статьи
+      h1 Заказы
     table.table
       theader
         tr
           th #
-          th Название
-          th(colspan="2") Url
+          th ID отдела
+          th Отдел
+          th Продавец
+          th Покупатель
+          th Телефон
       tbody
-        each article, index in articles
+        if (Array.isArray(orders) && !!orders.length)
+          each order, index in orders
+            tr
+              td= index + 1
+              td= order.name
+              td= order.slug
+              td.table-controls
+                a(href="/dashboard/orders/edit/#{order.id}").btn.btn-default.btn-primary
+                  i.fa.fa-pencil
+                a(href="/dashboard/orders/destroy/#{order.id}").btn.btn-default.btn-danger
+                  i.fa.fa-trash
+        else
           tr
-            td= index + 1
-            td= article.name
-            td= article.slug
-            td.table-controls
-              a(href="/dashboard/articles/edit/#{article.id}").btn.btn-default.btn-primary
-                i.fa.fa-pencil
-              a(href="/dashboard/articles/destroy/#{article.id}").btn.btn-default.btn-danger
-                i.fa.fa-trash
+            td(colspan="6").text-center
+              i.fa.fa-cart
+              | На данный момент заказов нет

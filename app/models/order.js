@@ -3,27 +3,20 @@
  *
  * @module       :: model
  * @description  :: Represent Orders in database
- */
-
-/*
- * Module variables
- */
-
-let mongoose, timestamps, Schema, OrderSchema;
-
-/*
+ *
+ *
  * Module dependencies
  */
 
-mongoose = require('mongoose');
-timestamps = require('mongoose-timestamp');
-Schema = mongoose.Schema;
+const mongoose   = require('mongoose'),
+      timestamps = require('mongoose-timestamp'),
+      Schema     = mongoose.Schema;
 
 /*
  * OrderSchema
  */
 
-OrderSchema = new Schema({
+const OrderSchema = new Schema({
   title: {
     type: String,
     default: ''

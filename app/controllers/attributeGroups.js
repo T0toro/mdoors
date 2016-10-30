@@ -11,7 +11,7 @@
  */
 
 const mongoose        = require('mongoose'),
-      AttributeGroups = mongoose.model('AttributeGroups');
+      AttributeGroup  = mongoose.model('AttributeGroup');
 
 /*
  * Expos
@@ -34,20 +34,17 @@ exports.index = (req, res, next) => {
         });
       }
 
-      return res.render(tpl);
+      return res.render('dashboard/attribute_groups/index');
     });
 };
 
-exports.create = (req, res) => res.render('dashboard/attributeGroups/create');
+exports.create = (req, res) => res.render('dashboard/attribute_groups/create');
 
 exports.store = (req, res, next) => {
   AttributeGroup.create({
-    title: req.body.title,
-    description: req.body.description,
     name: req.body.name,
-    content: req.body.content,
-    status: req.body.status
-  }, (err, AttributeGroup) => {
+    slug: req.body.slug
+  }, (err, attributeGroups) => {
     if (err) { return next(err); }
 
     return res.redirect('/dashboard/attribute-groups');
@@ -55,30 +52,26 @@ exports.store = (req, res, next) => {
 };
 
 exports.edit = (req, res, next) => {
-  let id = req.params.id || '';
+  const id = req.params.id || '';
 
   AttributeGroup
     .findById(id)
     .exec((err, attributeGroup) => {
       if (err) { return next(err); }
 
-      if (attributeGroup) { return res.render('dashboard/attributeGroups/edit', { attributeGroup: attributeGroup }); }
+      if (attributeGroup) { return res.render('dashboard/attribute_groups/edit', { attributeGroup: attributeGroup }); }
 
       return res.redirect('/dashboard/attribute-groups');
     });
 };
 
 exports.update = (req, res, next) => {
-  let id = req.body.id || '';
+  const id = req.body.id || '';
 
   AttributeGroup.update({ _id: id }, {
-    title: req.body.title,
-    description: req.body.description,
     name: req.body.name,
-    content: req.body.content,
-    status: req.body.status,
     slug: req.body.slug
-  }, (err, attributeGroup) => {
+  }, (err, attributeGroups) => {
     if (err) { return next(err); }
 
     return res.redirect('/dashboard/attribute-groups');
@@ -86,11 +79,11 @@ exports.update = (req, res, next) => {
 };
 
 exports.destroy = (req, res, next) => {
-  let id = req.params.id || '';
+  const id = req.params.id || '';
 
   AttributeGroup
     .findByIdAndRemove(id)
-    .exec((err, attributeGroup) => {
+    .exec((err, attributeGroups) => {
       if (err) { return next(err); }
 
       return res.redirect('/dashboard/attribute-groups');

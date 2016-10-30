@@ -1,29 +1,24 @@
+'use strict';
+
 /**
  * Attribute
  *
  * @module       :: model
  * @description  :: Represent Attributes in database
- */
-
-/*
- * Module variables
- */
-
-let mongoose, timestamps, Schema, AttributeSchema;
-
-/*
+ *
+ *
  * Module dependencies
  */
 
-mongoose = require('mongoose');
-timestamps = require('mongoose-timestamp');
-Schema = mongoose.Schema;
+const mongoose = require('mongoose'),
+      timestamps = require('mongoose-timestamp'),
+      Schema = mongoose.Schema;
 
 /*
  * AttributeSchema
  */
 
-AttributeSchema = new Schema({
+const AttributeSchema = new Schema({
   title: {
     type: String,
     default: ''
