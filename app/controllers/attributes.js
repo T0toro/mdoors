@@ -11,7 +11,8 @@
  */
 
 const mongoose = require('mongoose'),
-      Attribute = mongoose.model('Attribute');
+      Attribute = mongoose.model('Attribute'),
+      AttributeGroup  = mongoose.model('AttributeGroup');
 
 /*
  * Expos
@@ -34,15 +35,26 @@ exports.index = (req, res, next) => {
     });
 };
 
-exports.create = (req, res) => res.render('dashboard/attributes/create');
+exports.create = (req, res) => {
+  AttributeGroup
+    .find()
+    .exec((err, attributeGroups) => {
+      if (err) { return next(err); }
+
+      if (Array.isArray(attributeGroups)) {
+        return res.render('dashboard/attributes/create', {
+            attributeGroups: attributeGroups
+        });
+      }
+
+      return res.render('dashboard/attributes/create')
+    });
+};
 
 exports.store = (req, res, next) => {
   Attribute.create({
-    title: req.body.title,
-    description: req.body.description,
     name: req.body.name,
-    content: req.body.content,
-    status: req.body.status
+    group: req.body.group
   }, (err, attribute) => {
     if (err) { return next(err); }
 
@@ -68,12 +80,8 @@ exports.update = (req, res, next) => {
   const id = req.body.id || '';
 
   Attribute.update({ _id: id }, {
-    title: req.body.title,
-    description: req.body.description,
     name: req.body.name,
-    content: req.body.content,
-    status: req.body.status,
-    slug: req.body.slug
+    group: req.body.group
   }, (err, attribute) => {
     if (err) { return next(err); }
 

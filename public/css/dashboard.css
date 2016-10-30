@@ -20,7 +20,7 @@ form legend {
 // --------------------------------------------------*/
 
 .table-controls {
-    text-align: center;
+    text-align: right;
 }
 
 .table-controls a + a {

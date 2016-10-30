@@ -19,28 +19,12 @@ const mongoose = require('mongoose'),
  */
 
 const AttributeSchema = new Schema({
-  title: {
-    type: String,
-    default: ''
-  },
-  description: {
-    type: String,
-    default: ''
-  },
-  slug: {
-    type: String,
-    default: ''
-  },
   name: {
     type: String,
     default: ''
   },
-  content: {
+  group: {
     type: String,
-    default: ''
-  },
-  status: {
-    type: Number,
     default: ''
   }
 });

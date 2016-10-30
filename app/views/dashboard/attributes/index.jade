@@ -3,21 +3,28 @@ extends ../layouts/app
 block content
   article.content
     header
-      h1 Статьи
+      h1 Атрибуты
+        a(href="/dashboard/attributes/create").btn.btn-primary.pull-right
+          i.fa.fa-plus
+          | Добавить
     table.table
       theader
         tr
           th #
           th Название
-          th(colspan="2") Url
+          th(colspan="2") Группа
       tbody
-        each article, index in articles
+        if (Array.isArray(attributes) && !!attributes.length)
+          each attribute, index in attributes
+            tr
+              td= index + 1
+              td= attribute.name
+              td= attribute.group
+              td.table-controls
+                a(href="/dashboard/attributes/edit/#{attribute.id}").btn.btn-default.btn-primary
+                  i.fa.fa-pencil
+                a(href="/dashboard/attributes/destroy/#{attribute.id}").btn.btn-default.btn-danger
+                  i.fa.fa-trash
+        else
           tr
-            td= index + 1
-            td= article.name
-            td= article.slug
-            td.table-controls
-              a(href="/dashboard/articles/edit/#{article.id}").btn.btn-default.btn-primary
-                i.fa.fa-pencil
-              a(href="/dashboard/articles/destroy/#{article.id}").btn.btn-default.btn-danger
-                i.fa.fa-trash
+            td(colspan="4").text-center На данный момент раздел пуст
