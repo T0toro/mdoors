@@ -1,24 +1,24 @@
 'use strict';
 
 /**
- * Article controller
+ * Attribute controller
  *
  * @module       :: controller
- * @description  :: keep logic for handle article ( CRUD and etc )
+ * @description  :: keep logic for handle Attribute ( CRUD and etc )
  */
 
 /*
  * Module variables
  */
 
-let mongoose, Article;
+let mongoose, Attribute;
 
 /*
  * Module dependencies
  */
 
 mongoose = require('mongoose');
-Article = mongoose.model('Article');
+Attribute = mongoose.model('Attribute');
 
 /*
  * Expos
@@ -26,78 +26,76 @@ Article = mongoose.model('Article');
 
 
 /**
- * Article list
+ * Attribute list
  */
 
 exports.index = (req, res, next) => {
-  let tpl = req.isAuthenticated() ? 'dashboard/articles/index' : 'articles/index';
-
-  Article
+  Attribute
     .find()
-    .exec((err, articles) => {
+    .exec((err, attributes) => {
       if (err) { return next(err); }
 
-      if (Array.isArray(articles)) { return res.render(tpl, { articles: articles }); }
+      if (Array.isArray(attributes)) { return res.render('dashboard/attributes/index', { attributes: attributes }); }
 
       return res.render(tpl);
     });
 };
 
-exports.create = (req, res) => res.render('dashboard/articles/create');
+exports.create = (req, res) => res.render('dashboard/attributes/create');
 
 exports.store = (req, res, next) => {
-  Article.create({
+  Attribute.create({
     title: req.body.title,
     description: req.body.description,
     name: req.body.name,
     content: req.body.content,
     status: req.body.status
-  }, (err, article) => {
+  }, (err, attribute) => {
     if (err) { return next(err); }
 
-    return res.redirect('/dashboard/articles');
+    return res.redirect('/dashboard/attributes');
   });
 };
 
 exports.edit = (req, res, next) => {
   let id = req.params.id || '';
 
-  Article
+  Attribute
     .findById(id)
-    .exec((err, article) => {
+    .exec((err, attribute) => {
       if (err) { return next(err); }
 
-      if (article) { return res.render('dashboard/articles/edit', { article: article }); }
+      if (attribute) { return res.render('dashboard/attributes/edit', { attribute: attribute }); }
 
-      return res.redirect('/dashboard/articles');
+      return res.redirect('/dashboard/attributes');
     });
 };
 
 exports.update = (req, res, next) => {
   let id = req.body.id || '';
 
-  Article.update({ _id: id }, {
+  Attribute.update({ _id: id }, {
     title: req.body.title,
     description: req.body.description,
     name: req.body.name,
     content: req.body.content,
     status: req.body.status,
     slug: req.body.slug
-  }, (err, article) => {
+  }, (err, attribute) => {
     if (err) { return next(err); }
 
-    return res.redirect('/dashboard/articles');
+    return res.redirect('/dashboard/attributes');
   });
 };
 
 exports.destroy = (req, res, next) => {
   let id = req.params.id || '';
 
-  Article
+  Attribute
     .findByIdAndRemove(id)
-    .exec((err, article) => {
+    .exec((err, attribute) => {
       if (err) { return next(err); }
 
-      return res.redirect('/dashboard/articles');
+      return res.redirect('/dashboard/attributes');
     });
 };

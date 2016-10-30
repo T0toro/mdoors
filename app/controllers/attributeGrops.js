@@ -1,24 +1,24 @@
 'use strict';
 
 /**
- * Article controller
+ * AttributeGroup controller
  *
  * @module       :: controller
- * @description  :: keep logic for handle article ( CRUD and etc )
+ * @description  :: keep logic for handle AttributeGroup ( CRUD and etc )
  */
 
 /*
  * Module variables
  */
 
-let mongoose, Article;
+let mongoose, AttributeGroup;
 
 /*
  * Module dependencies
  */
 
 mongoose = require('mongoose');
-Article = mongoose.model('Article');
+AttributeGroup = mongoose.model('AttributeGroup');
 
 /*
  * Expos
@@ -26,78 +26,78 @@ Article = mongoose.model('Article');
 
 
 /**
- * Article list
+ * AttributeGroup list
  */
 
 exports.index = (req, res, next) => {
-  let tpl = req.isAuthenticated() ? 'dashboard/articles/index' : 'articles/index';
+  let tpl = req.isAuthenticated() ? 'dashboard/attribute_groups/index' : 'attribute_groups/index';
 
-  Article
+  AttributeGroup
     .find()
-    .exec((err, articles) => {
+    .exec((err, attributeGroups) => {
       if (err) { return next(err); }
 
-      if (Array.isArray(articles)) { return res.render(tpl, { articles: articles }); }
+      if (Array.isArray(attributeGroups)) { return res.render(tpl, { attributeGroups: attributeGroups }); }
 
       return res.render(tpl);
     });
 };
 
-exports.create = (req, res) => res.render('dashboard/articles/create');
+exports.create = (req, res) => res.render('dashboard/attributeGroups/create');
 
 exports.store = (req, res, next) => {
-  Article.create({
+  AttributeGroup.create({
     title: req.body.title,
     description: req.body.description,
     name: req.body.name,
     content: req.body.content,
     status: req.body.status
-  }, (err, article) => {
+  }, (err, AttributeGroup) => {
     if (err) { return next(err); }
 
-    return res.redirect('/dashboard/articles');
+    return res.redirect('/dashboard/attributeGroups');
   });
 };
 
 exports.edit = (req, res, next) => {
   let id = req.params.id || '';
 
-  Article
+  AttributeGroup
     .findById(id)
-    .exec((err, article) => {
+    .exec((err, attributeGroup) => {
       if (err) { return next(err); }
 
-      if (article) { return res.render('dashboard/articles/edit', { article: article }); }
+      if (attributeGroup) { return res.render('dashboard/attributeGroups/edit', { attributeGroup: attributeGroup }); }
 
-      return res.redirect('/dashboard/articles');
+      return res.redirect('/dashboard/attributeGroups');
     });
 };
 
 exports.update = (req, res, next) => {
   let id = req.body.id || '';
 
-  Article.update({ _id: id }, {
+  AttributeGroup.update({ _id: id }, {
     title: req.body.title,
     description: req.body.description,
     name: req.body.name,
     content: req.body.content,
     status: req.body.status,
     slug: req.body.slug
-  }, (err, article) => {
+  }, (err, attributeGroup) => {
     if (err) { return next(err); }
 
-    return res.redirect('/dashboard/articles');
+    return res.redirect('/dashboard/attributeGroups');
   });
 };
 
 exports.destroy = (req, res, next) => {
   let id = req.params.id || '';
 
-  Article
+  AttributeGroup
     .findByIdAndRemove(id)
-    .exec((err, article) => {
+    .exec((err, attributeGroup) => {
       if (err) { return next(err); }
 
-      return res.redirect('/dashboard/articles');
+      return res.redirect('/dashboard/attributeGroups');
     });
 };
