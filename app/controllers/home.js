@@ -5,8 +5,7 @@
  */
 
 const mongoose = require('mongoose'),
-      async    = require('async'),
-      Link     = mongoose.model('Link');
+      async    = require('async');
 
 /*!
  * Expos
