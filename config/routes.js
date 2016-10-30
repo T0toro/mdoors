@@ -59,11 +59,11 @@ module.exports = (app, passport) => {
   // Attributes
   // --------------------------------------------
 
-  app.get('/dashboard/attributes', navigation.index);
-  app.get('/dashboard/attributes/create', navigation.create);
-  app.get('/dashboard/attributes/edit/:id', navigation.edit);
-  app.get('/dashboard/attributes/destroy/:id', navigation.destroy);
+  app.get('/dashboard/attributes', attributes.index);
+  app.get('/dashboard/attributes/create', attributes.create);
+  app.get('/dashboard/attributes/edit/:id', attributes.edit);
+  app.get('/dashboard/attributes/destroy/:id', attributes.destroy);
 
-  app.post('/dashboard/attributes/store', navigation.store);
-  app.post('/dashboard/attributes/update', navigation.update);
+  app.post('/dashboard/attributes/store', attributes.store);
+  app.post('/dashboard/attributes/update', attributes.update);
 };

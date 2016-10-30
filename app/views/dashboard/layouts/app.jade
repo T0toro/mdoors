@@ -28,15 +28,21 @@ html
               li
                 a(href="/dashboard") Главная
               li.dropdown
-                a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Статьи
+                a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Заказы
                     span.caret
                 ul.dropdown-menu
                   li
-                    a(href="/dashboard/articles") Все статьи
+                    a(href="/dashboard/orders") Все заказы
                   li
-                    a(href="/dashboard/articles/create") Добавить статью
-              li
-                a(href="/dashboard/nav") Меню
+                    a(href="/dashboard/orders/create") Добавить заказ
+              li.dropdown
+                a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Атрибуты
+                    span.caret
+                ul.dropdown-menu
+                  li
+                    a(href="/dashboard/attributes") Атрибуты
+                  li
+                    a(href="/dashboard/attributeGroups") Группы атрибутов
             if (isAuthenticated)
               ul.nav.navbar-nav.navbar-right
                 li
