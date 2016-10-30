@@ -5,14 +5,47 @@ block main
 
 block content
   form(action="/dashboard/articles/store", method="POST")
-    fieldset
-      legend SEO
-      p.form-group
-        input(type="text", name="title", placeholder="Заголовок статьи").form-control
-      p.form-group
-        input(type="text", name="description", placeholder="Кратское описание статьи").form-control
-      p.form-group
-        input(type="text", name="slug", placeholder="url страницы").form-control
+    .row.form-horizontal
+      fieldset.col-lg-6
+        legend Продавец
+        .form-group
+          label(for="departamentId").control-label.col-sm-3 ID отдела:
+          .col-sm-6
+            input(type="text", name="departamentId", placeholder="ID отдела", id="departamentId").form-control
+        .form-group
+          label(for="departament").control-label.col-sm-3 Отдел:
+          .col-sm-6
+            input(type="text", name="departament", placeholder="Отдел", id="departament").form-control
+        .form-group
+          label(for="additionalInfo").control-label.col-sm-3.label-two-line Дополнительная информация:
+          .col-sm-6
+            input(type="text", name="additionalInfo", placeholder="Дополнительная информация", id="additionalInfo").form-control
+        .form-group
+          label(for="product").control-label.col-sm-3 Продукт:
+          .col-sm-6
+            input(type="text", name="product", placeholder="Продукт", id="product").form-control
+      fieldset.col-lg-6
+        legend Покупатель
+        .form-group
+          label(for="manufactureDate").col-sm-3.control-label.label-two-line Дата изготовления:
+          .col-sm-6
+            input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate").form-control.makdoors-datepicker
+        .form-group
+          label(for="deliveryDate").col-sm-3.control-label Дата доставки:
+          .col-sm-6
+            input(type="text", name="deliveryDate", placeholder="01.01.1999", id="deliveryDate").form-control.makdoors-datepicker
+        .form-group
+          label(for="additionalInfo").col-sm-3.control-label ФИО
+          .col-sm-6
+            input(type="text", name="additionalInfo", placeholder="Иванов Иван Ивановия", id="additionalInfo").form-control
+        .form-group
+          label(for="adress").col-sm-3.control-label Адрес:
+          .col-sm-6
+            input(type="text", name="adress", placeholder="ул. Иванова, 28", id="adress").form-control
+        .form-group
+          label(for="telephone").col-sm-3.control-label Телефон:
+          .col-sm-6
+            input(type="text", name="+ 7 (XXX) XXX-XX-XX", placeholder="Продукт", id="telephone").form-control
     fieldset
       legend Контент
       p.form-group
