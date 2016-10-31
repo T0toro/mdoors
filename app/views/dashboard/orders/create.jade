@@ -37,7 +37,7 @@ block content
         .form-group
           label(for="additionalInfo").col-sm-3.control-label ФИО
           .col-sm-6
-            input(type="text", name="additionalInfo", placeholder="Иванов Иван Ивановия", id="additionalInfo").form-control
+            input(type="text", name="additionalInfo", placeholder="Иванов Иван Иванович", id="additionalInfo").form-control
         .form-group
           label(for="adress").col-sm-3.control-label Адрес:
           .col-sm-6
@@ -45,20 +45,146 @@ block content
         .form-group
           label(for="telephone").col-sm-3.control-label Телефон:
           .col-sm-6
-            input(type="text", name="+ 7 (XXX) XXX-XX-XX", placeholder="Продукт", id="telephone").form-control
-    fieldset
-      legend Контент
-      p.form-group
-        input(type="text", name="name", placeholder="Название статьи").form-control
-      p.form-group
-        textarea(name="content", cols="30", rows="10", placeholder="Содержание статьи").form-control
-    fieldset
-      legend Настройки
-      p.form-group
-        select(name="status").form-control
-          option(value="0") Черновик
-          option(value="1") Опубликованно
-      .form-group
-        input(type="hidden", name="_csrf", value="#{csrf}")
-        input(type="submit", name="submit", value="Сохранить").btn.btn-default.btn-primary
-
+            input(type="text", name="telephone", placeholder="+ 7 (XXX) XXX-XX-XX", id="telephone").form-control
+  .mkdr-tabs
+    ul(role="tablist")#makdoorsTabs.nav.nav-tabs
+      li(role="presentation").active
+        a(href="#doors", role="tab", data-toggle="tab", aria-controls="doors", aria-expanded="true") Двери
+      li(role="presentation")
+        a(href="#pagonazh", role="tab", data-toggle="tab", aria-controls="pagonazh", aria-expanded="true") Пагонаж
+      li(role="presentation")
+        a(href="#furnityra", role="tab", data-toggle="tab", aria-controls="furnityra", aria-expanded="true") Фурнитура
+    #makdoorsTabsContent.tab-content
+      div(role="tabpanel")#doors.tab-pane.fade.in.active
+        table.table.table-bordered.table-head-center
+          thead
+            tr
+              th(colspan="5").text-center
+                h5 Двери
+              th(colspan="5").text-center
+                button(type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalDoors") Добавить
+            tr
+              th #
+              th Модель
+              th Размер
+              th Цвет
+              th Открывается
+              th Стекло
+              th Кол-во
+              th Цена
+                br
+                |( за ед )
+              th Цена
+                br
+                |( итог )
+          tbody
+        //- Modal
+        .modal.fade#modalDoors(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
+          .modal-dialog(role="document")
+            .modal-content
+              .modal-header
+                button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+                  span(aria-hidden="true") &times;
+                h4(class="modal-title" id="myModalLabel") Добавить дверь:
+              .modal-body
+                .form-horizontal
+                  .form-group
+                    label(for="doorsModel").col-sm-3.control-label.label-two-line Модель:
+                    .col-sm-6
+                      input(type="text", name="doorsModel", placeholder="xxxxxx", id="doorsModel").form-control
+                  .form-group
+                    label(for="doorsSize").col-sm-3.control-label Размеры ( Ш x В ):
+                    .row
+                      .col-sm-2
+                        input(type="text", name="doorsSize", placeholder="100", id="doorsWidth").form-control
+                      p(style="float: left;") x
+                      .col-sm-2
+                        input(type="text", name="doorsSize", placeholder="100", id="doorsHeight").form-control
+                  .form-group
+                    label(for="doorsColor").col-sm-3.control-label Цвет
+                    .col-sm-6
+                      select(name="doorsColor", placeholder="Зеленый", id="doorsColor").form-control
+                        option(value="нет") нет
+                  .form-group
+                    label(for="doorsOpen").col-sm-3.control-label Открывается:
+                    .col-sm-6
+                      select(name="doorsOpen", placeholder="ул. Иванова, 28", id="doorsOpen").form-control
+                        option(value="В наружу") В наружу
+                        option(value="Вовнутрь") Вовнутрь
+                  .form-group
+                    label(for="doorsGlass").col-sm-3.control-label Стекло:
+                    .col-sm-6
+                      select(name="doorsGlass", placeholder="стекло", id="doorsGlass").form-control
+                        option(value="нет") нет
+                  .form-group
+                    label(for="doorsCount").col-sm-3.control-label.label-two-line Кол - во:
+                    .col-sm-6
+                      input(type="text", name="doorsCount", placeholder="xxxxxx", id="doorsCount").form-control
+                  .form-group
+                    label(for="doorsSinglePrice").col-sm-3.control-label.label-two-line Цена ( за ед ):
+                    .col-sm-6
+                      input(type="text", name="doorsSinglePrice", placeholder="xxxxxx", id="doorsSinglePrice").form-control
+              .modal-footer
+                button(type="button" class="btn btn-default" data-dismiss="modal") Отмена
+                button(type="button" class="btn btn-primary") Добавить к заказу
+      div(role="tabpanel")#pagonazh.tab-pane.fade
+        table.table.table-bordered.table-head-center
+          thead
+            tr
+              th(colspan="6").text-center
+                h5 Пагонаж
+            tr
+              th #
+              th Тип
+              th Уплотнитель
+              th Кол-во
+              th Цена
+                br
+                |( за ед )
+              th Цена
+                br
+                |( итог )
+          tbody
+        //- Modal
+        .modal.fade#myModal(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
+          .modal-dialog(role="document")
+            .modal-content
+              .modal-header
+                button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+                  span(aria-hidden="true") &times;
+                h4(class="modal-title" id="myModalLabel") Modal title
+              .modal-body
+              .modal-footer
+                button(type="button" class="btn btn-default" data-dismiss="modal") Close
+                button(type="button" class="btn btn-primary") Save changes
+      div(role="tabpanel")#furnityra.tab-pane.fade
+        table.table.table-bordered.table-head-center
+          thead
+            tr
+              th(colspan="7").text-center
+                h5 Фурнитура
+            tr
+              th #
+              th Элемент
+              th Тип
+              th Цвет
+              th Кол-во
+              th Цена
+                br
+                |( за ед )
+              th Цена
+                br
+                |( итог )
+          tbody
+        //- Modal
+        .modal.fade#myModal(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
+          .modal-dialog(role="document")
+            .modal-content
+              .modal-header
+                button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+                  span(aria-hidden="true") &times;
+                h4(class="modal-title" id="myModalLabel") Modal title
+              .modal-body
+              .modal-footer
+                button(type="button" class="btn btn-default" data-dismiss="modal") Close
+                button(type="button" class="btn btn-primary") Save changes

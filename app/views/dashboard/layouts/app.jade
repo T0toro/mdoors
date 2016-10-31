@@ -46,6 +46,14 @@ html
                     a(href="/dashboard/attributes") Атрибуты
                   li
                     a(href="/dashboard/attribute-groups") Группы атрибутов
+              li.dropdown
+                a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Пользователи
+                    span.caret
+                ul.dropdown-menu
+                  li
+                    a(href="/dashboard/users") Все пользователи
+                  li
+                    a(href="/dashboard/users/create") Добавить пользователя
             if (isAuthenticated)
               ul.nav.navbar-nav.navbar-right
                 li

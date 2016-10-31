@@ -3,6 +3,11 @@
     border-radius: 0;
 }
 
+.table-head-center th {
+    vertical-align: middle !important;
+    text-align: center;
+}
+
 .content-wrapper {
     padding: 1rem 0;
 }
