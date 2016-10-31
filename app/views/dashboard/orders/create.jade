@@ -131,8 +131,10 @@ block content
         table.table.table-bordered.table-head-center
           thead
             tr
-              th(colspan="6").text-center
+              th(colspan="3").text-center
                 h5 Пагонаж
+              th(colspan="3").text-center
+                button(type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalPagonazh") Добавить
             tr
               th #
               th Тип
@@ -146,23 +148,44 @@ block content
                 |( итог )
           tbody
         //- Modal
-        .modal.fade#myModal(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
+        .modal.fade#modalPagonazh(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
           .modal-dialog(role="document")
             .modal-content
               .modal-header
                 button(type="button" class="close" data-dismiss="modal" aria-label="Close")
                   span(aria-hidden="true") &times;
-                h4(class="modal-title" id="myModalLabel") Modal title
+                h4(class="modal-title" id="myModalLabel") Добавить пагонаж:
               .modal-body
+                .form-horizontal
+                  .form-group
+                    label(for="pagonazhType").col-sm-3.control-label Тип:
+                    .col-sm-6
+                      input(type="text", name="pagonazhType", placeholder="xxxxxx", id="pagonazhType").form-control
+                  .form-group
+                    label(for="pagonazhGaskit").col-sm-3.control-label Уплотнитель:
+                    .col-sm-6
+                      select(name="pagonazhGaskit", id="pagonazhGaskit").form-control
+                        option(value="нет") нет
+                        option(value="да") да
+                  .form-group
+                    label(for="pagonazhCount").col-sm-3.control-label.label-two-line Кол - во:
+                    .col-sm-6
+                      input(type="text", name="pagonazhCount", placeholder="xxxxxx", id="pagonazhCount").form-control
+                  .form-group
+                    label(for="pagonazhSinglePrice").col-sm-3.control-label.label-two-line Цена ( за ед ):
+                    .col-sm-6
+                      input(type="text", name="pagonazhSinglePrice", placeholder="xxxxxx", id="pagonazhSinglePrice").form-control
               .modal-footer
-                button(type="button" class="btn btn-default" data-dismiss="modal") Close
-                button(type="button" class="btn btn-primary") Save changes
+                button(type="button" class="btn btn-default" data-dismiss="modal") Отмена
+                button(type="button" class="btn btn-primary") Добавить к заказу
       div(role="tabpanel")#furnityra.tab-pane.fade
         table.table.table-bordered.table-head-center
           thead
             tr
-              th(colspan="7").text-center
+              th(colspan="5").text-center
                 h5 Фурнитура
+              th(colspan="2").text-center
+                button(type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalFurnityra") Добавить
             tr
               th #
               th Элемент
@@ -177,14 +200,36 @@ block content
                 |( итог )
           tbody
         //- Modal
-        .modal.fade#myModal(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
+        .modal.fade#modalFurnityra(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
           .modal-dialog(role="document")
             .modal-content
               .modal-header
                 button(type="button" class="close" data-dismiss="modal" aria-label="Close")
                   span(aria-hidden="true") &times;
-                h4(class="modal-title" id="myModalLabel") Modal title
+                h4(class="modal-title" id="myModalLabel") Добавить фурнитуру:
               .modal-body
+                .form-horizontal
+                  .form-group
+                    label(for="furnityraEl").col-sm-3.control-label Элемент:
+                    .col-sm-6
+                      input(type="text", name="furnityraEl", placeholder="xxxxxx", id="furnityraEl").form-control
+                  .form-group
+                    label(for="furnityraType").col-sm-3.control-label Тип:
+                    .col-sm-6
+                      input(type="text", name="furnityraType", placeholder="xxxxxx", id="furnityraType").form-control
+                  .form-group
+                    label(for="furnityraColor").col-sm-3.control-label Цвет:
+                    .col-sm-6
+                      select(name="furnityraColor", placeholder="Зеленый", id="furnityraColor").form-control
+                        option(value="нет") не указан
+                  .form-group
+                    label(for="pagonazhCount").col-sm-3.control-label.label-two-line Кол - во:
+                    .col-sm-6
+                      input(type="text", name="pagonazhCount", placeholder="xxxxxx", id="pagonazhCount").form-control
+                  .form-group
+                    label(for="pagonazhSinglePrice").col-sm-3.control-label.label-two-line Цена ( за ед ):
+                    .col-sm-6
+                      input(type="text", name="pagonazhSinglePrice", placeholder="xxxxxx", id="pagonazhSinglePrice").form-control
               .modal-footer
-                button(type="button" class="btn btn-default" data-dismiss="modal") Close
-                button(type="button" class="btn btn-primary") Save changes
+                button(type="button" class="btn btn-default" data-dismiss="modal") Отмена
+                button(type="button" class="btn btn-primary") Добавить к заказу
