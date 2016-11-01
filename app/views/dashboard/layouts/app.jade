@@ -4,10 +4,7 @@ html
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
     meta(name='viewport', content='width=device-width,initial-scale=1')
-    if title
-      title= title
-    else
-      title Форма заказов MakDoors
+    title Форма заказов MakDoors
 
     meta(name='description', content=pkg.description)
 
@@ -37,15 +34,18 @@ html
                   li
                     a(href="/dashboard/orders") Все заказы
                   li
-                    a(href="/dashboard/orders/create") Сделать заказ
+                    a(href="/dashboard/orders/create") Оформить заказ
               li.dropdown
-                a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Атрибуты
+                a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Продукция
                     span.caret
                 ul.dropdown-menu
                   li
-                    a(href="/dashboard/attributes") Атрибуты
+                    a(href="/dashboard/products") Все продукты
+                  li.divider
                   li
                     a(href="/dashboard/attribute-groups") Группы атрибутов
+                  li
+                    a(href="/dashboard/attributes") Атрибуты
               li.dropdown
                 a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Пользователи
                     span.caret
@@ -54,6 +54,10 @@ html
                     a(href="/dashboard/users") Все пользователи
                   li
                     a(href="/dashboard/users/create") Добавить пользователя
+              li
+                a(href="/dashboard/odz") ОДЗ
+              li
+                a(href="/dashboard/odds") ОДДС
             if (isAuthenticated)
               ul.nav.navbar-nav.navbar-right
                 li

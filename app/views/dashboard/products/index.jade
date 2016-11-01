@@ -1,0 +1,31 @@
+extends ../layouts/app
+
+block content
+  article.content
+    header
+      h1 Продукты
+        a(href="/dashboard/products/create").btn.btn-primary.pull-right
+          i.fa.fa-plus
+          | Добавить
+    table.table
+      thead
+        tr
+          th #
+          th Название
+          th Дата изготовления
+          th(colspan="2") Кол - во
+      tbody
+        if (Array.isArray(products) && !!products.length)
+          each product, index in products
+            tr
+              td= index + 1
+              td= product.name
+              td= product.manufactureDate
+              td.table-controls
+                a(href="/dashboard/products/edit/#{product.id}").btn.btn-default.btn-primary
+                  i.fa.fa-pencil
+                a(href="/dashboard/products/destroy/#{product.id}").btn.btn-default.btn-danger
+                  i.fa.fa-trash
+        else
+          tr
+            td(colspan="4").text-center На данный момент раздел пуст

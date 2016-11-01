@@ -11,4 +11,4 @@ const mongoose = require('mongoose'),
  * Expos
  */
 
-exports.index = (req, res, next) => {};
+exports.index = (req, res, next) => res.render('dashboard/home/index');

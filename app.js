@@ -5,29 +5,22 @@
  *
  * @module      :: app
  * @description :: Load, modules, conrollers, routes, libs and start app
- */
-
-/*!
- * Module variables
- */
-
-let fs, express, mongoose, passport, app, port, connect, path, User;
-
-/*!
+ *
+ *
  * Module dependencies
  */
 
-fs = require('fs');
-path = require('path');
-express = require('express');
-mongoose = require('mongoose');
-passport = require('passport');
+const fs       = require('fs'),
+      path     = require('path'),
+      express  = require('express'),
+      mongoose = require('mongoose'),
+      passport = require('passport'),
 
-app = express();
-port = process.env.PORT || 3000;
+      app      = express(),
+      port     = process.env.PORT || 8085;
 
 // Connect to mongodb
-connect = () => {
+function connect() {
   mongoose.connect(
     'mongodb://localhost/jsbook', {
       server: {
@@ -36,7 +29,7 @@ connect = () => {
         }
       }
     });
-};
+}
 
 // Open db connection
 // ----------------------------------------------

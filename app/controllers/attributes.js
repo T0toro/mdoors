@@ -31,11 +31,11 @@ exports.index = (req, res, next) => {
 
       if (Array.isArray(attributes)) { return res.render('dashboard/attributes/index', { attributes: attributes }); }
 
-      return res.render(tpl);
+      return res.render('dashboard/attributes/index');
     });
 };
 
-exports.create = (req, res) => {
+exports.create = (req, res, next) => {
   AttributeGroup
     .find()
     .exec((err, attributeGroups) => {
@@ -82,7 +82,7 @@ exports.update = (req, res, next) => {
   Attribute.update({ _id: id }, {
     name: req.body.name,
     group: req.body.group
-  }, (err, attribute) => {
+  }, (err) => {
     if (err) { return next(err); }
 
     return res.redirect('/dashboard/attributes');
@@ -94,7 +94,7 @@ exports.destroy = (req, res, next) => {
 
   Attribute
     .findByIdAndRemove(id)
-    .exec((err, attribute) => {
+    .exec((err) => {
       if (err) { return next(err); }
 
       return res.redirect('/dashboard/attributes');

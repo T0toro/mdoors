@@ -12,6 +12,7 @@
 const home            = require('./../app/controllers/home'),
       user            = require('./../app/controllers/user'),
       orders          = require('./../app/controllers/orders'),
+      products        = require('./../app/controllers/products'),
       attributes      = require('./../app/controllers/attributes'),
       attributeGroups = require('./../app/controllers/attributeGroups');
 
@@ -36,7 +37,7 @@ module.exports = (app, passport) => {
 
   app.get('/', (req, res)          => { return res.redirect('/dashboard'); });
 
-  app.get('/dashboard', (req, res) => { return res.render('dashboard/home/index'); });
+  app.get('/dashboard', home.index);
 
   // Login/Logout
   // --------------------------------------------
@@ -60,6 +61,18 @@ module.exports = (app, passport) => {
 
   app.post('/dashboard/attributes/store', attributes.store);
   app.post('/dashboard/attributes/update', attributes.update);
+
+
+  // Attributes
+  // --------------------------------------------
+
+  app.get('/dashboard/products', products.index);
+  app.get('/dashboard/products/create', products.create);
+  app.get('/dashboard/products/edit/:id', products.edit);
+  app.get('/dashboard/products/destroy/:id', products.destroy);
+
+  app.post('/dashboard/products/store', products.store);
+  app.post('/dashboard/products/update', products.update);
 
 
   // AttributeGroup
