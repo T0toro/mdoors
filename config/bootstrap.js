@@ -1,30 +1,24 @@
+'use strict';
+
 /**
  * Set some settings then app start
  *
  * @module      :: app
  * @description :: this module start once then app start
- */
-
-/**
- * Module variables
- */
-
-let mongoose, User, bcrypt, salt;
-
-/**
+ *
+ *
  * Module dependencies
  */
 
-bcrypt   = require('bcryptjs');
-mongoose = require('mongoose');
-User     = mongoose.model('User');
+const bcrypt   = require('bcryptjs'),
+      mongoose = require('mongoose'),
+      User     = mongoose.model('User');
 
 /*!
  * Expose
  */
 
-module.exports = (app, passport) => {
-
+module.exports = (app) => {
   User.findOne({
     name: 'admin'
   }, (err, user) => {

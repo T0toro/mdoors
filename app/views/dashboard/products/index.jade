@@ -20,7 +20,8 @@ block content
             tr
               td= index + 1
               td= product.name
-              td= product.manufactureDate
+              td= moment(product.manufactureDate).format('L').replace(/\//g, '.')
+              td= product.count
               td.table-controls
                 a(href="/dashboard/products/edit/#{product.id}").btn.btn-default.btn-primary
                   i.fa.fa-pencil

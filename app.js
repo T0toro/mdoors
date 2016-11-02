@@ -13,6 +13,7 @@
 const fs       = require('fs'),
       path     = require('path'),
       express  = require('express'),
+      moment   = require('moment'),
       mongoose = require('mongoose'),
       passport = require('passport'),
 
@@ -30,6 +31,12 @@ function connect() {
       }
     });
 }
+
+
+// Custom utils
+// ----------------------------------------------
+
+app.locals.moment = moment;
 
 // Open db connection
 // ----------------------------------------------

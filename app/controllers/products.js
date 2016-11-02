@@ -11,6 +11,7 @@
  */
 
 const mongoose = require('mongoose'),
+      moment   = require('moment'),
       Product = mongoose.model('Product');
 
 /*
@@ -25,10 +26,12 @@ const mongoose = require('mongoose'),
 exports.index = (req, res, next) => {
   Product
     .find()
-    .exec((err, product) => {
+    .exec((err, products) => {
       if (err) { return next(err); }
 
-      if (Array.isArray(product)) { return res.render('dashboard/products/index', { products: products }); }
+      if (Array.isArray(products)) {
+        return res.render('dashboard/products/index', { products: products });
+      }
 
       return res.render('dashboard/products/index');
     });
@@ -39,11 +42,13 @@ exports.create = (req, res) => res.render('dashboard/products/create');
 exports.store = (req, res, next) => {
   Product.create({
     name: req.body.name,
-    group: req.body.group
+    slug: req.body.slug,
+    count: req.body.count,
+    manufactureDate: req.body.manufactureDate
   }, (err) => {
     if (err) { return next(err); }
 
-    return res.redirect('/dashboad/products');
+    return res.redirect('/dashboard/products');
   });
 };
 
@@ -55,7 +60,7 @@ exports.edit = (req, res, next) => {
     .exec((err, product) => {
       if (err) { return next(err); }
 
-      if (product) { return res.render('dashboard/products/edit', { product: product.pop() }); }
+      if (product) { return res.render('dashboard/products/edit', { product: product }); }
 
       return res.redirect('/dashboard/products');
     });
@@ -66,7 +71,9 @@ exports.update = (req, res, next) => {
 
   Product.update({ _id: id }, {
     name: req.body.name,
-    group: req.body.group
+    slug: req.body.slug,
+    count: req.body.count,
+    manufactureDate: req.body.manufactureDate
   }, (err) => {
     if (err) { return next(err); }
 

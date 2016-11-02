@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Product
  *
@@ -28,6 +30,10 @@ const ProductSchema = new Schema({
   manufactureDate: {
     type: Date,
     default: Date.now
+  },
+  count: {
+    type: Number,
+    default: 0
   }
 });
 

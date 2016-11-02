@@ -5,14 +5,17 @@ block content
     fieldset
       legend Редактирование продукта
       p.form-group
-        label(for="attr-name") Название:
-        input(type="text", name="name", placeholder="Название продукта", id="attr-name").form-control
+        label(for="product-name") Название:
+        input(type="text", name="name", placeholder="Название продукта", id="product-name").form-control
       p.form-group
-        label(for="attr-name") Псевдоним ( анг ):
-        input(type="text", name="slug", placeholder="Название английский", id="attr-name").form-control
+        label(for="product-slug") Псевдоним ( анг ):
+        input(type="text", name="slug", placeholder="Название английский", id="product-slug").form-control
       p.form-group
         label(for="manufacture-date") Дата изготовления:
-        input(type="text", name="manufactureDate", placeholder="00.00.00", id="manufacture-date").form-control.makdoors-datepicker
+        input(type="text", name="manufactureDate", placeholder="00.00.00", id="manufacture-date", value="#{moment().format('L').replace(/\//g, '.')}").form-control.makdoors-datepicker
+      p.form-group
+        label(for="product-count") Кол-во:
+        input(type="text", name="count", placeholder="0", id="product-count").form-control
       p.form-group
         input(type="hidden", name="_csrf", value="#{csrf}")
         input(type="submit", name="submit", value="Сохранить").btn.btn-default.btn-primary

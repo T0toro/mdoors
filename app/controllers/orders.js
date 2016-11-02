@@ -11,6 +11,7 @@
  */
 
 const mongoose  = require('mongoose'),
+      Product   = mongoose.model('Product'),
       Order     = mongoose.model('Order');
 
 /*!
@@ -28,13 +29,23 @@ exports.index = (req, res, next) => {
     .exec((err, orders) => {
       if (err) { return next(err); }
 
-      if (Array.isArray(orders)) { return res.render('dashboard/orders/index', { Orders: orders }); }
+      if (Array.isArray(orders)) { return res.render('dashboard/orders/index', { orders: orders }); }
 
-      return res.render(tpl);
+      return res.render('dashboard/orders/index');
     });
 };
 
-exports.create = (req, res) => res.render('dashboard/orders/create');
+exports.create = (req, res, next) => {
+   Product
+    .find()
+    .exec((err, products) => {
+      if (err) { return next(err); }
+
+      return res.render('dashboard/orders/create', {
+        products: products
+      });
+    });
+};
 
 exports.store = (req, res, next) => {
   Order.create({
