@@ -8,6 +8,13 @@ block content
         label(for="attr-name") Название
         input(type="text", name="name", placeholder="Название атрибута", id="attr-name").form-control
       p.form-group
+        label(for="attr-group") Продукт
+        select(name="product", id="attr-product").form-control
+          option(value="нет") нет
+          if (Array.isArray(products) && !!products.length)
+              each product, index in products
+                option(value="#{product.name}")= product.name
+      p.form-group
         label(for="attr-group") Группа
         select(name="group", id="attr-group").form-control
           option(value="нет") нет

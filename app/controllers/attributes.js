@@ -10,8 +10,9 @@
  * Module dependencies
  */
 
-const mongoose = require('mongoose'),
-      Attribute = mongoose.model('Attribute'),
+const mongoose        = require('mongoose'),
+      async           = require('async'),
+      Attribute       = mongoose.model('Attribute'),
       AttributeGroup  = mongoose.model('AttributeGroup');
 
 /*

@@ -5,7 +5,7 @@ block main
 
 block content
   form(action="/dashboard/articles/store", method="POST")
-    .row.form-horizontal
+    .row.form-horizontal#form-info
       fieldset.col-lg-6
         legend Продавец
         .form-group
@@ -26,13 +26,16 @@ block content
             select(name="product", placeholder="Продукт", id="product").form-control
               if (Array.isArray(products) && !!products.length)
                 each product in products
-                  option(value="#{product.name}")= `${product.name} - ${moment(product.manufactureDate).format('L').replace(/\//g, '.')}`
+                  option(value="#{product.name}", data-manufacture="#{product.manufactureDate}")= `${product.name} - ${moment(product.manufactureDate).format('L').replace(/\//g, '.')}`
       fieldset.col-lg-6
         legend Покупатель
         .form-group
           label(for="manufactureDate").col-sm-3.control-label.label-two-line Дата изготовления:
           .col-sm-6
-            input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate").form-control.makdoors-datepicker
+            if (Array.isArray(products) && !!products.length)
+              input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate", value="#{moment(products[0].manufactureDate).format('L').replace(/\//g, '.')}").form-control.makdoors-datepicker
+            else
+              input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate").form-control.makdoors-datepicker
         .form-group
           label(for="deliveryDate").col-sm-3.control-label Дата доставки:
           .col-sm-6
@@ -49,6 +52,9 @@ block content
           label(for="telephone").col-sm-3.control-label Телефон:
           .col-sm-6
             input(type="text", name="telephone", placeholder="+ 7 (XXX) XXX-XX-XX", id="telephone").form-control
+      .form-group.col-lg-12
+        label(for="order-comment") Комментарий к заказу:
+        textarea(name="comment", id="order-comment", row="40", col="100").form-control
   .mkdr-tabs
     ul(role="tablist")#makdoorsTabs.nav.nav-tabs
       li(role="presentation").active
@@ -71,7 +77,7 @@ block content
               th Модель
               th Размер
               th Цвет
-              th Открывается
+              th Тип
               th Стекло
               th Кол-во
               th Цена
@@ -96,13 +102,13 @@ block content
                     .col-sm-6
                       input(type="text", name="doorsModel", placeholder="xxxxxx", id="doorsModel").form-control
                   .form-group
-                    label(for="doorsSize").col-sm-3.control-label Размеры ( Ш x В ):
+                    label(for="doorsSize").col-sm-3.control-label Размеры ( В x Ш ):
                     .row
                       .col-sm-2
-                        input(type="text", name="doorsSize", placeholder="100", id="doorsWidth").form-control
+                        input(type="text", name="doorsHeight", placeholder="100", id="doorsHeight").form-control
                       p(style="float: left;") x
                       .col-sm-2
-                        input(type="text", name="doorsSize", placeholder="100", id="doorsHeight").form-control
+                        input(type="text", name="doorsWidth", placeholder="100", id="doorsWidth").form-control
                   .form-group
                     label(for="doorsColor").col-sm-3.control-label Цвет
                     .col-sm-6
@@ -135,13 +141,14 @@ block content
         table.table.table-bordered.table-head-center
           thead
             tr
-              th(colspan="3").text-center
+              th(colspan="4").text-center
                 h5 Пагонаж
               th(colspan="3").text-center
                 button(type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalPagonazh") Добавить
             tr
               th #
               th Тип
+              th Размер
               th Уплотнитель
               th Кол-во
               th Цена
@@ -164,7 +171,22 @@ block content
                   .form-group
                     label(for="pagonazhType").col-sm-3.control-label Тип:
                     .col-sm-6
-                      input(type="text", name="pagonazhType", placeholder="xxxxxx", id="pagonazhType").form-control
+                      select(name="pagonazhType", id="pagonazhType").form-control
+                        option(value="Коробка") Коробка
+                        option(value="Наличник") Наличник
+                        option(value="Добор") Добор
+                        option(value="Притвор") Притвор
+                  .form-group
+                    label(for="doorsSize").col-sm-3.control-label Размеры ( В x Ш ):
+                    .row
+                      .col-sm-3
+                        select(name="pagonazhHeight", id="doorsHeight").form-control
+                          option(value="2070") 2070
+                          option(value="2140") 2140
+                          option(value="2400") 2400
+                      p(style="float: left;") x
+                      .col-sm-2
+                        input(type="text", name="pagonazhWidth", placeholder="100", id="doorsWidth", maxlength="3", pattern="\d").form-control
                   .form-group
                     label(for="pagonazhGaskit").col-sm-3.control-label Уплотнитель:
                     .col-sm-6
@@ -226,6 +248,10 @@ block content
                     .col-sm-6
                       select(name="furnityraColor", placeholder="Зеленый", id="furnityraColor").form-control
                         option(value="нет") не указан
+                        option(value="Золото") Золото
+                        option(value="Бронза") Бронза
+                        option(value="Медь") Медь
+                        option(value="Хром") Хром
                   .form-group
                     label(for="pagonazhCount").col-sm-3.control-label.label-two-line Кол - во:
                     .col-sm-6

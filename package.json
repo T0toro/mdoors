@@ -14,7 +14,7 @@
     "test": "make test"
   },
   "dependencies": {
-    "async": "2.0.0-rc.6",
+    "async": "^2.1.2",
     "bcryptjs": "^2.3.0",
     "body-parser": "1.15.2",
     "compression": "^1.6.0",
