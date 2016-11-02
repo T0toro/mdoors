@@ -10,7 +10,7 @@
  */
 
 const home            = require('./../app/controllers/home'),
-      user            = require('./../app/controllers/user'),
+      users           = require('./../app/controllers/users'),
       orders          = require('./../app/controllers/orders'),
       products        = require('./../app/controllers/products'),
       attributes      = require('./../app/controllers/attributes'),
@@ -38,18 +38,6 @@ module.exports = (app, passport) => {
   app.get('/', (req, res)          => { return res.redirect('/dashboard'); });
 
   app.get('/dashboard', home.index);
-
-  // Login/Logout
-  // --------------------------------------------
-
-  app.get('/login', user.login);
-  app.post('/login', passport.authenticate('local', {
-    failureRedirect: '/login',
-    successRedirect: '/dashboard',
-    failureFlash: true
-  }));
-
-  app.get('/logout', user.logout);
 
   // Attributes
   // --------------------------------------------
@@ -97,4 +85,27 @@ module.exports = (app, passport) => {
 
   app.post('/dashboard/orders/store', orders.store);
   app.post('/dashboard/orders/update', orders.update);
+
+  // Users
+  // --------------------------------------------
+
+  app.get('/dashboard/users', users.index);
+  app.get('/dashboard/users/create', users.create);
+  app.get('/dashboard/users/edit/:id', users.edit);
+  app.get('/dashboard/users/destroy/:id', users.destroy);
+
+  app.post('/dashboard/users/store', users.store);
+  app.post('/dashboard/users/update', users.update);
+
+  // Login/Logout
+  // --------------------------------------------
+
+  app.get('/login', users.login);
+  app.post('/login', passport.authenticate('local', {
+    failureRedirect: '/login',
+    successRedirect: '/dashboard',
+    failureFlash: true
+  }));
+
+  app.get('/logout', users.logout);
 };

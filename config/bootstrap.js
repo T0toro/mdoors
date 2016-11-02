@@ -27,7 +27,7 @@ module.exports = (app) => {
     if (!user) {
       User.create({
         name: 'admin',
-        email: 'admin@mail.com',
+        login: 'admin@mail.com',
         password: bcrypt.hashSync('123', 8),
       }, (err, user) => {
         if (err) { return console.info('When user was creating, some error arose: ', err); }

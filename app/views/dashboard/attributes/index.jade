@@ -12,14 +12,20 @@ block content
         tr
           th #
           th Название
-          th(colspan="2") Группа
+          th Группа
+          th(colspan="2") Продукт
       tbody
         if (Array.isArray(attributes) && !!attributes.length)
           each attribute, index in attributes
             tr
               td= index + 1
               td= attribute.name
-              td= attribute.group
+              each group, index in attributeGroups
+                if (group.id === attribute.group[0])
+                  td= group.name
+              each product, index in products
+                if (product.id === attribute.product[0])
+                  td= product.name
               td.table-controls
                 a(href="/dashboard/attributes/edit/#{attribute.id}").btn.btn-default.btn-primary
                   i.fa.fa-pencil

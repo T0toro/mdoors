@@ -11,7 +11,7 @@ body(class="login-page")
     input(type="hidden", name="_csrf", value="#{csrf}")
     .login-form
       .form-group
-        input#login-name.form-control.login-field(type='text', name="email", placeholder='example@mail.ru', required)
+        input#login-name.form-control.login-field(type='text', name="login", placeholder='login', required)
         label.login-field-icon.fui-user(for='login-name')
       .form-group
         input#login-pass.form-control.login-field(type='password', name="password" value='', placeholder='Password', required)

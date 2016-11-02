@@ -10,9 +10,9 @@
  * Module dependencies
  */
 
-const mongoose = require('mongoose'),
+const mongoose   = require('mongoose'),
       timestamps = require('mongoose-timestamp'),
-      Schema = mongoose.Schema;
+      Schema     = mongoose.Schema;
 
 /*
  * AttributeSchema
@@ -24,8 +24,12 @@ const AttributeSchema = new Schema({
     default: ''
   },
   group: {
-    type: String,
-    default: ''
+    type: Array,
+    default: []
+  },
+  product: {
+    type: Array,
+    default: []
   }
 });
 

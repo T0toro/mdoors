@@ -30,7 +30,6 @@ module.exports = (passport, config) => {
   });
 
   passport.deserializeUser((id, done) => {
-    console.info('User id', id);
     User.findOne({
       _id: id
     }, (err, user) => {

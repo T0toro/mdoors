@@ -12,7 +12,7 @@
 
 const mongoose = require('mongoose'),
       bcrypt   = require('bcryptjs'),
-      Schema = mongoose.Schema;
+      Schema   = mongoose.Schema;
 
 // userPlugin = require('mongoose-user');
 
@@ -25,7 +25,15 @@ const UserSchema = new Schema({
     type: String,
     default: ''
   },
-  email: {
+  lastname: {
+    type: String,
+    default: ''
+  },
+  login: {
+    type: String,
+    default: ''
+  },
+  telephone: {
     type: String,
     default: ''
   },

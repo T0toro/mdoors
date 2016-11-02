@@ -19,15 +19,15 @@ User = mongoose.model('User');
  */
 
 module.exports = new LocalStrategy({
-  usernameField: 'email',
+  usernameField: 'login',
   passwordField: 'password'
-}, (email, password, done) => {
-  User.findOne({email: email}, (err, user) => {
+}, (login, password, done) => {
+  User.findOne({login: login}, (err, user) => {
     if (err) { return done(err); }
 
     if (!user) {
       return done(null, false, {
-        message: 'Пользователя с таким email не зарегестрированно'
+        message: 'Пользователя с таким login не зарегестрированно'
       });
     }
 
