@@ -1,26 +1,21 @@
 extends ../layouts/app
 
 block content
-  form(action="/dashboard/attributes/store", method="POST")
+  form(action="/dashboard/users/store", method="POST")
     fieldset
-      legend Новый атрибут
+      legend Новый пользователь
       p.form-group
-        label(for="attr-name") Название
-        input(type="text", name="name", placeholder="Название атрибута", id="attr-name").form-control
+        label(for="user-login") Индентификатор для входа
+        input(type="text", name="login", placeholder="индентификатор или почта", id="user-login").form-control
       p.form-group
-        label(for="attr-group") Продукт
-        select(name="product", id="attr-product").form-control
-          option(value="нет") нет
-          if (Array.isArray(products) && !!products.length)
-              each product, index in products
-                option(value="#{product.id}")= product.name
+        label(for="user-name") Имя
+        input(type="text", name="name", id="user-name").form-control
       p.form-group
-        label(for="attr-group") Группа
-        select(name="group", id="attr-group").form-control
-          option(value="нет") нет
-          if (Array.isArray(attributeGroups) && !!attributeGroups.length)
-              each group, index in attributeGroups
-                option(value="#{group.id}")= group.name
+        label(for="user-lastname") Фамилия
+        input(type="text", name="lastname", id="user-lastname").form-control
+      p.form-group
+        label(for="user-telephone") Телефон
+        input(type="text", name="telephone", id="user-telephone").form-control
       p.form-group
         input(type="hidden", name="_csrf", value="#{csrf}")
         input(type="submit", name="submit", value="Сохранить").btn.btn-default.btn-primary

@@ -1,36 +1,22 @@
 extends ../layouts/app
 
-block main
-  h2 Редактировать статью:
-    span.article-name= article.name
-
 block content
-  form(action="/dashboard/products/update", method="POST")
+  form(action="/dashboard/users/update", method="POST")
     fieldset
-      legend SEO
+      legend Редактирование пользователя
       p.form-group
-        input(type="text", name="title", placeholder="Заголовок статьи", value="#{ !!article.title.length ? article.title : '' }").form-control
+        label(for="user-login") Индентификатор для входа
+        input(type="text", name="login", placeholder="индентификатор или почта", id="user-login", value="#{ !!user.login.length ? user.login : ''}").form-control
       p.form-group
-        input(type="text", name="description", placeholder="Кратское описание статьи", value="#{ !!article.description.length ? article.description : '' }").form-control
+        label(for="user-name") Имя
+        input(type="text", name="name", id="user-name", value="#{ !!user.name.length ? user.name : ''}").form-control
       p.form-group
-        input(type="text", name="slug", placeholder="url страницы", value="#{ !!article.slug.length ? article.slug : '' }").form-control
-    fieldset
-      legend Контент
+        label(for="user-lastname") Фамилия
+        input(type="text", name="lastname", id="user-lastname", value="#{ !!user.lastname.length ? user.lastname : ''}").form-control
       p.form-group
-        input(type="text", name="name", placeholder="Название статьи", value="#{ !!article.name.length ? article.name : '' }").form-control
+        label(for="user-telephone") Телефон
+        input(type="text", name="telephone", id="user-telephone", value="#{ !!user.telephone.length ? user.telephone : ''}").form-control
       p.form-group
-        textarea(name="content", cols="30", rows="10", placeholder="Содержание статьи").form-control= !!article.content.length ? article.content : ''
-    fieldset
-      legend Настройки
-      p.form-group
-        select(name="status").form-control
-          - if(!!article.status)
-            option(value="0") Черновик
-            option(value="1" selected) Опубликованно
-          - else
-            option(value="0" selected) Черновик
-            option(value="1") Опубликованно
-      .form-group
-        input(type="hidden", name="id", value="#{article.id}")
+        input(type="hidden", name="id", value="#{user.id}")
         input(type="hidden", name="_csrf", value="#{csrf}")
         input(type="submit", name="submit", value="Сохранить").btn.btn-default.btn-primary
