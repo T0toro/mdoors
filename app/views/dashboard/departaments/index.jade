@@ -1,0 +1,32 @@
+extends ../layouts/app
+
+block content
+  article.content
+    header
+      h1 Отделы
+        a(href="/dashboard/departaments/create").btn.btn-primary.pull-right
+          i.fa.fa-plus
+          | Добавить
+    table.table
+      thead
+        tr
+          th #
+          th Название
+          th Адрес
+          th(colspan="2") Телефон
+      tbody
+        if (Array.isArray(departaments) && !!departaments.length)
+          each departament, index in departaments
+            tr
+              td= index + 1
+              td= departament.name
+              td= departament.address
+              td= departament.telephone
+              td.table-controls
+                a(href="/dashboard/departaments/edit/#{departament.id}").btn.btn-default.btn-primary
+                  i.fa.fa-pencil
+                a(href="/dashboard/departaments/destroy/#{departament.id}").btn.btn-default.btn-danger
+                  i.fa.fa-trash
+        else
+          tr
+            td(colspan="4").text-center На данный момент раздел пуст

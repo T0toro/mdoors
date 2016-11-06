@@ -1,0 +1,18 @@
+extends ../layouts/app
+
+block content
+  form(action="/dashboard/departaments/store", method="POST")
+    fieldset
+      legend Новый отдел
+      p.form-group
+        label(for="user-name") Имя
+        input(type="text", name="name", id="user-name").form-control
+      p.form-group
+        label(for="user-address") Адрес
+        input(type="text", name="address", id="user-address").form-control
+      p.form-group
+        label(for="user-telephone") Телефон
+        input(type="text", name="telephone", id="user-telephone").form-control
+      p.form-group
+        input(type="hidden", name="_csrf", value="#{csrf}")
+        input(type="submit", name="submit", value="Сохранить").btn.btn-default.btn-primary

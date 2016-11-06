@@ -14,6 +14,7 @@ const home            = require('./../app/controllers/home'),
       orders          = require('./../app/controllers/orders'),
       products        = require('./../app/controllers/products'),
       attributes      = require('./../app/controllers/attributes'),
+      departaments    = require('./../app/controllers/departaments'),
       attributeGroups = require('./../app/controllers/attributeGroups');
 
 /*!
@@ -96,6 +97,18 @@ module.exports = (app, passport) => {
 
   app.post('/dashboard/users/store', users.store);
   app.post('/dashboard/users/update', users.update);
+
+  // Departaments
+  // --------------------------------------------
+
+  app.get('/dashboard/departaments', departaments.index);
+  app.get('/dashboard/departaments/create', departaments.create);
+  app.get('/dashboard/departaments/edit/:id', departaments.edit);
+  app.get('/dashboard/departaments/destroy/:id', departaments.destroy);
+
+  app.post('/dashboard/departaments/store', departaments.store);
+  app.post('/dashboard/departaments/update', departaments.update);
+
 
   // Login/Logout
   // --------------------------------------------

@@ -1,0 +1,19 @@
+extends ../layouts/app
+
+block content
+  form(action="/dashboard/departaments/update", method="POST")
+    fieldset
+      legend Редактирование отдела
+      p.form-group
+        label(for="departament-name") Название
+        input(type="text", name="name", id="departament-name", value="#{ !!departament.name.length ? departament.name : ''}").form-control
+      p.form-group
+        label(for="departament-address") Адрес
+        input(type="text", name="address", id="departament-address", value="#{ !!departament.address.length ? departament.address : ''}").form-control
+      p.form-group
+        label(for="departament-telephone") Телефон
+        input(type="text", name="telephone", id="departament-telephone", value="#{ !!departament.telephone.length ? departament.telephone : ''}").form-control
+      p.form-group
+        input(type="hidden", name="id", value="#{departament.id}")
+        input(type="hidden", name="_csrf", value="#{csrf}")
+        input(type="submit", name="submit", value="Сохранить").btn.btn-default.btn-primary
