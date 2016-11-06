@@ -10,34 +10,59 @@
  * Module dependencies
  */
 
-const mongoose = require('mongoose'),
-      bcrypt   = require('bcryptjs'),
-      User     = mongoose.model('User');
+const mongoose    = require('mongoose'),
+      bcrypt      = require('bcryptjs'),
+      async       = require('async'),
+      Departament = mongoose.model('Departament'),
+      User        = mongoose.model('User');
 
 /*!
  * Expos
  */
 
 exports.index = (req, res, next) => {
-  User
-    .find()
-    .exec((err, users) => {
-      if (err) { return next(users); }
+  async.parallel([
+    (cb) => {
+      Departament
+        .find()
+        .exec((err, departaments) => {
+          return cb(err, departaments);
+        });
+    },
+    (cb) => {
+      User
+        .find()
+        .exec((err, users) => {
+          return cb(err, users);
+        });
+    }], (err, result) => {
+      if (err) { return next(err); }
 
       return res.render('dashboard/users/index', {
-        users: users
+        departaments: result[0],
+        users: result[1]
       });
     });
 };
 
-exports.create  = (req, res, next) => res.render('dashboard/users/create');
+exports.create  = (req, res, next) => {
+  Departament
+    .find()
+    .exec((err, departaments) => {
+
+      return res.render('dashboard/users/create', {
+        departaments: departaments
+      });
+    });
+}
 
 exports.store   = (req, res, next) => {
   User.create({
     name: req.body.name,
     login: req.body.login,
     lastname: req.body.lastname,
-    telephone: req.body.telephone
+    telephone: req.body.telephone,
+    departament: req.body.departament
   }, (err, user) => {
     if (err) { return next(err) }
 
@@ -48,13 +73,26 @@ exports.store   = (req, res, next) => {
 exports.edit    = (req, res, next) => {
   const id = req.params.id || '';
 
-  User
-    .findById(id)
-    .exec((err, user) => {
+  async.parallel([
+    (cb) => {
+      Departament
+        .find()
+        .exec((err, departaments) => {
+          return cb(err, departaments);
+        });
+    },
+    (cb) => {
+      User
+        .findById(id)
+        .exec((err, user) => {
+          return cb(err, user);
+        });
+    }], (err, result) => {
       if (err) { return next(err); }
 
       return res.render('dashboard/users/edit', {
-        user: user
+        departaments: result[0],
+        user: result[1]
       });
     });
 };
@@ -68,7 +106,8 @@ exports.update  = (req, res, next) => {
     name: req.body.name,
     login: req.body.login,
     lastname: req.body.lastname,
-    telephone: req.body.telephone
+    telephone: req.body.telephone,
+    departament: req.body.departament
   }, (err, user) => {
     if (err) { return next(err) }
 

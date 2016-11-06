@@ -17,6 +17,16 @@ block content
         label(for="user-telephone") Телефон
         input(type="text", name="telephone", id="user-telephone", value="#{ !!user.telephone.length ? user.telephone : ''}").form-control
       p.form-group
+        label(for="user-departament") Отдел
+        select(name="departament", id="user-departament").form-control
+          option(value="0") нет
+          if (Array.isArray(departaments) && !!departaments.length)
+            each departament, index in departaments
+              if (user.departament === departament.id)
+                option(value="#{departament.id}", selected)= departament.name
+              else
+                option(value="#{departament.id}")= departament.name
+      p.form-group
         input(type="hidden", name="id", value="#{user.id}")
         input(type="hidden", name="_csrf", value="#{csrf}")
         input(type="submit", name="submit", value="Сохранить").btn.btn-default.btn-primary

@@ -40,6 +40,10 @@ const UserSchema = new Schema({
   password: {
     type: String,
     default: ''
+  },
+  departament: {
+    type: String,
+    default: ''
   }
 });
 

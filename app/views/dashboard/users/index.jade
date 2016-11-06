@@ -14,7 +14,8 @@ block content
           th Идентификатор
           th Имя
           th Фамилия
-          th(colspan="2") Телефон
+          th Телефон
+          th(colspan="2") Отдел
       tbody
         if (Array.isArray(users) && !!users.length)
           each user, index in users
@@ -24,6 +25,12 @@ block content
               td= user.name
               td= user.lastname
               td= user.telephone
+              if (Array.isArray(departaments) && !!departaments.length)
+                each departament, index in departaments
+                  if (departament.id === user.departament)
+                    td= departament.name
+                  else
+                    td
               td.table-controls
                 a(href="/dashboard/users/edit/#{user.id}").btn.btn-default.btn-primary
                   i.fa.fa-pencil
