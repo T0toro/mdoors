@@ -20,6 +20,16 @@ form legend {
     border-bottom: 1px solid #eee;
 }
 
+
+/*
+//  Select2
+// --------------------------------------------------*/
+
+.select2-search-choice {
+    color: #fff;
+    background-color: #1abc9c;
+}
+
 /*
 //  Table
 // --------------------------------------------------*/

@@ -60,6 +60,7 @@ exports.store   = (req, res, next) => {
   User.create({
     name: req.body.name,
     login: req.body.login,
+    group: req.body.group,
     lastname: req.body.lastname,
     telephone: req.body.telephone,
     departament: req.body.departament
@@ -105,6 +106,7 @@ exports.update  = (req, res, next) => {
   }, {
     name: req.body.name,
     login: req.body.login,
+    group: req.body.group,
     lastname: req.body.lastname,
     telephone: req.body.telephone,
     departament: req.body.departament

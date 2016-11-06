@@ -44,6 +44,10 @@ const UserSchema = new Schema({
   departament: {
     type: String,
     default: ''
+  },
+  group: {
+    type: String,
+    default: ''
   }
 });
 

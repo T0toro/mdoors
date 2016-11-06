@@ -20,12 +20,14 @@ block content
             tr
               td= index + 1
               td= attribute.name
-              each group, index in attributeGroups
-                if (group.id === attribute.group[0])
-                  td= group.name
-              each product, index in products
-                if (product.id === attribute.product[0])
-                  td= product.name
+              td
+                each group, index in attributeGroups
+                  if (attribute.group.indexOf(group.id) !== -1)
+                    = group.name
+              td
+                each product, index in products
+                  if (attribute.product.indexOf(product.id) !== -1)
+                    = `${product.name}, `
               td.table-controls
                 a(href="/dashboard/attributes/edit/#{attribute.id}").btn.btn-default.btn-primary
                   i.fa.fa-pencil

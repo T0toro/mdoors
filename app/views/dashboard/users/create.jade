@@ -17,6 +17,12 @@ block content
         label(for="user-telephone") Телефон
         input(type="text", name="telephone", id="user-telephone").form-control
       p.form-group
+        label(for="user-group") Группа
+        select(name="group", id="user-group").form-control
+          option(value="saller") Продавец
+          option(value="managers") Менеджер
+          option(value="accountant") Бухгалтер
+      p.form-group
         label(for="user-deportament") Отдел
         select(name="deportament", id="user-deportament").form-control
           option(value="0") нет
