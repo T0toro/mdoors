@@ -38,39 +38,7 @@ exports.index = (req, res, next) => {
     });
 };
 
-exports.create = (req, res, next) => {
-  async.parallel([
-    (cb) => {
-      Product
-        .find()
-        .exec((err, products) => {
-          return cb(err, products);
-        });
-    },
-    (cb) => {
-      Attribute
-        .find()
-        .exec((err, attributes) => {
-          return cb(err, attributes);
-        });
-    },
-    (cb) => {
-      AttributeGroup
-        .find()
-        .exec((err, attributeGroups) => {
-          return cb(err, attributeGroups);
-        });
-    }],
-    (err, result) => {
-      if (err) { return next(err); }
-
-      return res.render('dashboard/orders/create', {
-        products: result[0],
-        attributes: result[1],
-        attributeGroups: result[2]
-      });
-  });
-};
+exports.create = (req, res, next) => res.render('dashboard/orders/create');
 
 exports.store = (req, res, next) => {
   Order.create({
@@ -128,3 +96,40 @@ exports.destroy = (req, res, next) => {
       return res.redirect('/dashboard/orders');
     });
 };
+
+// JSON API
+// ----------------------------------------------
+
+exports.info = (req, res, next) => {
+  async.parallel([
+    (cb) => {
+      Product
+        .find()
+        .exec((err, products) => {
+          return cb(err, products);
+        });
+    },
+    (cb) => {
+      Attribute
+        .find()
+        .exec((err, attributes) => {
+          return cb(err, attributes);
+        });
+    },
+    (cb) => {
+      AttributeGroup
+        .find()
+        .exec((err, attributeGroups) => {
+          return cb(err, attributeGroups);
+        });
+    }],
+    (err, result) => {
+      if (err) { return next(err); }
+
+      return res.json({
+        products: result[0],
+        attributes: result[1],
+        attributeGroups: result[2]
+      });
+  });
+}
