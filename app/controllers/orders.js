@@ -10,9 +10,12 @@
  * Module dependencies
  */
 
-const mongoose  = require('mongoose'),
-      Product   = mongoose.model('Product'),
-      Order     = mongoose.model('Order');
+const mongoose       = require('mongoose'),
+      async          = require('async'),
+      Product        = mongoose.model('Product'),
+      Attribute      = mongoose.model('Attribute'),
+      AttributeGroup = mongoose.model('AttributeGroup'),
+      Order          = mongoose.model('Order');
 
 /*!
  * Expos
@@ -36,15 +39,37 @@ exports.index = (req, res, next) => {
 };
 
 exports.create = (req, res, next) => {
-   Product
-    .find()
-    .exec((err, products) => {
+  async.parallel([
+    (cb) => {
+      Product
+        .find()
+        .exec((err, products) => {
+          return cb(err, products);
+        });
+    },
+    (cb) => {
+      Attribute
+        .find()
+        .exec((err, attributes) => {
+          return cb(err, attributes);
+        });
+    },
+    (cb) => {
+      AttributeGroup
+        .find()
+        .exec((err, attributeGroups) => {
+          return cb(err, attributeGroups);
+        });
+    }],
+    (err, result) => {
       if (err) { return next(err); }
 
       return res.render('dashboard/orders/create', {
-        products: products
+        products: result[0],
+        attributes: result[1],
+        attributeGroups: result[2]
       });
-    });
+  });
 };
 
 exports.store = (req, res, next) => {

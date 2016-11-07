@@ -114,6 +114,12 @@ block content
                     .col-sm-6
                       select(name="doorsColor", placeholder="Зеленый", id="doorsColor").form-control
                         option(value="нет") нет
+                        if (Array.isArray(attributes) && Array.isArray(attributeGroups) && !!attributes.length && !!attributeGroups.length)
+                          each group in attributeGroups
+                            if group.slug === 'color'
+                              each attribute in attributes
+                                if (attribute.group.indexOf(group.id) !== -1)
+                                  option(value="#{attribute.name}")= attribute.name
                   .form-group
                     label(for="doorsOpen").col-sm-3.control-label Тип:
                     .col-sm-6
@@ -126,6 +132,12 @@ block content
                     .col-sm-6
                       select(name="doorsGlass", placeholder="стекло", id="doorsGlass").form-control
                         option(value="нет") нет
+                        if (Array.isArray(attributes) && Array.isArray(attributeGroups) && !!attributes.length && !!attributeGroups.length)
+                          each group in attributeGroups
+                            if group.slug === 'glass'
+                              each attribute in attributes
+                                if (attribute.group.indexOf(group.id) !== -1)
+                                  option(value="#{attribute.name}")= attribute.name
                   .form-group
                     label(for="doorsCount").col-sm-3.control-label.label-two-line Кол - во:
                     .col-sm-6

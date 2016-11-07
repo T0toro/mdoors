@@ -30,6 +30,10 @@ form legend {
     background-color: #1abc9c;
 }
 
+.select2-search {
+    min-height: 48px !important;
+}
+
 /*
 //  Table
 // --------------------------------------------------*/
