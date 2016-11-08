@@ -33,7 +33,7 @@ block content
           label(for="manufactureDate").col-sm-3.control-label.label-two-line Дата изготовления:
           .col-sm-6
             if (Array.isArray(products) && !!products.length)
-              input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate", value="#{moment(products[0].manufactureDate).format('L').replace(/\//g, '.')}").form-control.makdoors-datepicker
+              input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate", value="#{moment(products[0].manufactureDate).format('L').replace(/\//g, '.')}", disabled).form-control.makdoors-datepicker
             else
               input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate").form-control.makdoors-datepicker
         .form-group
