@@ -38,7 +38,17 @@ exports.index = (req, res, next) => {
     });
 };
 
-exports.create = (req, res, next) => res.render('dashboard/orders/create');
+exports.create = (req, res, next) => {
+  Product
+    .find()
+    .exec((err, products) => {
+      if (err) { return next(err); }
+
+      return res.render('dashboard/orders/create', {
+        products: products
+      });
+    });
+};
 
 exports.store = (req, res, next) => {
   Order.create({
