@@ -1,13 +1,27 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+(($, document, window) => {
+    var settings = {
+        groups: {}
+    };
 
-console.info('test');
+    $(() => {
+        $.get('/dashboard/orders/info', (data: any) => {
+            data.attributeGroups.forEach((group) => {
+                settings.groups[group.slug] = group._id;
+            });
 
-(function($, document, window) {
-    $(function() {
-        $.get('/dashboard/orders/info', function(data: any) {
-            console.info(data);
+            data.attributes.forEach((attribute) => {
+                if (attribute.group.indexOf(settings.groups.color) !== -1) {
+                    $(`<option value="${attribute.name}">${attribute.name}</option>`).appendTo('#door-colors');
+                }
+
+                if (attribute.group.indexOf(settings.groups.glass) !== -1) {
+                    console.info(attribute);
+                    $(`<option value="${attribute.name}">${attribute.name}</option>`).appendTo('#door-glasses');
+                }
+            });
+
         });
+
         // Show calendar helper
         $('.makdoors-datepicker').datepicker();
 

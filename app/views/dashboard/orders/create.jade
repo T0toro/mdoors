@@ -110,16 +110,10 @@ block content
                       .col-sm-2
                         input(type="text", name="doorsWidth", placeholder="100", id="doorsWidth").form-control
                   .form-group
-                    label(for="doorsColor").col-sm-3.control-label Цвет
+                    label(for="door-colors").col-sm-3.control-label Цвет
                     .col-sm-6
-                      select(name="doorsColor", placeholder="Зеленый", id="doorsColor").form-control
+                      select(name="doorColor", placeholder="Зеленый", id="door-colors").form-control
                         option(value="нет") нет
-                        if (Array.isArray(attributes) && Array.isArray(attributeGroups) && !!attributes.length && !!attributeGroups.length)
-                          each group in attributeGroups
-                            if group.slug === 'color'
-                              each attribute in attributes
-                                if (attribute.group.indexOf(group.id) !== -1)
-                                  option(value="#{attribute.name}")= attribute.name
                   .form-group
                     label(for="doorsOpen").col-sm-3.control-label Тип:
                     .col-sm-6
@@ -128,16 +122,10 @@ block content
                         option(value="право") Право
                         option(value="пара") Пара
                   .form-group
-                    label(for="doorsGlass").col-sm-3.control-label Стекло:
+                    label(for="door-glasses").col-sm-3.control-label Стекло:
                     .col-sm-6
-                      select(name="doorsGlass", placeholder="стекло", id="doorsGlass").form-control
+                      select(name="doorGlass", placeholder="стекло", id="door-glasses").form-control
                         option(value="нет") нет
-                        if (Array.isArray(attributes) && Array.isArray(attributeGroups) && !!attributes.length && !!attributeGroups.length)
-                          each group in attributeGroups
-                            if group.slug === 'glass'
-                              each attribute in attributes
-                                if (attribute.group.indexOf(group.id) !== -1)
-                                  option(value="#{attribute.name}")= attribute.name
                   .form-group
                     label(for="doorsCount").col-sm-3.control-label.label-two-line Кол - во:
                     .col-sm-6

@@ -44,12 +44,24 @@
 /* 0 */
 /***/ function(module, exports) {
 
-	"use strict";
-	console.info('test');
 	(function ($, document, window) {
+	    var settings = {
+	        groups: {}
+	    };
 	    $(function () {
 	        $.get('/dashboard/orders/info', function (data) {
-	            console.info(data);
+	            data.attributeGroups.forEach(function (group) {
+	                settings.groups[group.slug] = group._id;
+	            });
+	            data.attributes.forEach(function (attribute) {
+	                if (attribute.group.indexOf(settings.groups.color) !== -1) {
+	                    $("<option value=\"" + attribute.name + "\">" + attribute.name + "</option>").appendTo('#door-colors');
+	                }
+	                if (attribute.group.indexOf(settings.groups.glass) !== -1) {
+	                    console.info(attribute);
+	                    $("<option value=\"" + attribute.name + "\">" + attribute.name + "</option>").appendTo('#door-glasses');
+	                }
+	            });
 	        });
 	        // Show calendar helper
 	        $('.makdoors-datepicker').datepicker();
