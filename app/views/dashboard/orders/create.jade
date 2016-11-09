@@ -26,7 +26,7 @@ block content
             select(name="product", placeholder="Продукт", id="product").form-control
               if (Array.isArray(products) && !!products.length)
                 each product in products
-                  option(value="#{product.name}", data-manufacture="#{product.manufactureDate}")= `${product.name} - ${moment(product.manufactureDate).format('L').replace(/\//g, '.')}`
+                  option(value="#{product.id}", data-manufacture="#{product.manufactureDate}")= `${product.name} - ${moment(product.manufactureDate).format('L').replace(/\//g, '.')}`
       fieldset.col-lg-6
         legend Покупатель
         .form-group
@@ -96,28 +96,28 @@ block content
                   span(aria-hidden="true") &times;
                 h4(class="modal-title" id="myModalLabel") Добавить дверь:
               .modal-body
-                .form-horizontal
+                form.form-horizontal
                   .form-group
-                    label(for="doorsModel").col-sm-3.control-label.label-two-line Модель:
+                    label(for="door-model").col-sm-3.control-label.label-two-line Модель:
                     .col-sm-6
-                      input(type="text", name="doorsModel", placeholder="xxxxxx", id="doorsModel").form-control
+                      input(type="text", name="doorModel", placeholder="xxxxxx", id="door-model").form-control
                   .form-group
-                    label(for="doorsSize").col-sm-3.control-label Размеры ( В x Ш ):
+                    label(for="door-size").col-sm-3.control-label Размеры ( В x Ш ):
                     .row
                       .col-sm-2
-                        input(type="text", name="doorsHeight", placeholder="100", id="doorsHeight").form-control
+                        input(type="text", name="doorHeight", placeholder="100", id="door-height").form-control
                       p(style="float: left;") x
                       .col-sm-2
-                        input(type="text", name="doorsWidth", placeholder="100", id="doorsWidth").form-control
+                        input(type="text", name="doorWidth", placeholder="100", id="door-width").form-control
                   .form-group
                     label(for="door-colors").col-sm-3.control-label Цвет
                     .col-sm-6
                       select(name="doorColor", placeholder="Зеленый", id="door-colors").form-control
                         option(value="нет") нет
                   .form-group
-                    label(for="doorsOpen").col-sm-3.control-label Тип:
+                    label(for="door-open").col-sm-3.control-label Тип:
                     .col-sm-6
-                      select(name="doorsOpen", placeholder="ул. Иванова, 28", id="doorsOpen").form-control
+                      select(name="doorsOpen", placeholder="ул. Иванова, 28", id="door-open").form-control
                         option(value="лево") Лево
                         option(value="право") Право
                         option(value="пара") Пара
@@ -127,13 +127,13 @@ block content
                       select(name="doorGlass", placeholder="стекло", id="door-glasses").form-control
                         option(value="нет") нет
                   .form-group
-                    label(for="doorsCount").col-sm-3.control-label.label-two-line Кол - во:
+                    label(for="door-count").col-sm-3.control-label.label-two-line Кол - во:
                     .col-sm-6
-                      input(type="text", name="doorsCount", placeholder="xxxxxx", id="doorsCount").form-control
+                      input(type="text", name="doorCount", placeholder="xxxxxx", id="door-count").form-control
                   .form-group
-                    label(for="doorsSinglePrice").col-sm-3.control-label.label-two-line Цена ( за ед ):
+                    label(for="door-single-price").col-sm-3.control-label.label-two-line Цена ( за ед ):
                     .col-sm-6
-                      input(type="text", name="doorsSinglePrice", placeholder="xxxxxx", id="doorsSinglePrice").form-control
+                      input(type="text", name="doorSinglePrice", placeholder="xxxxxx", id="door-single-price").form-control
               .modal-footer
                 button(type="button" class="btn btn-default" data-dismiss="modal") Отмена
                 button(type="button" class="btn btn-primary") Добавить к заказу

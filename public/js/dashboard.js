@@ -44,24 +44,40 @@
 /* 0 */
 /***/ function(module, exports) {
 
+	function renderAttributeList(settings, attribute, group, product) {
+	    if (settings === void 0) { settings = {}; }
+	    if (attribute === void 0) { attribute = {}; }
+	    if (group === void 0) { group = ''; }
+	    console.info(attribute, attribute.product.indexOf(product), product);
+	    if (attribute.group.indexOf(settings.groups[group]) !== -1 && attribute.product.indexOf(product) !== -1) {
+	        return "<option value=\"" + attribute.name + "\">" + attribute.name + "</option>";
+	    }
+	    return '';
+	}
 	(function ($, document, window) {
 	    var settings = {
-	        groups: {}
+	        product: '',
+	        groups: {},
+	        formData: {}
 	    };
 	    $(function () {
+	        var $product = $('#product');
+	        settings.product = $product.val();
+	        // Get product id, if is change
+	        $('#product').on('change', function () {
+	            settings.product = $(this).val();
+	        });
 	        $.get('/dashboard/orders/info', function (data) {
+	            var colorsList = '', glassesList = '';
 	            data.attributeGroups.forEach(function (group) {
 	                settings.groups[group.slug] = group._id;
 	            });
 	            data.attributes.forEach(function (attribute) {
-	                if (attribute.group.indexOf(settings.groups.color) !== -1) {
-	                    $("<option value=\"" + attribute.name + "\">" + attribute.name + "</option>").appendTo('#door-colors');
-	                }
-	                if (attribute.group.indexOf(settings.groups.glass) !== -1) {
-	                    console.info(attribute);
-	                    $("<option value=\"" + attribute.name + "\">" + attribute.name + "</option>").appendTo('#door-glasses');
-	                }
+	                colorsList += renderAttributeList(settings, attribute, 'color', settings.product);
+	                glassesList += renderAttributeList(settings, attribute, 'glass', settings.product);
 	            });
+	            $(colorsList).appendTo('#door-colors');
+	            $(glassesList).appendTo('#door-glasses');
 	        });
 	        // Show calendar helper
 	        $('.makdoors-datepicker').datepicker();
