@@ -45,10 +45,6 @@
 /***/ function(module, exports) {
 
 	function renderAttributeList(settings, attribute, group, product) {
-	    if (settings === void 0) { settings = {}; }
-	    if (attribute === void 0) { attribute = {}; }
-	    if (group === void 0) { group = ''; }
-	    console.info(attribute, attribute.product.indexOf(product), product);
 	    if (attribute.group.indexOf(settings.groups[group]) !== -1 && attribute.product.indexOf(product) !== -1) {
 	        return "<option value=\"" + attribute.name + "\">" + attribute.name + "</option>";
 	    }
@@ -58,6 +54,7 @@
 	    var settings = {
 	        product: '',
 	        groups: {},
+	        attributes: {},
 	        formData: {}
 	    };
 	    $(function () {
@@ -65,10 +62,19 @@
 	        settings.product = $product.val();
 	        // Get product id, if is change
 	        $('#product').on('change', function () {
+	            var colorsList = '', glassesList = '';
 	            settings.product = $(this).val();
+	            settings.attributes.forEach(function (attribute) {
+	                colorsList += renderAttributeList(settings, attribute, 'color', settings.product);
+	                glassesList += renderAttributeList(settings, attribute, 'glass', settings.product);
+	            });
+	            $('#door-colors, #door-glasses').find('option').remove();
+	            $(colorsList).appendTo('#door-colors');
+	            $(glassesList).appendTo('#door-glasses');
 	        });
 	        $.get('/dashboard/orders/info', function (data) {
 	            var colorsList = '', glassesList = '';
+	            settings.attributes = data.attributes;
 	            data.attributeGroups.forEach(function (group) {
 	                settings.groups[group.slug] = group._id;
 	            });
