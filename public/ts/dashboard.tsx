@@ -1,14 +1,10 @@
-<<<<<<< Updated upstream
-function renderAttributeList(settings: any, attribute: any, group: string, product: string) {
-=======
 'use strict';
 
 /**
  * Link React with d.ts
  */
 
-function renderAttributeList(settings: any = {}, attribute: any = {}, group: string = '', product: string) {
->>>>>>> Stashed changes
+function renderAttributeList(settings: any, attribute: any, group: string, product: string) {
     if (attribute.group.indexOf(settings.groups[group]) !== -1 && attribute.product.indexOf(product) !== -1) {
         return `<option value="${attribute.name}">${attribute.name}</option>`;
     }
@@ -20,29 +16,21 @@ function renderAttributeList(settings: any = {}, attribute: any = {}, group: str
     var settings: {
         product: string,
         groups: any,
-<<<<<<< Updated upstream
         attributes: any,
-        formData: any
+        formData: any,
+        colorList: any
     } = {
         product: '',
         groups: {},
         attributes: {},
-        formData: {}
-=======
-        formData: any,
-        colorList: any
-    } = {
-        product:  '',
-        groups: {},
         formData: {},
         colorList: [{
-                name: 'Aoi'
-              }, {
-                name: 'Kuroi'
-              }, {
-                name: 'Akai'
-              }]
->>>>>>> Stashed changes
+          name: 'Aoi'
+        }, {
+          name: 'Kuroi'
+        }, {
+          name: 'Akai'
+        }]
     };
 
     $(() => {
@@ -68,17 +56,6 @@ function renderAttributeList(settings: any = {}, attribute: any = {}, group: str
             $(glassesList).appendTo('#door-glasses');
         });
 
-<<<<<<< Updated upstream
-        $.get('/dashboard/orders/info', (data: any) => {
-            let colorsList: string = '',
-                glassesList: string = '';
-
-            settings.attributes = data.attributes;
-
-            data.attributeGroups.forEach((group: any) => {
-                settings.groups[group.slug] = group._id;
-            });
-=======
         // $.get('/dashboard/orders/info', (data: any) => {
         //     var colorsList: string = '',
         //         glassesList: string = '';
@@ -86,7 +63,6 @@ function renderAttributeList(settings: any = {}, attribute: any = {}, group: str
         //     data.attributeGroups.forEach((group: any) => {
         //         settings.groups[group.slug] = group._id;
         //     });
->>>>>>> Stashed changes
 
         //     data.attributes.forEach((attribute: any) => {
         //         colorsList += renderAttributeList(settings, attribute, 'color', settings.product);
