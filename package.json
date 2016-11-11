@@ -14,8 +14,6 @@
     "test": "make test"
   },
   "dependencies": {
-    "@types/react": "^0.14.46",
-    "@types/react-dom": "^0.14.18",
     "async": "^2.1.2",
     "bcryptjs": "^2.3.0",
     "body-parser": "1.15.2",
@@ -38,17 +36,15 @@
     "passport-local": "^1.0.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "source-map-loader": "^0.1.5",
-    "ts-loader": "^1.1.0",
-    "typescript": "^2.0.8",
     "view-helpers": "^0.1.5",
-    "webpack": "^1.13.3",
     "winston": "2.2.0"
   },
   "devDependencies": {
-    "@types/react": "^0.14.46",
-    "@types/react-dom": "^0.14.18",
     "eslint": "^2.13.1",
+    "ts-loader": "^1.1.0",
+    "webpack": "^1.13.3",
+    "typescript": "^2.0.8",
+    "source-map-loader": "^0.1.5",
     "eslint-config-google": "^0.6.0",
     "flow-bin": "^0.27.0",
     "mocha": "latest",
