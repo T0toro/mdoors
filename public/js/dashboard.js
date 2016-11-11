@@ -42,33 +42,23 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var _this = this;
-	/**
-	 * Link React with d.ts
-	 */
+	var ColorList_1 = __webpack_require__(1);
 	function renderAttributeList(settings, attribute, group, product) {
-<<<<<<< Updated upstream
-=======
-	    if (settings === void 0) { settings = {}; }
-	    if (attribute === void 0) { attribute = {}; }
-	    if (group === void 0) { group = ''; }
->>>>>>> Stashed changes
 	    if (attribute.group.indexOf(settings.groups[group]) !== -1 && attribute.product.indexOf(product) !== -1) {
 	        return "<option value=\"" + attribute.name + "\">" + attribute.name + "</option>";
 	    }
 	    return '';
 	}
-	(function ($, document, window) {
+	// Эпический костыль
+	// ------------------------------------
+	$.get('/dashboard/orders/info').done(function (data) {
 	    var settings = {
 	        product: '',
 	        groups: {},
-<<<<<<< Updated upstream
 	        attributes: {},
-	        formData: {}
-=======
 	        formData: {},
 	        colorList: [{
 	                name: 'Aoi'
@@ -77,8 +67,23 @@
 	            }, {
 	                name: 'Akai'
 	            }]
->>>>>>> Stashed changes
 	    };
+	    var colorsList = '', glassesList = '';
+	    data.attributeGroups.forEach(function (group) {
+	        settings.groups[group.slug] = group._id;
+	    });
+	    data.attributes.forEach(function (attribute) {
+	        colorsList += renderAttributeList(settings, attribute, 'color', settings.product);
+	        glassesList += renderAttributeList(settings, attribute, 'glass', settings.product);
+	    });
+	    $(colorsList).appendTo('#door-colors');
+	    $(glassesList).appendTo('#door-glasses');
+	    var ColorListItem = React.createClass({
+	        render: function () {
+	            return (React.createElement("option", {name: this.props.item.name}, this.props.item.name));
+	        }
+	    });
+	    ReactDOM.render(React.createElement(ColorList_1.default, null), document.body);
 	    $(function () {
 	        var $product = $('#product');
 	        settings.product = $product.val();
@@ -94,57 +99,83 @@
 	            $(colorsList).appendTo('#door-colors');
 	            $(glassesList).appendTo('#door-glasses');
 	        });
-<<<<<<< Updated upstream
-	        $.get('/dashboard/orders/info', function (data) {
-	            var colorsList = '', glassesList = '';
-	            settings.attributes = data.attributes;
-	            data.attributeGroups.forEach(function (group) {
-	                settings.groups[group.slug] = group._id;
-	            });
-	            data.attributes.forEach(function (attribute) {
-	                colorsList += renderAttributeList(settings, attribute, 'color', settings.product);
-	                glassesList += renderAttributeList(settings, attribute, 'glass', settings.product);
-	            });
-	            $(colorsList).appendTo('#door-colors');
-	            $(glassesList).appendTo('#door-glasses');
-	        });
-=======
-	        // $.get('/dashboard/orders/info', (data: any) => {
-	        //     var colorsList: string = '',
-	        //         glassesList: string = '';
-	        //     data.attributeGroups.forEach((group: any) => {
-	        //         settings.groups[group.slug] = group._id;
-	        //     });
-	        //     data.attributes.forEach((attribute: any) => {
-	        //         colorsList += renderAttributeList(settings, attribute, 'color', settings.product);
-	        //         glassesList += renderAttributeList(settings, attribute, 'glass', settings.product);
-	        //     });
-	        //     $(colorsList).appendTo('#door-colors');
-	        //     $(glassesList).appendTo('#door-glasses');
-	        // });
->>>>>>> Stashed changes
 	        // Show calendar helper
 	        $('.makdoors-datepicker').datepicker();
 	        // Multiplu boxes
 	        $('#attr-product').select2();
-	        var ColorListItem = React.createClass({
-	            render: function () {
-	                return (React.createElement("option", {name: _this.props.item.name}, _this.props.item.name));
-	            }
-	        });
-	        var ColorList = React.createClass({
-	            getInitialState: function () {
-	                return {
-	                    items: []
-	                };
-	            },
-	            render: function () {
-	                return (React.createElement("select", {name: "doorColor", placeholder: "Зеленый", id: "door-colors", className: "form-control"}, alert('test')));
-	            }
-	        });
-	        ReactDOM.render(React.createElement(ColorList, null), document.body);
 	    });
-	})($, document, window);
+	});
+
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(2);
+	var ColorListItem_1 = __webpack_require__(4);
+	var ColorList = (function (_super) {
+	    __extends(ColorList, _super);
+	    function ColorList(props) {
+	        _super.call(this, props);
+	        this.state = {
+	            items: [{
+	                    name: 'Aoi'
+	                }, {
+	                    name: 'Kuroi'
+	                }, {
+	                    name: 'Akai'
+	                }]
+	        };
+	    }
+	    ColorList.prototype.render = function () {
+	        return (React.createElement("select", {name: "doorColor", placeholder: "Зеленый", id: "door-colors", className: "form-control"}, 
+	            React.createElement("option", {value: "нет"}, "нет"), 
+	            this.state.items.map(function (item) {
+	                return (React.createElement(ColorListItem_1.default, {name: item.name}));
+	            })));
+	    };
+	    return ColorList;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = ColorList;
+
+
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
+
+	module.exports = React;
+
+/***/ },
+/* 3 */,
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(2);
+	var ColorListItem = (function (_super) {
+	    __extends(ColorListItem, _super);
+	    function ColorListItem() {
+	        _super.apply(this, arguments);
+	    }
+	    ColorListItem.prototype.render = function () {
+	        return (React.createElement("option", {value: this.props.name}, this.props.name));
+	    };
+	    return ColorListItem;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = ColorListItem;
 
 
 /***/ }

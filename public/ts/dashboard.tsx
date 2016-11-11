@@ -1,8 +1,6 @@
 'use strict';
 
-/**
- * Link React with d.ts
- */
+import ColorList from './components/ColorList';
 
 function renderAttributeList(settings: any, attribute: any, group: string, product: string) {
     if (attribute.group.indexOf(settings.groups[group]) !== -1 && attribute.product.indexOf(product) !== -1) {
@@ -12,101 +10,86 @@ function renderAttributeList(settings: any, attribute: any, group: string, produ
     return '';
 }
 
-(($, document, window) => {
-    var settings: {
-        product: string,
-        groups: any,
-        attributes: any,
-        formData: any,
-        colorList: any
-    } = {
-        product: '',
-        groups: {},
-        attributes: {},
-        formData: {},
-        colorList: [{
-          name: 'Aoi'
-        }, {
-          name: 'Kuroi'
-        }, {
-          name: 'Akai'
-        }]
-    };
+// Эпический костыль
+// ------------------------------------
+$.get('/dashboard/orders/info').done(function(data: any) {
+  const settings: {
+      product: string,
+      groups: any,
+      attributes: any,
+      formData: any,
+      colorList: any
+  } = {
+      product: '',
+      groups: {},
+      attributes: {},
+      formData: {},
+      colorList: [{
+        name: 'Aoi'
+      }, {
+        name: 'Kuroi'
+      }, {
+        name: 'Akai'
+      }]
+  };
+  let colorsList: string = '',
+      glassesList: string = '';
 
-    $(() => {
-        const $product = $('#product');
+  data.attributeGroups.forEach((group: any) => {
+      settings.groups[group.slug] = group._id;
+  });
 
-        settings.product = $product.val();
+  data.attributes.forEach((attribute: any) => {
+      colorsList += renderAttributeList(settings, attribute, 'color', settings.product);
+      glassesList += renderAttributeList(settings, attribute, 'glass', settings.product);
+  });
 
-        // Get product id, if is change
-        $('#product').on('change', function() {
-            let colorsList: string = '',
-                glassesList: string = '';
+  $(colorsList).appendTo('#door-colors');
+  $(glassesList).appendTo('#door-glasses');
 
-            settings.product = $(this).val();
 
-            settings.attributes.forEach((attribute: any) => {
-                colorsList += renderAttributeList(settings, attribute, 'color', settings.product);
-                glassesList += renderAttributeList(settings, attribute, 'glass', settings.product);
-            });
 
-            $('#door-colors, #door-glasses').find('option').remove();
-
-            $(colorsList).appendTo('#door-colors');
-            $(glassesList).appendTo('#door-glasses');
-        });
-
-        // $.get('/dashboard/orders/info', (data: any) => {
-        //     var colorsList: string = '',
-        //         glassesList: string = '';
-
-        //     data.attributeGroups.forEach((group: any) => {
-        //         settings.groups[group.slug] = group._id;
-        //     });
-
-        //     data.attributes.forEach((attribute: any) => {
-        //         colorsList += renderAttributeList(settings, attribute, 'color', settings.product);
-        //         glassesList += renderAttributeList(settings, attribute, 'glass', settings.product);
-        //     });
-
-        //     $(colorsList).appendTo('#door-colors');
-        //     $(glassesList).appendTo('#door-glasses');
-
-        // });
-
-        // Show calendar helper
-        $('.makdoors-datepicker').datepicker();
-
-        // Multiplu boxes
-        $('#attr-product').select2();
-
-        var ColorListItem = React.createClass({
-          render: () => {
-            return (
-              <option name={ this.props.item.name }>{ this.props.item.name }</option>
-            );
-          }
-        });
-
-        var ColorList = React.createClass({
-          getInitialState: function() {
-            return {
-              items: []
-            };
-          },
-
-          render: () => {
-            return (
-              <select name="doorColor" placeholder="Зеленый" id="door-colors" className="form-control">
-              { alert('test') }
-              </select>
-            );
-          }
-        });
-
-      ReactDOM.render(
-        <ColorList />,
-        document.body
+  let ColorListItem = React.createClass({
+    render: function() {
+      return (
+        <option name={ this.props.item.name }>{ this.props.item.name }</option>
       );
-    });
-})($, document, window);
+    }
+  });
+
+  ReactDOM.render(
+    <ColorList />,
+    document.body
+  );
+
+  $(() => {
+      const $product = $('#product');
+
+      settings.product = $product.val();
+
+      // Get product id, if is change
+      $('#product').on('change', function() {
+          let colorsList: string = '',
+              glassesList: string = '';
+
+          settings.product = $(this).val();
+
+          settings.attributes.forEach((attribute: any) => {
+              colorsList += renderAttributeList(settings, attribute, 'color', settings.product);
+              glassesList += renderAttributeList(settings, attribute, 'glass', settings.product);
+          });
+
+          $('#door-colors, #door-glasses').find('option').remove();
+
+          $(colorsList).appendTo('#door-colors');
+          $(glassesList).appendTo('#door-glasses');
+      });
+
+      // Show calendar helper
+      $('.makdoors-datepicker').datepicker();
+
+      // Multiplu boxes
+      $('#attr-product').select2();
+
+  });
+});
