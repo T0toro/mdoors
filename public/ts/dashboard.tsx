@@ -57,10 +57,14 @@ $.get('/dashboard/orders/info').done(function(data: any) {
     }
   });
 
-  ReactDOM.render(
-    <ColorList />,
-    document.body
-  );
+  if (document.querySelector('.door-colors')) {
+
+    // add color List in page
+    ReactDOM.render(
+      <ColorList />,
+      document.querySelector('.door-colors');
+    );
+  }
 
   $(() => {
       const $product = $('#product');

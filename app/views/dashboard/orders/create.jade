@@ -4,57 +4,58 @@ block main
   h2 Новая статья
 
 block content
-  form(action="/dashboard/articles/store", method="POST")
-    .row.form-horizontal#form-info
-      fieldset.col-lg-6
-        legend Продавец
-        .form-group
-          label(for="departamentId").control-label.col-sm-3 ID отдела:
-          .col-sm-6
-            input(type="text", name="departamentId", placeholder="ID отдела", id="departamentId").form-control
-        .form-group
-          label(for="departament").control-label.col-sm-3 Отдел:
-          .col-sm-6
-            input(type="text", name="departament", placeholder="Отдел", id="departament").form-control
-        .form-group
-          label(for="additionalInfo").control-label.col-sm-3.label-two-line Дополнительная информация:
-          .col-sm-6
-            input(type="text", name="additionalInfo", placeholder="Дополнительная информация", id="additionalInfo").form-control
-        .form-group
-          label(for="product").control-label.col-sm-3 Продукт:
-          .col-sm-6
-            select(name="product", placeholder="Продукт", id="product").form-control
+  #page
+    form(action="/dashboard/articles/store", method="POST")
+      .row.form-horizontal.form.form-order
+        fieldset.col-lg-6
+          legend Продавец
+          .form-group
+            label(for="departamentId").control-label.col-sm-3 ID отдела:
+            .col-sm-6
+              input(type="text", name="departamentId", placeholder="ID отдела", id="departamentId").form-control
+          .form-group
+            label(for="departament").control-label.col-sm-3 Отдел:
+            .col-sm-6
+              input(type="text", name="departament", placeholder="Отдел", id="departament").form-control
+          .form-group
+            label(for="additionalInfo").control-label.col-sm-3.label-two-line Дополнительная информация:
+            .col-sm-6
+              input(type="text", name="additionalInfo", placeholder="Дополнительная информация", id="additionalInfo").form-control
+          .form-group
+            label(for="product").control-label.col-sm-3 Продукт:
+            .col-sm-6
+              select(name="product", placeholder="Продукт", id="product").form-control
+                if (Array.isArray(products) && !!products.length)
+                  each product in products
+                    option(value="#{product.id}", data-manufacture="#{product.manufactureDate}")= `${product.name} - ${moment(product.manufactureDate).format('L').replace(/\//g, '.')}`
+        fieldset.col-lg-6
+          legend Покупатель
+          .form-group
+            label(for="manufactureDate").col-sm-3.control-label.label-two-line Дата изготовления:
+            .col-sm-6
               if (Array.isArray(products) && !!products.length)
-                each product in products
-                  option(value="#{product.id}", data-manufacture="#{product.manufactureDate}")= `${product.name} - ${moment(product.manufactureDate).format('L').replace(/\//g, '.')}`
-      fieldset.col-lg-6
-        legend Покупатель
-        .form-group
-          label(for="manufactureDate").col-sm-3.control-label.label-two-line Дата изготовления:
-          .col-sm-6
-            if (Array.isArray(products) && !!products.length)
-              input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate", value="#{moment(products[0].manufactureDate).format('L').replace(/\//g, '.')}", disabled).form-control.makdoors-datepicker
-            else
-              input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate").form-control.makdoors-datepicker
-        .form-group
-          label(for="deliveryDate").col-sm-3.control-label Дата доставки:
-          .col-sm-6
-            input(type="text", name="deliveryDate", placeholder="01.01.1999", id="deliveryDate").form-control.makdoors-datepicker
-        .form-group
-          label(for="additionalInfo").col-sm-3.control-label ФИО
-          .col-sm-6
-            input(type="text", name="additionalInfo", placeholder="Иванов Иван Иванович", id="additionalInfo").form-control
-        .form-group
-          label(for="adress").col-sm-3.control-label Адрес:
-          .col-sm-6
-            input(type="text", name="adress", placeholder="ул. Иванова, 28", id="adress").form-control
-        .form-group
-          label(for="telephone").col-sm-3.control-label Телефон:
-          .col-sm-6
-            input(type="text", name="telephone", placeholder="+ 7 (XXX) XXX-XX-XX", id="telephone").form-control
-      .form-group.col-lg-12
-        label(for="order-comment") Комментарий к заказу:
-        textarea(name="comment", id="order-comment", row="40", col="100").form-control
+                input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate", value="#{moment(products[0].manufactureDate).format('L').replace(/\//g, '.')}", disabled).form-control.makdoors-datepicker
+              else
+                input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate").form-control.makdoors-datepicker
+          .form-group
+            label(for="deliveryDate").col-sm-3.control-label Дата доставки:
+            .col-sm-6
+              input(type="text", name="deliveryDate", placeholder="01.01.1999", id="deliveryDate").form-control.makdoors-datepicker
+          .form-group
+            label(for="additionalInfo").col-sm-3.control-label ФИО
+            .col-sm-6
+              input(type="text", name="additionalInfo", placeholder="Иванов Иван Иванович", id="additionalInfo").form-control
+          .form-group
+            label(for="adress").col-sm-3.control-label Адрес:
+            .col-sm-6
+              input(type="text", name="adress", placeholder="ул. Иванова, 28", id="adress").form-control
+          .form-group
+            label(for="telephone").col-sm-3.control-label Телефон:
+            .col-sm-6
+              input(type="text", name="telephone", placeholder="+ 7 (XXX) XXX-XX-XX", id="telephone").form-control
+        .form-group.col-lg-12
+          label(for="order-comment") Комментарий к заказу:
+          textarea(name="comment", id="order-comment", row="40", col="100").form-control
   .mkdr-tabs
     ul(role="tablist")#makdoorsTabs.nav.nav-tabs
       li(role="presentation").active
@@ -109,11 +110,12 @@ block content
                       p(style="float: left;") x
                       .col-sm-2
                         input(type="text", name="doorWidth", placeholder="100", id="door-width").form-control
-                  .form-group
+                  div.form-group
                     label(for="door-colors").col-sm-3.control-label Цвет
                     .col-sm-6.door-colors
                       select(name="doorColor", placeholder="Зеленый", id="door-colors").form-control
                         option(value="нет") нет
+                        option(v-for="color in colors") {{ color.name }}
                   .form-group
                     label(for="door-open").col-sm-3.control-label Тип:
                     .col-sm-6
@@ -126,6 +128,7 @@ block content
                     .col-sm-6
                       select(name="doorGlass", placeholder="стекло", id="door-glasses").form-control
                         option(value="нет") нет
+                        option(v-for="glass in glasses") {{ glass.name }}
                   .form-group
                     label(for="door-count").col-sm-3.control-label.label-two-line Кол - во:
                     .col-sm-6
@@ -136,7 +139,7 @@ block content
                       input(type="text", name="doorSinglePrice", placeholder="xxxxxx", id="door-single-price").form-control
               .modal-footer
                 button(type="button" class="btn btn-default" data-dismiss="modal") Отмена
-                button(type="button" class="btn btn-primary") Добавить к заказу
+                button(type="button" class="btn btn-primary" @click="addDoor") Добавить к заказу
       div(role="tabpanel")#pagonazh.tab-pane.fade
         table.table.table-bordered.table-head-center
           thead
@@ -238,7 +241,8 @@ block content
                   .form-group
                     label(for="furnityraEl").col-sm-3.control-label Элемент:
                     .col-sm-6
-                      input(type="text", name="furnityraEl", placeholder="xxxxxx", id="furnityraEl").form-control
+                      select(name="furnityraEl", id="furnityra").form-control
+                        option(v-for="fur in furnitura") {{ fur.name }}
                   .form-group
                     label(for="furnityraType").col-sm-3.control-label Тип:
                     .col-sm-6

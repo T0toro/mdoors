@@ -12,17 +12,14 @@ class ColorList extends React.Component<MyProps, MyState> {
   state: {
     items: any[]
   } = {
-    items: [{
-      name: 'Aoi'
-    }, {
-      name: 'Kuroi'
-    }, {
-      name: 'Akai'
-    }]
+    items: []
   }
 
   constructor(props: any) {
     super(props);
+  }
+
+  componentDidMount() {
   }
 
   render() {

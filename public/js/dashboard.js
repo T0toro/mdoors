@@ -83,28 +83,32 @@
 	            return (React.createElement("option", {name: this.props.item.name}, this.props.item.name));
 	        }
 	    });
-	    ReactDOM.render(React.createElement(ColorList_1.default, null), document.body);
-	    $(function () {
-	        var $product = $('#product');
-	        settings.product = $product.val();
-	        // Get product id, if is change
-	        $('#product').on('change', function () {
-	            var colorsList = '', glassesList = '';
-	            settings.product = $(this).val();
-	            settings.attributes.forEach(function (attribute) {
-	                colorsList += renderAttributeList(settings, attribute, 'color', settings.product);
-	                glassesList += renderAttributeList(settings, attribute, 'glass', settings.product);
-	            });
-	            $('#door-colors, #door-glasses').find('option').remove();
-	            $(colorsList).appendTo('#door-colors');
-	            $(glassesList).appendTo('#door-glasses');
-	        });
-	        // Show calendar helper
-	        $('.makdoors-datepicker').datepicker();
-	        // Multiplu boxes
-	        $('#attr-product').select2();
-	    });
+	    if (document.querySelector('.door-colors')) {
+	        // add color List in page
+	        ReactDOM.render(React.createElement(ColorList_1.default, null), document.querySelector('.door-colors'));
+	    }
 	});
+	$(function () {
+	    var $product = $('#product');
+	    settings.product = $product.val();
+	    // Get product id, if is change
+	    $('#product').on('change', function () {
+	        var colorsList = '', glassesList = '';
+	        settings.product = $(this).val();
+	        settings.attributes.forEach(function (attribute) {
+	            colorsList += renderAttributeList(settings, attribute, 'color', settings.product);
+	            glassesList += renderAttributeList(settings, attribute, 'glass', settings.product);
+	        });
+	        $('#door-colors, #door-glasses').find('option').remove();
+	        $(colorsList).appendTo('#door-colors');
+	        $(glassesList).appendTo('#door-glasses');
+	    });
+	    // Show calendar helper
+	    $('.makdoors-datepicker').datepicker();
+	    // Multiplu boxes
+	    $('#attr-product').select2();
+	});
+	;
 
 
 /***/ },
@@ -118,21 +122,17 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(2);
-	var ColorListItem_1 = __webpack_require__(4);
+	var ColorListItem_1 = __webpack_require__(3);
 	var ColorList = (function (_super) {
 	    __extends(ColorList, _super);
 	    function ColorList(props) {
 	        _super.call(this, props);
 	        this.state = {
-	            items: [{
-	                    name: 'Aoi'
-	                }, {
-	                    name: 'Kuroi'
-	                }, {
-	                    name: 'Akai'
-	                }]
+	            items: []
 	        };
 	    }
+	    ColorList.prototype.componentDidMount = function () {
+	    };
 	    ColorList.prototype.render = function () {
 	        return (React.createElement("select", {name: "doorColor", placeholder: "Зеленый", id: "door-colors", className: "form-control"}, 
 	            React.createElement("option", {value: "нет"}, "нет"), 
@@ -153,8 +153,7 @@
 	module.exports = React;
 
 /***/ },
-/* 3 */,
-/* 4 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
