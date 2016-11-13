@@ -24,13 +24,63 @@ $(function() {
         });
     },
     data: {
+      // Seller data
+      user: '',
+      departament: '',
+      info: '',
+      product: '',
+
+      // Form data
+      departaments: [],
+      users: [],
+
       colors: [],
       glasses: [],
-      furnitura: []
+      furnitura: [],
+
+      // Order data
+      doors: [],
+      pagonazsh: [],
+      furnityra: [],
     },
     methods: {
       addDoor: function() {
-        alert('alarm');
+        var formData = $('#form-door').serializeArray(),
+            orderData = {};
+
+        if (Array.isArray(formData) && !!formData.length) {
+          formData.forEach(function(attr) {
+            orderData[attr.name] = attr.value;
+          });
+
+          this.doors.push(orderData);
+        }
+      },
+
+      addPagon: function() {
+        var formData = $('#form-pagonazh').serializeArray(),
+            orderData = {};
+
+        if (Array.isArray(formData) && !!formData.length) {
+          formData.forEach(function(attr) {
+            orderData[attr.name] = attr.value;
+          });
+
+          this.pagonazsh.push(orderData);
+        }
+      },
+
+      addFurn: function() {
+        var formData = $('#form-furnityra').serializeArray(),
+            orderData = {};
+
+        if (Array.isArray(formData) && !!formData.length) {
+          formData.forEach(function(attr) {
+            orderData[attr.name] = attr.value;
+          });
+
+          this.furnityra.push(orderData);
+        }
       }
     }
   });
