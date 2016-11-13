@@ -9,7 +9,6 @@ $(function() {
       $.get('/dashboard/orders/info')
         .done(function(data) {
           data.attributes.forEach(function(attr) {
-            console.info(attr);
             if(attr.group.indexOf(data.attributeGroups[0]._id) !== -1) {
               self.colors.push(attr);
             }
@@ -19,7 +18,7 @@ $(function() {
             }
 
             if(attr.group.indexOf(data.attributeGroups[2]._id) !== -1) {
-              self.glasses.push(attr);
+              self.furnitura.push(attr);
             }
           });
         });
