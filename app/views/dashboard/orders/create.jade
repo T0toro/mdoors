@@ -3,32 +3,32 @@ extends ../layouts/app
 block content
   #page
     form(action="/dashboard/articles/store", method="POST")
-      .row.form-horizontal.form.form-order
+      .row.form-horizontal.form-order
         fieldset.col-lg-6
           legend Продавец
           .form-group
             label(for="departament").control-label.col-sm-3 Отдел:
             .col-sm-6
-              input(type="text", name="departament", placeholder="Отдел", id="user", v-model="departament", value="#{req.user.departament}").form-control
+              input(type="text", name="departament", placeholder="Отдел", id="user", value="#{req.user.departament}", disabled).form-control
           .form-group
             label(for="user").control-label.col-sm-3 Сотрудник:
             .col-sm-6
-              input(type="text", name="user", placeholder="Сотрудник", id="user", v-model="user", value="#{req.user.name}").form-control
+              input(type="text", name="user", placeholder="Сотрудник", id="user", value="#{req.user.name}", disabled).form-control
           .form-group
             label(for="product").control-label.col-sm-3 Продукт:
             .col-sm-6
-              select(name="product", placeholder="Продукт", id="product", v-model="product").form-control
-                option(value="не выбран") не выбран
+              select(name="product", placeholder="Продукт", id="product", v-model="product", @change="changeProduct").form-control
+                option(value="не выбран" selected) не выбран
                 if (Array.isArray(products) && !!products.length)
                   each product in products
-                    option(value="#{product.id}", data-manufacture="#{product.manufactureDate}")= `${product.name} - ${moment(product.manufactureDate).format('L').replace(/\//g, '.')}`
+                    option(value="#{product.id}", data-manufacture="#{product.manufactureDate}")= `${product.name} - ${moment(product.manufactureDate).locale('ru').format('L')}`
         fieldset.col-lg-6
           legend Покупатель
           .form-group
             label(for="manufactureDate").col-sm-3.control-label.label-two-line Дата изготовления:
             .col-sm-6
               if (Array.isArray(products) && !!products.length)
-                input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate", value="#{moment(products[0].manufactureDate).format('L').replace(/\//g, '.')}", disabled).form-control.makdoors-datepicker
+                input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate", value="#{moment(products[0].manufactureDate).locale('ru').format('L')}", disabled).form-control.makdoors-datepicker
               else
                 input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate").form-control.makdoors-datepicker
           .form-group
@@ -119,7 +119,7 @@ block content
                     .col-sm-6.door-colors
                       select(name="color", placeholder="Зеленый", id="door-colors").form-control
                         option(value="нет") нет
-                        option(v-for="color in colors") {{ color.name }}
+                        option(v-for="color in colorsActive") {{ color.name }}
                   .form-group
                     label(for="door-open").col-sm-3.control-label Тип:
                     .col-sm-6

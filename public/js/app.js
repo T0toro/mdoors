@@ -35,7 +35,9 @@ $(function() {
       users: [],
 
       colors: [],
+      colorsActive: [],
       glasses: [],
+      glassesActive: [],
       furnitura: [],
 
       // Order data
@@ -81,6 +83,18 @@ $(function() {
 
           this.furnityra.push(orderData);
         }
+      },
+
+      changeProduct: function() {
+        var self = this;
+
+        this.colorsActive = [];
+
+        this.colors.forEach(function(color) {
+          if(color.product.indexOf(self.product) !== -1) {
+            self.colorsActive.push(color);
+          }
+        });
       }
     }
   });

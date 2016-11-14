@@ -31,6 +31,14 @@ html
               li
                 a(href="/dashboard") Главная
               li.dropdown
+                a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Новости
+                    span.caret
+                ul.dropdown-menu
+                  li
+                    a(href="/dashboard/news") Все новости
+                  li
+                    a(href="/dashboard/news/news") Добавить новость
+              li.dropdown
                 a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Заказы
                     span.caret
                 ul.dropdown-menu

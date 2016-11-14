@@ -11,6 +11,7 @@
 
 const home            = require('./../app/controllers/home'),
       users           = require('./../app/controllers/users'),
+      news            = require('./../app/controllers/news'),
       orders          = require('./../app/controllers/orders'),
       products        = require('./../app/controllers/products'),
       attributes      = require('./../app/controllers/attributes'),
@@ -87,6 +88,19 @@ module.exports = (app, passport) => {
 
   app.post('/dashboard/orders/store', orders.store);
   app.post('/dashboard/orders/update', orders.update);
+
+
+  // News
+  // --------------------------------------------
+
+  app.get('/dashboard/news', news.index);
+  app.get('/dashboard/news/create', news.create);
+  app.get('/dashboard/news/edit/:id', news.edit);
+  app.get('/dashboard/news/destroy/:id', news.destroy);
+
+  app.post('/dashboard/news/store', news.store);
+  app.post('/dashboard/news/update', news.update);
+
 
   // Users
   // --------------------------------------------

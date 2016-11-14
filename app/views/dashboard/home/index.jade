@@ -1,6 +1,12 @@
 extends ../layouts/app
 
-block main
-  h2= title
-
 block content
+  #page.container(style="margin-top: 50px;")
+    if (Array.isArray(news) && !!news.length)
+      each item, index in news
+        article
+          header.text-center
+            h4= item.name
+            p.date= `( ${moment(item.createdAt).locale('ru').format('L')} )`
+          section= item.content
+          hr

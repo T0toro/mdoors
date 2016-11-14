@@ -1,0 +1,15 @@
+extends ../layouts/app
+
+block content
+  form(action="/dashboard/news/store", method="POST")
+    fieldset
+      legend Добавить новость
+      p.form-group
+        label(for="news-name") Название:
+        input(type="text", name="name", placeholder="Название продукта", id="news-name").form-control
+      p.form-group
+        label(for="news-content") Содержание:
+        textarea(type="text", name="content", placeholder="Название английский", id="news-content", rows="10").form-control
+      p.form-group
+        input(type="hidden", name="_csrf", value="#{csrf}")
+        input(type="submit", name="submit", value="Сохранить").btn.btn-default.btn-primary

@@ -20,6 +20,10 @@ form legend {
     border-bottom: 1px solid #eee;
 }
 
+.form-control[disabled] {
+    color: #222;
+}
+
 
 /*
 //  Select2

@@ -1,0 +1,33 @@
+extends ../layouts/app
+
+block content
+  article.content
+    header
+      h1 Новости
+        a(href="/dashboard/news/create").btn.btn-primary.pull-right
+          i.fa.fa-plus
+          | Добавить
+    table.table
+      thead
+        tr
+          th #
+          th Название
+          th Содержание
+          th Миниатюра
+          th(width="150")
+      tbody
+        if (Array.isArray(news) && !!news.length)
+          each item, index in news
+            tr
+              td= index + 1
+              td= item.name
+              td= item.thumb
+              td= item.content.slice(0, 155) + '...'
+              td.table-controls
+                a(href="/dashboard/news/edit/#{item.id}").btn.btn-default.btn-primary
+                  i.fa.fa-pencil
+                a(href="/dashboard/news/destroy/#{item.id}").btn.btn-default.btn-danger
+                  i.fa.fa-trash
+        else
+          tr
+            td(colspan="4").text-center На данный момент раздел пуст

@@ -5,10 +5,21 @@
  */
 
 const mongoose = require('mongoose'),
-      async    = require('async');
+      async    = require('async'),
+      News     = mongoose.model('News');
 
 /*!
  * Expos
  */
 
-exports.index = (req, res, next) => res.render('dashboard/home/index');
+exports.index = (req, res, next) => {
+    News
+      .find()
+      .exec((err, news) => {
+        if (err) { return next(err); }
+
+        return res.render('dashboard/home/index', {
+          news: news
+        });
+      });
+};
