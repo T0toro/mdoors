@@ -88,11 +88,18 @@ $(function() {
       changeProduct: function() {
         var self = this;
 
-        this.colorsActive = [];
+        this.colorsActive  = [];
+        this.glassesActive = [];
 
         this.colors.forEach(function(color) {
           if(color.product.indexOf(self.product) !== -1) {
             self.colorsActive.push(color);
+          }
+        });
+
+        this.glasses.forEach(function(glass) {
+          if(glass.product.indexOf(self.product) !== -1) {
+            self.glassesActive.push(glass);
           }
         });
       }

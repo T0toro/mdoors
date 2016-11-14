@@ -132,7 +132,7 @@ block content
                     .col-sm-6
                       select(name="glass", placeholder="стекло", id="door-glasses").form-control
                         option(value="нет") нет
-                        option(v-for="glass in glasses") {{ glass.name }}
+                        option(v-for="glass in glassesActive") {{ glass.name }}
                   .form-group
                     label(for="door-count").col-sm-3.control-label.label-two-line Кол - во:
                     .col-sm-6
