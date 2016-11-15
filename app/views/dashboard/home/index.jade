@@ -8,5 +8,5 @@ block content
           header.text-center
             h4= item.name
             p.date= `( ${moment(item.createdAt).locale('ru').format('L')} )`
-          section= item.content
+          section!= item.content
           hr
