@@ -14,7 +14,7 @@ $(function() {
       'emoticons template paste textcolor colorpicker textpattern imagetools codesample'
     ],
     toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-    toolbar2: 'print preview media | forecolor backcolor emoticons | codesample',
+    toolbar2: 'print preview | forecolor backcolor emoticons | codesample',
   });
 
   new Vue({
