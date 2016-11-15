@@ -3,13 +3,12 @@ extends ../layouts/app
 block content
   form(action="/dashboard/news/update", method="POST")
     fieldset
-      legend Добавить новость
+      legend Редактировать новость
       p.form-group
         label(for="news-name") Название:
         input(type="text", name="name", placeholder="Название продукта", id="news-name", value="#{ !!news.name.length ? news.name : '' }").form-control
       p.form-group
-        label(for="news-content") Содержание:
-        textarea(type="text", name="content", placeholder="Название английский", id="news-content", rows="10").form-control= !!news.content.length ? news.content : ''
+        textarea(name="content", placeholder="Название английский", id="news-content", class="form-control editor", rows="10")!= !!news.content.length ? news.content : ''
       p.form-group
         input(type="hidden", name="id", value="#{news.id}")
         input(type="hidden", name="_csrf", value="#{csrf}")
