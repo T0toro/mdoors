@@ -2,7 +2,7 @@
 
 $(function() {
 
-  // Tiny mce
+  // Text editor
   tinymce.init({
     selector: '.editor',
     height: 300,
@@ -17,8 +17,15 @@ $(function() {
     toolbar2: 'print preview | forecolor backcolor emoticons | codesample',
   });
 
+  // Show calendar helper
+  $('.makdoors-datepicker').datepicker();
+
+  // Multiplu boxes
+  $('#attr-product').select2();
+
+
   new Vue({
-    el: '.page.page-order',
+    el: '.page-order',
     mounted: function() {
       var self = this;
 

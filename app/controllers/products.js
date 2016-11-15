@@ -40,11 +40,13 @@ exports.index = (req, res, next) => {
 exports.create = (req, res) => res.render('dashboard/products/create');
 
 exports.store = (req, res, next) => {
+  const userDate = req.body.manufactureDate.split('.');
+
   Product.create({
     name: req.body.name,
     slug: req.body.slug,
     count: req.body.count,
-    manufactureDate: req.body.manufactureDate
+    manufactureDate: new Date(userDate[2], userDate[1] - 1, userDate[0])
   }, (err) => {
     if (err) { return next(err); }
 
@@ -67,13 +69,14 @@ exports.edit = (req, res, next) => {
 };
 
 exports.update = (req, res, next) => {
-  const id = req.body.id || '';
+  const id = req.body.id || '',
+        userDate = req.body.manufactureDate.split('.');
 
   Product.update({ _id: id }, {
     name: req.body.name,
     slug: req.body.slug,
     count: req.body.count,
-    manufactureDate: req.body.manufactureDate
+    manufactureDate: new Date(userDate[2], userDate[1] - 1, userDate[0])
   }, (err) => {
     if (err) { return next(err); }
 

@@ -1,276 +1,277 @@
 extends ../layouts/app
 
 block content
-  #page.page.page-content
-    form(action="/dashboard/articles/store", method="POST")
-      .row.form-horizontal.form-order
-        fieldset.col-lg-6
-          legend Продавец
-          .form-group
-            label(for="departament").control-label.col-sm-3 Отдел:
-            .col-sm-6
-              input(type="text", name="departament", placeholder="Отдел", id="user", value="#{req.user.departament}", disabled).form-control
-          .form-group
-            label(for="user").control-label.col-sm-3 Сотрудник:
-            .col-sm-6
-              input(type="text", name="user", placeholder="Сотрудник", id="user", value="#{req.user.name}", disabled).form-control
-          .form-group
-            label(for="product").control-label.col-sm-3 Продукт:
-            .col-sm-6
-              select(name="product", placeholder="Продукт", id="product", v-model="product", @change="changeProduct").form-control
-                option(value="не выбран" selected) не выбран
+  .page-order
+    .order-info
+      form(action="/dashboard/orders/store", method="POST")
+        .row.form-horizontal.form-order
+          fieldset.col-lg-6
+            legend Продавец
+            .form-group
+              label(for="departament").control-label.col-sm-3 Отдел:
+              .col-sm-6
+                input(type="text", name="departament", placeholder="Отдел", id="user", value="#{req.user.departament}", disabled).form-control
+            .form-group
+              label(for="user").control-label.col-sm-3 Сотрудник:
+              .col-sm-6
+                input(type="text", name="user", placeholder="Сотрудник", id="user", value="#{req.user.name}", disabled).form-control
+            .form-group
+              label(for="product").control-label.col-sm-3 Продукт:
+              .col-sm-6
+                select(name="product", placeholder="Продукт", id="product", v-model="product", @change="changeProduct").form-control
+                  option(value="не выбран" selected) не выбран
+                  if (Array.isArray(products) && !!products.length)
+                    each product in products
+                      option(value="#{product.id}", data-manufacture="#{product.manufactureDate}")= `${product.name} - ${moment(product.manufactureDate).locale('ru').format('L')}`
+          fieldset.col-lg-6
+            legend Покупатель
+            .form-group
+              label(for="manufactureDate").col-sm-3.control-label.label-two-line Дата изготовления:
+              .col-sm-6
                 if (Array.isArray(products) && !!products.length)
-                  each product in products
-                    option(value="#{product.id}", data-manufacture="#{product.manufactureDate}")= `${product.name} - ${moment(product.manufactureDate).locale('ru').format('L')}`
-        fieldset.col-lg-6
-          legend Покупатель
-          .form-group
-            label(for="manufactureDate").col-sm-3.control-label.label-two-line Дата изготовления:
-            .col-sm-6
-              if (Array.isArray(products) && !!products.length)
-                input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate", value="#{moment(products[0].manufactureDate).locale('ru').format('L')}", disabled).form-control.makdoors-datepicker
-              else
-                input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate").form-control.makdoors-datepicker
-          .form-group
-            label(for="deliveryDate").col-sm-3.control-label Дата доставки:
-            .col-sm-6
-              input(type="text", name="deliveryDate", placeholder="01.01.1999", id="deliveryDate").form-control.makdoors-datepicker
-          .form-group
-            label(for="fio").col-sm-3.control-label ФИО
-            .col-sm-6
-              input(type="text", name="additionalInfo", placeholder="Иванов Иван Иванович", id="fio").form-control
-          .form-group
-            label(for="adress").col-sm-3.control-label Адрес:
-            .col-sm-6
-              input(type="text", name="adress", placeholder="ул. Иванова, 28", id="adress").form-control
-          .form-group
-            label(for="telephone").col-sm-3.control-label Телефон:
-            .col-sm-6
-              input(type="text", name="telephone", placeholder="+ 7 (XXX) XXX-XX-XX", id="telephone").form-control
-        .form-group.col-lg-12
-          label(for="order-comment") Комментарий к заказу:
-          textarea(name="comment", id="order-comment", row="40", col="100").form-control
-  .mkdr-tabs
-    ul(role="tablist")#makdoorsTabs.nav.nav-tabs
-      li(role="presentation").active
-        a(href="#doors", role="tab", data-toggle="tab", aria-controls="doors", aria-expanded="true") Двери
-      li(role="presentation")
-        a(href="#pagonazh", role="tab", data-toggle="tab", aria-controls="pagonazh", aria-expanded="true") Пагонаж
-      li(role="presentation")
-        a(href="#furnityra", role="tab", data-toggle="tab", aria-controls="furnityra", aria-expanded="true") Фурнитура
-    #makdoorsTabsContent.tab-content
-      div(role="tabpanel")#doors.tab-pane.fade.in.active
-        table.table.table-bordered.table-head-center
-          thead
-            tr
-              th(colspan="5").text-center
-                h5 Двери
-              th(colspan="5").text-center
-                button(type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalDoors") Добавить
-            tr
-              th #
-              th Модель
-              th Размер
-              th Цвет
-              th Тип
-              th Стекло
-              th Кол-во
-              th Цена
-                br
-                |( за ед )
-              th Цена
-                br
-                |( итог )
-          tbody
-            tr(v-for="(door, index) in doors")
-              td {{ index + 1 }}
-              td {{ door.model }}
-              td {{ door.width }} x {{ door.height }}
-              td {{ door.color }}
-              td {{ door.open  }}
-              td {{ door.glass }}
-              td {{ door.count }}
-              td {{ door.price }}р
-              td {{ door.price * door.count }}р
-        //- Modal
-        .modal.fade#modalDoors(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
-          .modal-dialog(role="document")
-            .modal-content
-              .modal-header
-                button(type="button" class="close" data-dismiss="modal" aria-label="Close")
-                  span(aria-hidden="true") &times;
-                h4(class="modal-title" id="myModalLabel") Добавить дверь:
-              .modal-body
-                form(id="form-door").form-horizontal
-                  .form-group
-                    label(for="door-model").col-sm-3.control-label.label-two-line Модель:
-                    .col-sm-6
-                      input(type="text", name="model", placeholder="xxxxxx", id="door-model").form-control
-                  .form-group
-                    label(for="door-size").col-sm-3.control-label Размеры ( В x Ш ):
-                    .row
-                      .col-sm-2
-                        input(type="text", name="height", placeholder="100", id="door-height").form-control
-                      p(style="float: left;") x
-                      .col-sm-2
-                        input(type="text", name="width", placeholder="100", id="door-width", pattern="\d").form-control
-                  div.form-group
-                    label(for="door-colors").col-sm-3.control-label Цвет
-                    .col-sm-6.door-colors
-                      select(name="color", placeholder="Зеленый", id="door-colors").form-control
-                        option(value="нет") нет
-                        option(v-for="color in colorsActive") {{ color.name }}
-                  .form-group
-                    label(for="door-open").col-sm-3.control-label Тип:
-                    .col-sm-6
-                      select(name="open", placeholder="ул. Иванова, 28", id="door-open").form-control
-                        option(value="лево") Лево
-                        option(value="право") Право
-                        option(value="пара") Пара
-                  .form-group
-                    label(for="door-glasses").col-sm-3.control-label Стекло:
-                    .col-sm-6
-                      select(name="glass", placeholder="стекло", id="door-glasses").form-control
-                        option(value="нет") нет
-                        option(v-for="glass in glassesActive") {{ glass.name }}
-                  .form-group
-                    label(for="door-count").col-sm-3.control-label.label-two-line Кол - во:
-                    .col-sm-6
-                      input(type="text", name="count", placeholder="xxxxxx", id="door-count").form-control
-                  .form-group
-                    label(for="door-single-price").col-sm-3.control-label.label-two-line Цена ( за ед ):
-                    .col-sm-6
-                      input(type="text", name="price", placeholder="xxxxxx", id="door-single-price").form-control
-              .modal-footer
-                button(type="button" class="btn btn-default" data-dismiss="modal") Закрыть
-                button(type="button" class="btn btn-primary" @click="addDoor") Добавить к заказу
-      div(role="tabpanel")#pagonazh.tab-pane.fade
-        table.table.table-bordered.table-head-center
-          thead
-            tr
-              th(colspan="5").text-center
-                h5 Пагонаж
-              th(colspan="2").text-center
-                button(type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalPagonazh") Добавить
-            tr
-              th #
-              th Тип
-              th Размер
-              th Уплотнитель
-              th Кол-во
-              th Цена
-                br
-                |( за ед )
-              th Цена
-                br
-                |( итог )
-          tbody
-            tr(v-for="(pagon, index) in pagonazsh")
-              td {{ index + 1 }}
-              td {{ pagon.type }}
-              td {{ pagon.width }} x {{ pagon.height }}
-              td {{ pagon.gaskit }}
-              td {{ pagon.count }}
-              td {{ pagon.price }}р
-              td {{ pagon.price * pagon.count }}р
-        //- Modal
-        .modal.fade#modalPagonazh(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
-          .modal-dialog(role="document")
-            .modal-content
-              .modal-header
-                button(type="button" class="close" data-dismiss="modal" aria-label="Close")
-                  span(aria-hidden="true") &times;
-                h4(class="modal-title" id="myModalLabel") Добавить пагонаж:
-              .modal-body
-                form(id="form-pagonazh").form-horizontal
-                  .form-group
-                    label(for="pagonazh-type").col-sm-3.control-label Тип:
-                    .col-sm-6
-                      select(name="type", id="pagonazh-type").form-control
-                        option(value="Коробка") Коробка
-                        option(value="Наличник") Наличник
-                        option(value="Добор") Добор
-                        option(value="Притвор") Притвор
-                  .form-group
-                    label(for="pagonazh-size").col-sm-3.control-label Размеры ( В x Ш ):
-                    .row
-                      .col-sm-3
-                        select(name="height").form-control
-                          option(value="2070") 2070
-                          option(value="2140") 2140
-                          option(value="2400") 2400
-                      p(style="float: left;") x
-                      .col-sm-2
-                        input(type="text", name="width", placeholder="100", id="width", maxlength="3", pattern="\d").form-control
-                  .form-group
-                    label(for="pagonazh-gaskit").col-sm-3.control-label Уплотнитель:
-                    .col-sm-6
-                      select(name="gaskit", id="pagonazh-gaskit").form-control
-                        option(value="нет") нет
-                        option(value="да") да
-                  .form-group
-                    label(for="pagonazh-count").col-sm-3.control-label.label-two-line Кол - во:
-                    .col-sm-6
-                      input(type="text", name="count", placeholder="xxxxxx", id="pagonazh-count").form-control
-                  .form-group
-                    label(for="pagonazh-price").col-sm-3.control-label.label-two-line Цена ( за ед ):
-                    .col-sm-6
-                      input(type="text", name="price", placeholder="xxxxxx", id="pagonazh-price").form-control
-              .modal-footer
-                button(type="button", class="btn btn-default" data-dismiss="modal") закрыть
-                button(type="button", class="btn btn-primary", @click="addPagon") Добавить к заказу
-      div(role="tabpanel")#furnityra.tab-pane.fade
-        table.table.table-bordered.table-head-center
-          thead
-            tr
-              th(colspan="3").text-center
-                h5 Фурнитура
-              th(colspan="2").text-center
-                button(type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalFurnityra") Добавить
-            tr
-              th #
-              th Элемент
-              th Кол-во
-              th Цена
-                br
-                |( за ед )
-              th Цена
-                br
-                |( итог )
-          tbody
-            tr(v-for="(furn, index) in furnityra")
-              td {{ index + 1 }}
-              td {{ furn.name }}
-              td {{ furn.count }}
-              td {{ furn.price }}р
-              td {{ furn.price * furn.count }}р
-        //- Modal
-        .modal.fade#modalFurnityra(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
-          .modal-dialog(role="document")
-            .modal-content
-              .modal-header
-                button(type="button" class="close" data-dismiss="modal" aria-label="Close")
-                  span(aria-hidden="true") &times;
-                h4(class="modal-title" id="myModalLabel") Добавить фурнитуру:
-              .modal-body
-                form(id="form-furnityra").form-horizontal
-                  .form-group
-                    label(for="furnityra-el").col-sm-3.control-label Элемент:
-                    .col-sm-6
-                      select(name="name", id="furnityra-el").form-control
-                        option(v-for="fur in furnitura") {{ fur.name }}
-                  .form-group
-                    label(for="furn-count").col-sm-3.control-label.label-two-line Кол - во:
-                    .col-sm-6
-                      input(type="text", name="count", placeholder="xxxxxx", id="furn-count").form-control
-                  .form-group
-                    label(for="furn-price").col-sm-3.control-label.label-two-line Цена ( за ед ):
-                    .col-sm-6
-                      input(type="text", name="price", placeholder="xxxxxx", id="furn-price").form-control
-              .modal-footer
-                button(type="button", class="btn btn-default" data-dismiss="modal") Закрыть
-                button(type="button", class="btn btn-primary", @click="addFurn") Добавить к заказу
-  .button
-    hr
-    button.btn.btn-primary Предпросмотр
-    button.btn.btn-primary.pull-right Оформить заказ
+                  input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate", value="#{moment(products[0].manufactureDate).locale('ru').format('L')}", disabled).form-control.makdoors-datepicker
+                else
+                  input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate").form-control.makdoors-datepicker
+            .form-group
+              label(for="deliveryDate").col-sm-3.control-label Дата доставки:
+              .col-sm-6
+                input(type="text", name="deliveryDate", placeholder="01.01.1999", id="deliveryDate").form-control.makdoors-datepicker
+            .form-group
+              label(for="fio").col-sm-3.control-label ФИО
+              .col-sm-6
+                input(type="text", name="additionalInfo", placeholder="Иванов Иван Иванович", id="fio").form-control
+            .form-group
+              label(for="adress").col-sm-3.control-label Адрес:
+              .col-sm-6
+                input(type="text", name="adress", placeholder="ул. Иванова, 28", id="adress").form-control
+            .form-group
+              label(for="telephone").col-sm-3.control-label Телефон:
+              .col-sm-6
+                input(type="text", name="telephone", placeholder="+ 7 (XXX) XXX-XX-XX", id="telephone").form-control
+          .form-group.col-lg-12
+            label(for="order-comment") Комментарий к заказу:
+            textarea(name="comment", id="order-comment", row="40", col="100").form-control
+    .mkdr-tabs
+      ul(role="tablist")#makdoorsTabs.nav.nav-tabs
+        li(role="presentation").active
+          a(href="#doors", role="tab", data-toggle="tab", aria-controls="doors", aria-expanded="true") Двери
+        li(role="presentation")
+          a(href="#pagonazh", role="tab", data-toggle="tab", aria-controls="pagonazh", aria-expanded="true") Пагонаж
+        li(role="presentation")
+          a(href="#furnityra", role="tab", data-toggle="tab", aria-controls="furnityra", aria-expanded="true") Фурнитура
+      #makdoorsTabsContent.tab-content
+        div(role="tabpanel")#doors.tab-pane.fade.in.active
+          table.table.table-bordered.table-head-center
+            thead
+              tr
+                th(colspan="5").text-center
+                  h5 Двери
+                th(colspan="5").text-center
+                  button(type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalDoors") Добавить
+              tr
+                th #
+                th Модель
+                th Размер
+                th Цвет
+                th Тип
+                th Стекло
+                th Кол-во
+                th Цена
+                  br
+                  |( за ед )
+                th Цена
+                  br
+                  |( итог )
+            tbody
+              tr(v-for="(door, index) in doors")
+                td {{ index + 1 }}
+                td {{ door.model }}
+                td {{ door.width }} x {{ door.height }}
+                td {{ door.color }}
+                td {{ door.open  }}
+                td {{ door.glass }}
+                td {{ door.count }}
+                td {{ door.price }}р
+                td {{ door.price * door.count }}р
+          //- Modal
+          .modal.fade#modalDoors(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
+            .modal-dialog(role="document")
+              .modal-content
+                .modal-header
+                  button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+                    span(aria-hidden="true") &times;
+                  h4(class="modal-title" id="myModalLabel") Добавить дверь:
+                .modal-body
+                  form(id="form-door").form-horizontal
+                    .form-group
+                      label(for="door-model").col-sm-3.control-label.label-two-line Модель:
+                      .col-sm-6
+                        input(type="text", name="model", placeholder="xxxxxx", id="door-model").form-control
+                    .form-group
+                      label(for="door-size").col-sm-3.control-label Размеры ( В x Ш ):
+                      .row
+                        .col-sm-2
+                          input(type="text", name="height", placeholder="100", id="door-height").form-control
+                        p(style="float: left;") x
+                        .col-sm-2
+                          input(type="text", name="width", placeholder="100", id="door-width", pattern="\d").form-control
+                    div.form-group
+                      label(for="door-colors").col-sm-3.control-label Цвет
+                      .col-sm-6.door-colors
+                        select(name="color", placeholder="Зеленый", id="door-colors").form-control
+                          option(value="нет") нет
+                          option(v-for="color in colorsActive") {{ color.name }}
+                    .form-group
+                      label(for="door-open").col-sm-3.control-label Тип:
+                      .col-sm-6
+                        select(name="open", placeholder="ул. Иванова, 28", id="door-open").form-control
+                          option(value="лево") Лево
+                          option(value="право") Право
+                          option(value="пара") Пара
+                    .form-group
+                      label(for="door-glasses").col-sm-3.control-label Стекло:
+                      .col-sm-6
+                        select(name="glass", placeholder="стекло", id="door-glasses").form-control
+                          option(value="нет") нет
+                          option(v-for="glass in glassesActive") {{ glass.name }}
+                    .form-group
+                      label(for="door-count").col-sm-3.control-label.label-two-line Кол - во:
+                      .col-sm-6
+                        input(type="text", name="count", placeholder="xxxxxx", id="door-count").form-control
+                    .form-group
+                      label(for="door-single-price").col-sm-3.control-label.label-two-line Цена ( за ед ):
+                      .col-sm-6
+                        input(type="text", name="price", placeholder="xxxxxx", id="door-single-price").form-control
+                .modal-footer
+                  button(type="button" class="btn btn-default" data-dismiss="modal") Закрыть
+                  button(type="button" class="btn btn-primary" @click="addDoor") Добавить к заказу
+        div(role="tabpanel")#pagonazh.tab-pane.fade
+          table.table.table-bordered.table-head-center
+            thead
+              tr
+                th(colspan="5").text-center
+                  h5 Пагонаж
+                th(colspan="2").text-center
+                  button(type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalPagonazh") Добавить
+              tr
+                th #
+                th Тип
+                th Размер
+                th Уплотнитель
+                th Кол-во
+                th Цена
+                  br
+                  |( за ед )
+                th Цена
+                  br
+                  |( итог )
+            tbody
+              tr(v-for="(pagon, index) in pagonazsh")
+                td {{ index + 1 }}
+                td {{ pagon.type }}
+                td {{ pagon.width }} x {{ pagon.height }}
+                td {{ pagon.gaskit }}
+                td {{ pagon.count }}
+                td {{ pagon.price }}р
+                td {{ pagon.price * pagon.count }}р
+          //- Modal
+          .modal.fade#modalPagonazh(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
+            .modal-dialog(role="document")
+              .modal-content
+                .modal-header
+                  button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+                    span(aria-hidden="true") &times;
+                  h4(class="modal-title" id="myModalLabel") Добавить пагонаж:
+                .modal-body
+                  form(id="form-pagonazh").form-horizontal
+                    .form-group
+                      label(for="pagonazh-type").col-sm-3.control-label Тип:
+                      .col-sm-6
+                        select(name="type", id="pagonazh-type").form-control
+                          option(value="Коробка") Коробка
+                          option(value="Наличник") Наличник
+                          option(value="Добор") Добор
+                          option(value="Притвор") Притвор
+                    .form-group
+                      label(for="pagonazh-size").col-sm-3.control-label Размеры ( В x Ш ):
+                      .row
+                        .col-sm-3
+                          select(name="height").form-control
+                            option(value="2070") 2070
+                            option(value="2140") 2140
+                            option(value="2400") 2400
+                        p(style="float: left;") x
+                        .col-sm-2
+                          input(type="text", name="width", placeholder="100", id="width", maxlength="3", pattern="\d").form-control
+                    .form-group
+                      label(for="pagonazh-gaskit").col-sm-3.control-label Уплотнитель:
+                      .col-sm-6
+                        select(name="gaskit", id="pagonazh-gaskit").form-control
+                          option(value="нет") нет
+                          option(value="да") да
+                    .form-group
+                      label(for="pagonazh-count").col-sm-3.control-label.label-two-line Кол - во:
+                      .col-sm-6
+                        input(type="text", name="count", placeholder="xxxxxx", id="pagonazh-count").form-control
+                    .form-group
+                      label(for="pagonazh-price").col-sm-3.control-label.label-two-line Цена ( за ед ):
+                      .col-sm-6
+                        input(type="text", name="price", placeholder="xxxxxx", id="pagonazh-price").form-control
+                .modal-footer
+                  button(type="button", class="btn btn-default" data-dismiss="modal") закрыть
+                  button(type="button", class="btn btn-primary", @click="addPagon") Добавить к заказу
+        div(role="tabpanel")#furnityra.tab-pane.fade
+          table.table.table-bordered.table-head-center
+            thead
+              tr
+                th(colspan="3").text-center
+                  h5 Фурнитура
+                th(colspan="2").text-center
+                  button(type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalFurnityra") Добавить
+              tr
+                th #
+                th Элемент
+                th Кол-во
+                th Цена
+                  br
+                  |( за ед )
+                th Цена
+                  br
+                  |( итог )
+            tbody
+              tr(v-for="(furn, index) in furnityra")
+                td {{ index + 1 }}
+                td {{ furn.name }}
+                td {{ furn.count }}
+                td {{ furn.price }}р
+                td {{ furn.price * furn.count }}р
+          //- Modal
+          .modal.fade#modalFurnityra(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
+            .modal-dialog(role="document")
+              .modal-content
+                .modal-header
+                  button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+                    span(aria-hidden="true") &times;
+                  h4(class="modal-title" id="myModalLabel") Добавить фурнитуру:
+                .modal-body
+                  form(id="form-furnityra").form-horizontal
+                    .form-group
+                      label(for="furnityra-el").col-sm-3.control-label Элемент:
+                      .col-sm-6
+                        select(name="name", id="furnityra-el").form-control
+                          option(v-for="fur in furnitura") {{ fur.name }}
+                    .form-group
+                      label(for="furn-count").col-sm-3.control-label.label-two-line Кол - во:
+                      .col-sm-6
+                        input(type="text", name="count", placeholder="xxxxxx", id="furn-count").form-control
+                    .form-group
+                      label(for="furn-price").col-sm-3.control-label.label-two-line Цена ( за ед ):
+                      .col-sm-6
+                        input(type="text", name="price", placeholder="xxxxxx", id="furn-price").form-control
+                .modal-footer
+                  button(type="button", class="btn btn-default" data-dismiss="modal") Закрыть
+                  button(type="button", class="btn btn-primary", @click="addFurn") Добавить к заказу
+    .button
+      hr
+      button.btn.btn-primary Предпросмотр
+      button.btn.btn-primary.pull-right Оформить заказ

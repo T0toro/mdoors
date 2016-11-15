@@ -12,7 +12,7 @@ block content
         input(type="text", name="slug", placeholder="Название английский", id="product-slug", value="#{!!product.slug.length ? product.slug : ''}").form-control
       p.form-group
         label(for="manufacture-date") Дата изготовления:
-        input(type="text", name="manufactureDate", placeholder="00.00.00", id="manufacture-date", value="#{moment(product.manufactureDate).format('L').replace(/\//g, '.')}").form-control.makdoors-datepicker
+        input(type="text", name="manufactureDate", placeholder="00.00.00", id="manufacture-date", value="#{moment(product.manufactureDate).locale('ru').format('L')}").form-control.makdoors-datepicker
       p.form-group
         label(for="product-count") Кол-во:
         input(type="text", name="count", placeholder="00.00.00", id="product-count", value="#{!!product.count ? product.count : 0}").form-control
