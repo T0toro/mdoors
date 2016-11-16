@@ -514,11 +514,11 @@ block content
                     tr
                       td
                         strong Общая цена:
-                      td {{ doorsTotalPrice + pagonTotalPrice + furnTotalPrice + deliveryPrice }}р
+                      td {{ doorsTotalPrice + pagonTotalPrice + furnTotalPrice + parseInt(deliveryPrice) }}р
                     tr
                       td
                         strong Общая цена с скидкой:
-                      td(width="150") {{ doorsTotalPrice + pagonTotalPrice + furnTotalPrice + deliveryPrice - (((doorsTotalPrice + pagonTotalPrice + furnTotalPrice + deliveryPrice) / 100) * discount )}}р
+                      td(width="150") {{ doorsTotalPrice + pagonTotalPrice + furnTotalPrice + deliveryPrice - (((doorsTotalPrice + pagonTotalPrice + furnTotalPrice + parseInt(deliveryPrice)) / 100) * discount )}}р
           .modal-footer
             button(type="button", class="btn btn-default" data-dismiss="modal") Закрыть
     .button
