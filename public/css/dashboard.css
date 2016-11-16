@@ -24,6 +24,12 @@ form legend {
     color: #222;
 }
 
+#modalPreview .modal-dialog {
+    max-width: 960px;
+    min-width: 600px;
+    width: 100%;
+}
+
 
 /*
 //  Select2

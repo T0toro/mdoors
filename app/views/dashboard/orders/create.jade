@@ -1,5 +1,8 @@
 extends ../layouts/app
 
+block script
+  script(src="/js/vendor/moment.min.js")
+
 block content
   .page-order
     .order-info
@@ -10,47 +13,64 @@ block content
             .form-group
               label(for="departament").control-label.col-sm-3 Отдел:
               .col-sm-6
-                input(type="text", name="departament", placeholder="Отдел", id="user", value="#{departament.name}", disabled).form-control
+                input(type="text", name="departament", placeholder="Отдел", id="departament", value="#{departament.name}", v-model="departament", disabled).form-control
             .form-group
               label(for="user").control-label.col-sm-3 Сотрудник:
               .col-sm-6
-                input(type="text", name="user", placeholder="Сотрудник", id="user", value="#{req.user.name}", disabled).form-control
+                input(type="text", name="user", placeholder="Сотрудник", id="seller", value="#{req.user.name}", v-model="seller" disabled).form-control
             .form-group
               label(for="product").control-label.col-sm-3 Продукт:
               .col-sm-6
-                select(name="product", placeholder="Продукт", id="product", v-model="product", @change="changeProduct").form-control
-                  option(value="не выбран" selected) не выбран
+                select(name="product", placeholder="Продукт", id="product", @change="changeProduct").form-control
                   if (Array.isArray(products) && !!products.length)
                     each product in products
-                      option(value="#{product.id}", data-manufacture="#{product.manufactureDate}")= `${product.name} - ${moment(product.manufactureDate).locale('ru').format('L')}`
+                      option(value="#{product.id}", data-name="#{product.name}", data-manufacture="#{product.manufactureDate}")= `${product.name} - ${moment(product.manufactureDate).locale('ru').format('L')}`
+            .form-group
+              label(for="discount").control-label.col-sm-3 Скидка:
+              .col-sm-6
+                select(name="product", placeholder="Продукт", id="product", v-model="discount").form-control
+                  option(value="1") 1%
+                  option(value="2") 2%
+                  option(value="3") 3%
+                  option(value="4") 4%
+                  option(value="5") 5%
+                  option(value="6") 6%
+                  option(value="7") 7%
+                  option(value="8") 8%
+                  option(value="9") 9%
+                  option(value="10") 10%
+            .form-group
+              label(for="delivery-price").control-label.col-sm-3 Доставка:
+              .col-sm-6
+                input(type="text", name="deliveryPrice", placeholder="200", id="seller", pattern="\d", v-model="deliveryPrice").form-control
           fieldset.col-lg-6
             legend Покупатель
             .form-group
               label(for="manufactureDate").col-sm-3.control-label.label-two-line Дата изготовления:
               .col-sm-6
                 if (Array.isArray(products) && !!products.length)
-                  input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate", value="#{moment(products[0].manufactureDate).locale('ru').format('L')}", disabled).form-control.makdoors-datepicker
+                  input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufacture-date", v-model="manufactureDate", disabled).form-control.makdoors-datepicker
                 else
                   input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate").form-control.makdoors-datepicker
             .form-group
               label(for="deliveryDate").col-sm-3.control-label Дата доставки:
               .col-sm-6
-                input(type="text", name="deliveryDate", placeholder="01.01.1999", id="deliveryDate").form-control.makdoors-datepicker
+                input(type="text", name="deliveryDate", placeholder="01.01.1999", id="deliveryDate", v-model="deliveryDate").form-control.makdoors-datepicker
             .form-group
               label(for="fio").col-sm-3.control-label ФИО
               .col-sm-6
-                input(type="text", name="additionalInfo", placeholder="Иванов Иван Иванович", id="fio").form-control
+                input(type="text", name="additionalInfo", placeholder="Иванов Иван Иванович", id="fio", v-model="fio").form-control
             .form-group
-              label(for="adress").col-sm-3.control-label Адрес:
+              label(for="address").col-sm-3.control-label Адрес:
               .col-sm-6
-                input(type="text", name="adress", placeholder="ул. Иванова, 28", id="adress").form-control
+                input(type="text", name="address", placeholder="ул. Иванова, 28", id="address", v-model="address").form-control
             .form-group
               label(for="telephone").col-sm-3.control-label Телефон:
               .col-sm-6
-                input(type="text", name="telephone", placeholder="+ 7 (XXX) XXX-XX-XX", id="telephone").form-control
+                input(type="text", name="telephone", placeholder="+ 7 (XXX) XXX-XX-XX", id="telephone", v-model="telephone").form-control
           .form-group.col-lg-12
             label(for="order-comment") Комментарий к заказу:
-            textarea(name="comment", id="order-comment", row="40", col="100").form-control
+            textarea(name="comment", id="order-comment", row="40", col="100", v-model="info").form-control
     .mkdr-tabs
       ul(role="tablist")#makdoorsTabs.nav.nav-tabs
         li(role="presentation").active
@@ -271,33 +291,192 @@ block content
                 .modal-footer
                   button(type="button", class="btn btn-default" data-dismiss="modal") Закрыть
                   button(type="button", class="btn btn-primary", @click="addFurn") Добавить к заказу
-          //- Modal
-          .modal.fade#modalPreview(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
-            .modal-dialog(role="document")
-              .modal-content
-                .modal-header
-                  button(type="button" class="close" data-dismiss="modal" aria-label="Close")
-                    span(aria-hidden="true") &times;
-                  h4(class="modal-title" id="myModalLabel") Предпросмотр:
-                .modal-body
-                  form(id="form-furnityra").form-horizontal
-                    .form-group
-                      label(for="furnityra-el").col-sm-3.control-label Элемент:
-                      .col-sm-6
-                        select(name="name", id="furnityra-el").form-control
-                          option(v-for="fur in furnitura") {{ fur.name }}
-                    .form-group
-                      label(for="furn-count").col-sm-3.control-label.label-two-line Кол - во:
-                      .col-sm-6
-                        input(type="text", name="count", placeholder="xxxxxx", id="furn-count").form-control
-                    .form-group
-                      label(for="furn-price").col-sm-3.control-label.label-two-line Цена ( за ед ):
-                      .col-sm-6
-                        input(type="text", name="price", placeholder="xxxxxx", id="furn-price").form-control
-                .modal-footer
-                  button(type="button", class="btn btn-default" data-dismiss="modal") Закрыть
-                  button(type="button", class="btn btn-primary", @click="addFurn") Добавить к заказу
+    //- Modal
+    .modal.fade#modalPreview(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
+      .modal-dialog(role="document")
+        .modal-content
+          .modal-header
+            button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+              span(aria-hidden="true") &times;
+            h4(class="modal-title" id="myModalLabel").text-center Ваш заказ
+          .modal-body
+            section.block.block-info.row
+              div.col-lg-6.col-sm-12
+                h5 Продавец
+                hr
+                table.table.table-bordered.table-head-center
+                  colgroup
+                    tr
+                      td
+                        strong Отдел
+                      td= departament.name
+                    tr
+                      td
+                        strong Сотрудник
+                      td= req.user.name
+                    tr
+                      td
+                        strong Продукт
+                      td {{ productName }}
+                    tr
+                      td
+                        strong Скидка
+                      td {{ discount }}%
+                    tr
+                      td
+                        strong Доставка
+                      td {{ deliveryPrice }}
+                    tr
+                      td
+                        strong Примечание
+                      td {{ info }}
+              div.col-lg-6.col-sm-12
+                h5 Покупатель
+                hr
+                table.table.table-bordered.table-head-center
+                  tbody
+                    colgroup(width="200")
+                    tr
+                      td
+                        strong Дата изготовления
+                      td {{ manufactureDate }}
+                    tr
+                      td
+                        strong Дата доставки
+                      td {{ deliveryDate }}
+                    tr
+                      td
+                        strong ФИО
+                      td {{ fio }}
+                    tr
+                      td
+                        strong Адрес
+                      td {{ address }}
+                    tr
+                      td
+                        strong Телефон
+                      td {{ telephone }}
+            section.block.block-doors
+              h5 Двери
+              hr
+              table.table.table-bordered.table-head-center
+                thead
+                  tr
+                    th #
+                    th Модель
+                    th Размер
+                    th Цвет
+                    th Тип
+                    th Стекло
+                    th Кол-во
+                    th Цена
+                      br
+                      |( за ед )
+                    th Цена
+                      br
+                      |( итог )
+                tbody.text-center
+                  tr(v-for="(door, index) in doors")
+                    td {{ index + 1 }}
+                    td {{ door.model }}
+                    td {{ door.width }} x {{ door.height }}
+                    td {{ door.color }}
+                    td {{ door.open  }}
+                    td {{ door.glass }}
+                    td {{ door.count }}
+                    td {{ door.price }}р
+                    td {{ door.price * door.count }}р
+                tfoot.furnityra-price
+                  tr
+                    td(colspan="6")
+                    td(colspan="2") Доставка
+                    td(colspan="1") {{ deliveryPrice }}р
+                  tr
+                    td(colspan="6")
+                    td(colspan="2") Скидка
+                    td(colspan="1") {{ discount }}%
+                  tr
+                    td(colspan="6")
+                    td(colspan="2") Итого
+                    td(colspan="1") {{ discount }}
+            section.block.block-pagon
+              h5 Пагонаж
+              hr
+              table.table.table-bordered.table-head-center
+                thead
+                  tr
+                    th #
+                    th Тип
+                    th Размер
+                    th Уплотнитель
+                    th Кол-во
+                    th Цена
+                      br
+                      |( за ед )
+                    th Цена
+                      br
+                      |( итог )
+                tbody.text-center
+                  tr(v-for="(pagon, index) in pagonazsh")
+                    td {{ index + 1 }}
+                    td {{ pagon.type }}
+                    td {{ pagon.width }} x {{ pagon.height }}
+                    td {{ pagon.gaskit }}
+                    td {{ pagon.count }}
+                    td {{ pagon.price }}р
+                    td {{ pagon.price * pagon.count }}р
+                tfoot.pagon-price
+                  tr
+                    td(colspan="5")
+                    td(colspan="1") Доставка
+                    td(colspan="1") {{ deliveryPrice }}р
+                  tr
+                    td(colspan="5")
+                    td(colspan="1") Скидка
+                    td(colspan="1") {{ discount }}%
+                  tr
+                    td(colspan="5")
+                    td(colspan="1") Итого
+                    td(colspan="1") {{ discount }}
+            section.block.block-furnityra
+              h5 Фурнитура
+              hr
+              table.table.table-bordered.table-head-center
+                thead
+                  tr
+                    th #
+                    th Элемент
+                    th Кол-во
+                    th Цена
+                      br
+                      |( за ед )
+                    th Цена
+                      br
+                      |( итог )
+                tbody.text-center
+                  tr(v-for="(furn, index) in furnityra")
+                    td {{ index + 1 }}
+                    td {{ furn.name }}
+                    td {{ furn.count }}
+                    td {{ furn.price }}р
+                    td {{ furn.price * furn.count }}р
+                tfoot.pagon-price
+                  tr
+                    td(colspan="3")
+                    td(colspan="1") Доставка
+                    td(colspan="1") {{ deliveryPrice }}р
+                  tr
+                    td(colspan="3")
+                    td(colspan="1") Скидка
+                    td(colspan="1") {{ discount }}%
+                  tr
+                    td(colspan="3")
+                    td(colspan="1") Итого
+                    td(colspan="1") {{ discount }}
+
+          .modal-footer
+            button(type="button", class="btn btn-default" data-dismiss="modal") Закрыть
     .button
       hr
-      button.btn.btn-primary Предпросмотр
+      button(type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalPreview") Предпросмотр
       button.btn.btn-primary.pull-right Оформить заказ

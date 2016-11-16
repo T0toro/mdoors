@@ -26,6 +26,16 @@ $(function() {
 
   new Vue({
     el: '.page-order',
+    beforeMount: function() {
+      var selectEl = this.$el.querySelector('#product');
+
+      this.product         = selectEl.value;
+      this.seller          = this.$el.querySelector('#seller').value;
+      this.departament     = this.$el.querySelector('#departament').value;
+      this.productName     = selectEl.options[ selectEl.selectedIndex ].dataset.name;
+      this.manufactureDate = moment(selectEl.options[ selectEl.selectedIndex ].dataset.manufacture).locale('ru').format('L');
+      this.deliveryDate    = moment(selectEl.options[ selectEl.selectedIndex ].dataset.manufacture).locale('ru').format('L');
+    },
     mounted: function() {
       var self = this;
 
@@ -47,15 +57,19 @@ $(function() {
         });
     },
     data: {
-      // Seller data
-      user: '',
-      departament: '',
+      // Buyer info
+      fio: '',
+      address: '',
+      telephone: '',
       info: '',
-      product: '',
+      manufactureDate: '',
+      deliveryDate: '',
+      deliveryPrice: 200,
 
       // Form data
-      departaments: [],
-      users: [],
+      departament: '',
+      saller: '',
+      discount: 1,
 
       colors: [],
       colorsActive: [],
@@ -64,11 +78,18 @@ $(function() {
       furnitura: [],
 
       // Order data
+      productName: '',
       doors: [],
       pagonazsh: [],
       furnityra: [],
     },
     methods: {
+      createOrder: function() {
+        var order = {
+
+        };
+      },
+
       addDoor: function() {
         var formData = $('#form-door').serializeArray(),
             orderData = {};
@@ -108,11 +129,15 @@ $(function() {
         }
       },
 
-      changeProduct: function() {
-        var self = this;
+      changeProduct: function(e) {
+        var self = this,
+            selectEl = e.target;
 
-        this.colorsActive  = [];
-        this.glassesActive = [];
+        this.colorsActive    = [];
+        this.glassesActive   = [];
+        this.manufactureDate = moment(selectEl.options[ selectEl.selectedIndex ].dataset.manufacture).locale('ru').format('L');
+        this.deliveryDate    = moment(selectEl.options[ selectEl.selectedIndex ].dataset.manufacture).locale('ru').format('L');
+        this.product         = selectEl.value;
 
         this.colors.forEach(function(color) {
           if(color.product.indexOf(self.product) !== -1) {
