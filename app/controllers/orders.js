@@ -13,6 +13,7 @@
 const mongoose       = require('mongoose'),
       async          = require('async'),
       Product        = mongoose.model('Product'),
+      Departament    = mongoose.model('Departament'),
       Attribute      = mongoose.model('Attribute'),
       AttributeGroup = mongoose.model('AttributeGroup'),
       Order          = mongoose.model('Order');
@@ -39,15 +40,40 @@ exports.index = (req, res, next) => {
 };
 
 exports.create = (req, res, next) => {
-  Product
-    .find()
-    .exec((err, products) => {
-      if (err) { return next(err); }
 
-      return res.render('dashboard/orders/create', {
-        products: products
+  async.parallel([
+    function(cb) {
+      Product
+        .find()
+        .exec((err, products) => {
+          cb(err, products);
+        });
+    },
+    function(cb) {
+      Departament
+        .find()
+        .exec((err, departaments) => {
+          cb(err, departaments);
+        });
+    }
+  ], function(err, result) {
+    if (err) { return next(err); }
+
+    let _departament = [];
+
+    if (Array.isArray(result[1]) && !!result[1].length) {
+      result[1].forEach(function(departament) {
+        if (req.user.departament === departament.id) {
+          _departament = departament;
+        }
       });
+    }
+
+    return res.render('dashboard/orders/create', {
+      products: result[0],
+      departament: _departament
     });
+  });
 };
 
 exports.store = (req, res, next) => {

@@ -10,7 +10,7 @@ block content
             .form-group
               label(for="departament").control-label.col-sm-3 Отдел:
               .col-sm-6
-                input(type="text", name="departament", placeholder="Отдел", id="user", value="#{req.user.departament}", disabled).form-control
+                input(type="text", name="departament", placeholder="Отдел", id="user", value="#{departament.name}", disabled).form-control
             .form-group
               label(for="user").control-label.col-sm-3 Сотрудник:
               .col-sm-6
@@ -253,6 +253,32 @@ block content
                   button(type="button" class="close" data-dismiss="modal" aria-label="Close")
                     span(aria-hidden="true") &times;
                   h4(class="modal-title" id="myModalLabel") Добавить фурнитуру:
+                .modal-body
+                  form(id="form-furnityra").form-horizontal
+                    .form-group
+                      label(for="furnityra-el").col-sm-3.control-label Элемент:
+                      .col-sm-6
+                        select(name="name", id="furnityra-el").form-control
+                          option(v-for="fur in furnitura") {{ fur.name }}
+                    .form-group
+                      label(for="furn-count").col-sm-3.control-label.label-two-line Кол - во:
+                      .col-sm-6
+                        input(type="text", name="count", placeholder="xxxxxx", id="furn-count").form-control
+                    .form-group
+                      label(for="furn-price").col-sm-3.control-label.label-two-line Цена ( за ед ):
+                      .col-sm-6
+                        input(type="text", name="price", placeholder="xxxxxx", id="furn-price").form-control
+                .modal-footer
+                  button(type="button", class="btn btn-default" data-dismiss="modal") Закрыть
+                  button(type="button", class="btn btn-primary", @click="addFurn") Добавить к заказу
+          //- Modal
+          .modal.fade#modalPreview(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
+            .modal-dialog(role="document")
+              .modal-content
+                .modal-header
+                  button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+                    span(aria-hidden="true") &times;
+                  h4(class="modal-title" id="myModalLabel") Предпросмотр:
                 .modal-body
                   form(id="form-furnityra").form-horizontal
                     .form-group
