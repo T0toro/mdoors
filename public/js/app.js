@@ -83,11 +83,38 @@ $(function() {
       pagonazsh: [],
       furnityra: [],
     },
+    computed: {
+      doorsTotalPrice: function() {
+        var totalPrice = 0;
+
+        this.doors.forEach(function(door) {
+          totalPrice += parseInt(door.count) * parseInt(door.price);
+        });
+
+        return totalPrice;
+      },
+      pagonTotalPrice: function() {
+        var totalPrice = 0;
+
+        this.pagonazsh.forEach(function(pagon) {
+          totalPrice += parseInt(pagon.count) * parseInt(pagon.price);
+        });
+
+        return totalPrice;
+      },
+      furnTotalPrice: function() {
+        var totalPrice = 0;
+
+        this.furnityra.forEach(function(furn) {
+          totalPrice += parseInt(furn.count) * parseInt(furn.price);
+        });
+
+        return totalPrice;
+      }
+    },
     methods: {
       createOrder: function() {
-        var order = {
-
-        };
+        var order = {};
       },
 
       addDoor: function() {

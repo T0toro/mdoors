@@ -113,6 +113,23 @@ block content
                 td {{ door.count }}
                 td {{ door.price }}р
                 td {{ door.price * door.count }}р
+            tfoot.doors-price
+              tr
+                td(colspan="6")
+                td(colspan="2") Доставка
+                td(colspan="1") {{ deliveryPrice }}р
+              tr
+                td(colspan="6")
+                td(colspan="2") Скидка
+                td(colspan="1") {{ discount }}%
+              tr
+                td(colspan="6")
+                td(colspan="2") Итого
+                td(colspan="1") {{ doorsTotalPrice }}р
+              tr
+                td(colspan="6")
+                td(colspan="2") Итого с скидкой
+                td(colspan="1") {{ doorsTotalPrice - ((doorsTotalPrice / 100) * discount) }}р
           //- Modal
           .modal.fade#modalDoors(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
             .modal-dialog(role="document")
@@ -194,6 +211,23 @@ block content
                 td {{ pagon.count }}
                 td {{ pagon.price }}р
                 td {{ pagon.price * pagon.count }}р
+            tfoot.pagon-price
+              tr
+                td(colspan="6")
+                td(colspan="2") Доставка
+                td(colspan="1") {{ deliveryPrice }}р
+              tr
+                td(colspan="6")
+                td(colspan="2") Скидка
+                td(colspan="1") {{ discount }}%
+              tr
+                td(colspan="6")
+                td(colspan="2") Итого
+                td(colspan="1") {{ pagonTotalPrice }}р
+              tr
+                td(colspan="6")
+                td(colspan="2") Итого с скидкой
+                td(colspan="1") {{ pagonTotalPrice - ((pagonTotalPrice / 100) * discount) }}р
           //- Modal
           .modal.fade#modalPagonazh(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
             .modal-dialog(role="document")
@@ -265,6 +299,23 @@ block content
                 td {{ furn.count }}
                 td {{ furn.price }}р
                 td {{ furn.price * furn.count }}р
+            tfoot.furnityra-price
+              tr
+                td(colspan="6")
+                td(colspan="2") Доставка
+                td(colspan="1") {{ deliveryPrice }}р
+              tr
+                td(colspan="6")
+                td(colspan="2") Скидка
+                td(colspan="1") {{ discount }}%
+              tr
+                td(colspan="6")
+                td(colspan="2") Итого
+                td(colspan="1") {{ furnTotalPrice }}р
+              tr
+                td(colspan="6")
+                td(colspan="2") Итого с скидкой
+                td(colspan="1") {{ furnTotalPrice - ((furnTotalPrice / 100) * discount) }}р
           //- Modal
           .modal.fade#modalFurnityra(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
             .modal-dialog(role="document")
@@ -387,18 +438,9 @@ block content
                     td {{ door.price }}р
                     td {{ door.price * door.count }}р
                 tfoot.furnityra-price
-                  tr
-                    td(colspan="6")
-                    td(colspan="2") Доставка
-                    td(colspan="1") {{ deliveryPrice }}р
-                  tr
-                    td(colspan="6")
-                    td(colspan="2") Скидка
-                    td(colspan="1") {{ discount }}%
-                  tr
                     td(colspan="6")
                     td(colspan="2") Итого
-                    td(colspan="1") {{ discount }}
+                    td(colspan="1") {{ doorsTotalPrice }}р
             section.block.block-pagon
               h5 Пагонаж
               hr
@@ -428,16 +470,8 @@ block content
                 tfoot.pagon-price
                   tr
                     td(colspan="5")
-                    td(colspan="1") Доставка
-                    td(colspan="1") {{ deliveryPrice }}р
-                  tr
-                    td(colspan="5")
-                    td(colspan="1") Скидка
-                    td(colspan="1") {{ discount }}%
-                  tr
-                    td(colspan="5")
                     td(colspan="1") Итого
-                    td(colspan="1") {{ discount }}
+                    td(colspan="1") {{ pagonTotalPrice }}р
             section.block.block-furnityra
               h5 Фурнитура
               hr
@@ -463,17 +497,28 @@ block content
                 tfoot.pagon-price
                   tr
                     td(colspan="3")
-                    td(colspan="1") Доставка
-                    td(colspan="1") {{ deliveryPrice }}р
-                  tr
-                    td(colspan="3")
-                    td(colspan="1") Скидка
-                    td(colspan="1") {{ discount }}%
-                  tr
-                    td(colspan="3")
                     td(colspan="1") Итого
-                    td(colspan="1") {{ discount }}
-
+                    td(colspan="1") {{ furnTotalPrice }}р
+            section.total-price
+              .clearfix
+                .pricebox.pull-right
+                  table.table
+                    tr
+                      td
+                        strong Доставка:
+                      td {{ deliveryPrice }}р
+                    tr
+                      td
+                        strong Скидка:
+                      td {{ discount }}%
+                    tr
+                      td
+                        strong Общая цена:
+                      td {{ doorsTotalPrice + pagonTotalPrice + furnTotalPrice + deliveryPrice }}р
+                    tr
+                      td
+                        strong Общая цена с скидкой:
+                      td(width="150") {{ doorsTotalPrice + pagonTotalPrice + furnTotalPrice + deliveryPrice - (((doorsTotalPrice + pagonTotalPrice + furnTotalPrice + deliveryPrice) / 100) * discount )}}р
           .modal-footer
             button(type="button", class="btn btn-default" data-dismiss="modal") Закрыть
     .button

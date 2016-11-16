@@ -30,6 +30,10 @@ form legend {
     width: 100%;
 }
 
+.pricebox {
+    text-align: right;
+}
+
 
 /*
 //  Select2
