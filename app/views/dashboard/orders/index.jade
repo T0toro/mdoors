@@ -11,20 +11,22 @@ block content
       thead
         tr
           th #
-          th ID отдела
           th Отдел
           th Продавец
+          th Продукт
           th Адрес доставки
+          th Телефон
       tbody
         if (Array.isArray(orders) && !!orders.length)
           each order, index in orders
             tr
               td= index + 1
-              td= order.name
-              td= order.slug
+              td= order.departament
+              td= order.user
+              td= order.product
+              td= order.address
+              td= order.telephone
               td.table-controls
-                a(href="/dashboard/orders/edit/#{order.id}").btn.btn-default.btn-primary
-                  i.fa.fa-pencil
                 a(href="/dashboard/orders/destroy/#{order.id}").btn.btn-default.btn-danger
                   i.fa.fa-trash
         else

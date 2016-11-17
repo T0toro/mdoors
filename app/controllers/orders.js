@@ -78,15 +78,31 @@ exports.create = (req, res, next) => {
 
 exports.store = (req, res, next) => {
   Order.create({
-    title: req.body.title,
-    description: req.body.description,
-    name: req.body.name,
-    content: req.body.content,
-    status: req.body.status
+    // Seller info
+    departament: req.body.departament,
+    user: req.body.seller,
+    product: req.body.productName,
+    discount: req.body.discount,
+    deliveryPrice: req.body.deliveryPrice,
+
+    // Bayer info
+    fio: req.body.fio,
+    address: req.body.address,
+    telephone: req.body.telephone,
+    manufactureDate: req.body.manufactureDate,
+    deliveryDate: req.body.deliveryDate,
+    comment: req.body.comment,
+
+    // Order info
+    doors: req.body.doors,
+    pagonazsh: req.body.pagonazsh,
+    furnityra: req.body.furnityra
   }, (err, order) => {
     if (err) { return next(err); }
 
-    return res.redirect('/dashboard/orders');
+    return res.json({
+      code: 200,
+    });
   });
 };
 

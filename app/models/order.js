@@ -17,29 +17,76 @@ const mongoose   = require('mongoose'),
  */
 
 const OrderSchema = new Schema({
-  title: {
+  // Seller info
+  departament: {
     type: String,
     default: ''
   },
-  description: {
+
+  user: {
     type: String,
     default: ''
   },
-  slug: {
+
+  product: {
     type: String,
     default: ''
   },
-  name: {
+
+  discount: {
     type: String,
     default: ''
   },
-  content: {
+
+  deliveryPrice: {
     type: String,
     default: ''
   },
-  status: {
-    type: Number,
+
+  comment: {
+    type: String,
     default: ''
+  },
+
+  // Bayer info
+  fio: {
+    type: String,
+    default: ''
+  },
+
+  address: {
+    type: String,
+    default: ''
+  },
+
+  telephone: {
+    type: String,
+    default: ''
+  },
+
+  manufactureDate: {
+    type: String,
+    default: ''
+  },
+
+  deliveryDate: {
+    type: String,
+    default: ''
+  },
+
+  doors: {
+    type: Array,
+    default: []
+  },
+
+  pagonazsh: {
+    type: Array,
+    default: []
+  },
+
+  furnityra: {
+    type: Array,
+    default: []
   }
 });
 

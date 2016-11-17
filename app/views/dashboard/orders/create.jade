@@ -6,7 +6,7 @@ block script
 block content
   .page-order
     .order-info
-      form(action="/dashboard/orders/store", method="POST")
+      form(action="/dashboard/orders/store", id="form-order", method="POST", @submit="createOrder")
         .row.form-horizontal.form-order
           fieldset.col-lg-6
             legend Продавец
@@ -28,7 +28,7 @@ block content
             .form-group
               label(for="discount").control-label.col-sm-3 Скидка:
               .col-sm-6
-                select(name="product", placeholder="Продукт", id="product", v-model="discount").form-control
+                select(name="discount", id="discount", v-model="discount").form-control
                   option(value="0") нет
                   option(value="1") 1%
                   option(value="2") 2%
@@ -43,16 +43,13 @@ block content
             .form-group
               label(for="delivery-price").control-label.col-sm-3 Доставка:
               .col-sm-6
-                input(type="text", name="deliveryPrice", placeholder="200", id="seller", pattern="\d", v-model="deliveryPrice").form-control
+                input(type="text", name="deliveryPrice", placeholder="200", id="seller", v-model="deliveryPrice").form-control
           fieldset.col-lg-6
             legend Покупатель
             .form-group
               label(for="manufactureDate").col-sm-3.control-label.label-two-line Дата изготовления:
               .col-sm-6
-                if (Array.isArray(products) && !!products.length)
-                  input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufacture-date", v-model="manufactureDate", disabled).form-control.makdoors-datepicker
-                else
-                  input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufactureDate").form-control.makdoors-datepicker
+                input(type="text", name="manufactureDate", placeholder="01.01.1999", id="manufacture-date", v-model="manufactureDate", disabled).form-control.makdoors-datepicker
             .form-group
               label(for="deliveryDate").col-sm-3.control-label Дата доставки:
               .col-sm-6
@@ -60,18 +57,18 @@ block content
             .form-group
               label(for="fio").col-sm-3.control-label ФИО
               .col-sm-6
-                input(type="text", name="additionalInfo", placeholder="Иванов Иван Иванович", id="fio", v-model="fio").form-control
+                input(type="text", name="fio", placeholder="Иванов Иван Иванович", id="fio", v-model="fio", required="required").form-control
             .form-group
               label(for="address").col-sm-3.control-label Адрес:
               .col-sm-6
-                input(type="text", name="address", placeholder="ул. Иванова, 28", id="address", v-model="address").form-control
+                input(type="text", name="address", placeholder="ул. Иванова, 28", id="address", v-model="address", required="required").form-control
             .form-group
               label(for="telephone").col-sm-3.control-label Телефон:
               .col-sm-6
-                input(type="text", name="telephone", placeholder="+ 7 (XXX) XXX-XX-XX", id="telephone", v-model="telephone").form-control
+                input(type="text", name="telephone", placeholder="+ 7 (XXX) XXX-XX-XX", id="telephone", v-model="telephone", required="required" ).form-control
           .form-group.col-lg-12
             label(for="order-comment") Комментарий к заказу:
-            textarea(name="comment", id="order-comment", row="40", col="100", v-model="info").form-control
+            textarea(name="comment", id="order-comment", row="40", col="100", v-model="comment").form-control
     .mkdr-tabs
       ul(role="tablist")#makdoorsTabs.nav.nav-tabs
         li(role="presentation").active
@@ -116,21 +113,21 @@ block content
                 td {{ door.price * door.count }}р
             tfoot.doors-price
               tr
-                td(colspan="6")
-                td(colspan="2") Доставка
+                td(colspan="7")
+                td(colspan="1") Доставка
                 td(colspan="1") {{ deliveryPrice }}р
               tr
-                td(colspan="6")
-                td(colspan="2") Скидка
+                td(colspan="7")
+                td(colspan="1") Скидка
                 td(colspan="1") {{ discount }}%
               tr
-                td(colspan="6")
-                td(colspan="2") Итого
-                td(colspan="1") {{ doorsTotalPrice }}р
+                td(colspan="7")
+                td(colspan="1") Итого
+                td(colspan="1") {{ doorsTotalPrice + parseInt(deliveryPrice) }}р
               tr
-                td(colspan="6")
-                td(colspan="2") Итого с скидкой
-                td(colspan="1") {{ doorsTotalPrice - ((doorsTotalPrice / 100) * discount) }}р
+                td(colspan="7")
+                td(colspan="1") Итого с скидкой
+                td(colspan="1") {{ (doorsTotalPrice + parseInt(deliveryPrice)) - (((doorsTotalPrice + parseInt(deliveryPrice)) / 100) * discount) }}р
           //- Modal
           .modal.fade#modalDoors(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
             .modal-dialog(role="document")
@@ -140,7 +137,7 @@ block content
                     span(aria-hidden="true") &times;
                   h4(class="modal-title" id="myModalLabel") Добавить дверь:
                 .modal-body
-                  form(id="form-door").form-horizontal
+                  form#form-door.form-horizontal
                     .form-group
                       label(for="door-model").col-sm-3.control-label.label-two-line Модель:
                       .col-sm-6
@@ -153,7 +150,7 @@ block content
                         p(style="float: left;") x
                         .col-sm-2
                           input(type="text", name="width", placeholder="100", id="door-width", pattern="\d").form-control
-                    div.form-group
+                    .form-group
                       label(for="door-colors").col-sm-3.control-label Цвет
                       .col-sm-6.door-colors
                         select(name="color", placeholder="Зеленый", id="door-colors").form-control
@@ -187,13 +184,14 @@ block content
           table.table.table-bordered.table-head-center
             thead
               tr
-                th(colspan="5").text-center
+                th(colspan="6").text-center
                   h5 Пагонаж
                 th(colspan="2").text-center
                   button(type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalPagonazh") Добавить
               tr
                 th #
                 th Тип
+                th Цвет
                 th Размер
                 th Уплотнитель
                 th Кол-во
@@ -207,6 +205,7 @@ block content
               tr(v-for="(pagon, index) in pagonazsh")
                 td {{ index + 1 }}
                 td {{ pagon.type }}
+                td {{ pagon.color }}
                 td {{ pagon.width }} x {{ pagon.height }}
                 td {{ pagon.gaskit }}
                 td {{ pagon.count }}
@@ -214,21 +213,21 @@ block content
                 td {{ pagon.price * pagon.count }}р
             tfoot.pagon-price
               tr
-                td(colspan="4")
-                td(colspan="2") Доставка
+                td(colspan="6")
+                td(colspan="1") Доставка
                 td(colspan="1") {{ deliveryPrice }}р
               tr
-                td(colspan="4")
-                td(colspan="2") Скидка
+                td(colspan="6")
+                td(colspan="1") Скидка
                 td(colspan="1") {{ discount }}%
               tr
-                td(colspan="4")
-                td(colspan="2") Итого
-                td(colspan="1") {{ pagonTotalPrice }}р
+                td(colspan="6")
+                td(colspan="1") Итого
+                td(colspan="1") {{ pagonTotalPrice + parseInt(deliveryPrice) }}р
               tr
-                td(colspan="4")
-                td(colspan="2") Итого с скидкой
-                td(colspan="1") {{ pagonTotalPrice - ((pagonTotalPrice / 100) * discount) }}р
+                td(colspan="6")
+                td(colspan="1") Итого с скидкой
+                td(colspan="1") {{ (pagonTotalPrice + parseInt(deliveryPrice)) - (((pagonTotalPrice + parseInt(deliveryPrice) / 100)) * discount) }}р
           //- Modal
           .modal.fade#modalPagonazh(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
             .modal-dialog(role="document")
@@ -238,15 +237,25 @@ block content
                     span(aria-hidden="true") &times;
                   h4(class="modal-title" id="myModalLabel") Добавить пагонаж:
                 .modal-body
-                  form(id="form-pagonazh").form-horizontal
+                  form#form-pagonazh.form-horizontal
                     .form-group
                       label(for="pagonazh-type").col-sm-3.control-label Тип:
                       .col-sm-6
                         select(name="type", id="pagonazh-type").form-control
-                          option(value="Коробка") Коробка
-                          option(value="Наличник") Наличник
-                          option(value="Добор") Добор
-                          option(value="Притвор") Притвор
+                          option Коробка
+                          option Наличник
+                          option Коробка телескоп
+                          option Наличник телескоп
+                          option Наличник телескоп прямой
+                          option Добор
+                          option Добор телескоп
+                          option Притвор
+                    .form-group
+                      label(for="pagon-colors").col-sm-3.control-label Цвет
+                      .col-sm-6.door-colors
+                        select(name="color", placeholder="Зеленый", id="pagon-colors").form-control
+                          option(value="нет") нет
+                          option(v-for="color in colorsActive") {{ color.name }}
                     .form-group
                       label(for="pagonazh-size").col-sm-3.control-label Размеры ( В x Ш ):
                       .row
@@ -312,11 +321,11 @@ block content
               tr
                 td(colspan="3")
                 td(colspan="1") Итого
-                td(colspan="1") {{ furnTotalPrice }}р
+                td(colspan="1") {{ furnTotalPrice + parseInt(deliveryPrice) }}р
               tr
                 td(colspan="3")
                 td(colspan="1") Итого с скидкой
-                td(colspan="1") {{ furnTotalPrice - ((furnTotalPrice / 100) * discount) }}р
+                td(colspan="1") {{ (furnTotalPrice + parseInt(deliveryPrice)) - (((furnTotalPrice + parseInt(deliveryPrice)) / 100) * discount) }}р
           //- Modal
           .modal.fade#modalFurnityra(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
             .modal-dialog(role="document")
@@ -326,7 +335,7 @@ block content
                     span(aria-hidden="true") &times;
                   h4(class="modal-title" id="myModalLabel") Добавить фурнитуру:
                 .modal-body
-                  form(id="form-furnityra").form-horizontal
+                  form#form-furnityra.form-horizontal
                     .form-group
                       label(for="furnityra-el").col-sm-3.control-label Элемент:
                       .col-sm-6
@@ -353,7 +362,7 @@ block content
             h4(class="modal-title" id="myModalLabel").text-center Ваш заказ
           .modal-body
             section.block.block-info.row
-              div.col-lg-6.col-sm-12
+              .col-lg-6.col-sm-12
                 h5 Продавец
                 hr
                 table.table.table-bordered.table-head-center
@@ -381,8 +390,8 @@ block content
                     tr
                       td
                         strong Примечание
-                      td {{ info }}
-              div.col-lg-6.col-sm-12
+                      td {{ comment }}
+              .col-lg-6.col-sm-12
                 h5 Покупатель
                 hr
                 table.table.table-bordered.table-head-center
@@ -439,8 +448,8 @@ block content
                     td {{ door.price }}р
                     td {{ door.price * door.count }}р
                 tfoot.furnityra-price
-                    td(colspan="6")
-                    td(colspan="2") Итого
+                    td(colspan="7")
+                    td(colspan="1") Итого
                     td(colspan="1") {{ doorsTotalPrice }}р
             section.block.block-pagon
               h5 Пагонаж
@@ -450,6 +459,7 @@ block content
                   tr
                     th #
                     th Тип
+                    th Цвет
                     th Размер
                     th Уплотнитель
                     th Кол-во
@@ -463,6 +473,7 @@ block content
                   tr(v-for="(pagon, index) in pagonazsh")
                     td {{ index + 1 }}
                     td {{ pagon.type }}
+                    td {{ pagon.color }}
                     td {{ pagon.width }} x {{ pagon.height }}
                     td {{ pagon.gaskit }}
                     td {{ pagon.count }}
@@ -470,7 +481,7 @@ block content
                     td {{ pagon.price * pagon.count }}р
                 tfoot.pagon-price
                   tr
-                    td(colspan="5")
+                    td(colspan="6")
                     td(colspan="1") Итого
                     td(colspan="1") {{ pagonTotalPrice }}р
             section.block.block-furnityra
@@ -525,4 +536,4 @@ block content
     .button
       hr
       button(type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalPreview") Предпросмотр
-      button.btn.btn-primary.pull-right Оформить заказ
+      input(type="submit", name="submit", value="Оформить заказ", form="form-order").btn.btn-primary.pull-right

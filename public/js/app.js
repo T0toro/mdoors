@@ -39,6 +39,10 @@ $(function() {
     mounted: function() {
       var self = this;
 
+      $.ajaxSetup({
+        headers: {'X-CSRF-Token': $('meta[name="_csrf"]').attr('content')}
+      });
+
       $.get('/dashboard/orders/info')
         .done(function(data) {
           data.attributes.forEach(function(attr) {
@@ -55,13 +59,16 @@ $(function() {
             }
           });
         });
+
+      this.seller = document.body.querySelector('#seller').value;
+      this.productName = document.body.querySelector('#product').dataset.name;
     },
     data: {
       // Buyer info
       fio: '',
       address: '',
       telephone: '',
-      info: '',
+      comment: '',
       manufactureDate: '',
       deliveryDate: '',
       deliveryPrice: 200,
@@ -69,6 +76,7 @@ $(function() {
       // Form data
       departament: '',
       saller: '',
+      productName: '',
       discount: 0,
 
       colors: [],
@@ -78,10 +86,9 @@ $(function() {
       furnitura: [],
 
       // Order data
-      productName: '',
       doors: [],
       pagonazsh: [],
-      furnityra: [],
+      furnityra: []
     },
     computed: {
       doorsTotalPrice: function() {
@@ -113,8 +120,39 @@ $(function() {
       }
     },
     methods: {
-      createOrder: function() {
-        var order = {};
+      createOrder: function(e) {
+        e.preventDefault();
+
+        var order = {
+          // Seller info
+          departament: this.departament,
+          user: this.seller,
+          product: this.productName,
+          discount: this.discount,
+          deliveryPrice: this.deliveryPrice,
+
+          // Bayer info
+          fio: this.fio,
+          address: this.address,
+          telephone: this.telephone,
+          manufactureDate: this.manufactureDate,
+          deliveryDate: this.deliveryDate,
+          comment: this.comment,
+
+          // Order info
+          doors: this.doors,
+          pagonazsh: this.pagonazsh,
+          furnityra: this.furnityra
+        };
+
+        $.ajax({
+          url: '/dashboard/orders/store',
+          dataType: 'json',
+          method: 'POST',
+          data: order
+        }).done(function(data) {
+          window.location = '/dashboard/orders';
+        });
       },
 
       addDoor: function() {
