@@ -59,9 +59,6 @@ $(function() {
             }
           });
         });
-
-      this.seller = document.body.querySelector('#seller').value;
-      this.productName = document.body.querySelector('#product').dataset.name;
     },
     data: {
       // Buyer info
@@ -75,7 +72,7 @@ $(function() {
 
       // Form data
       departament: '',
-      saller: '',
+      seller: '',
       productName: '',
       discount: 0,
 
@@ -100,6 +97,7 @@ $(function() {
 
         return totalPrice;
       },
+
       pagonTotalPrice: function() {
         var totalPrice = 0;
 
@@ -109,6 +107,7 @@ $(function() {
 
         return totalPrice;
       },
+
       furnTotalPrice: function() {
         var totalPrice = 0;
 
@@ -144,6 +143,8 @@ $(function() {
           pagonazsh: this.pagonazsh,
           furnityra: this.furnityra
         };
+
+        console.info(order);
 
         $.ajax({
           url: '/dashboard/orders/store',

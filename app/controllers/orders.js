@@ -80,8 +80,8 @@ exports.store = (req, res, next) => {
   Order.create({
     // Seller info
     departament: req.body.departament,
-    user: req.body.seller,
-    product: req.body.productName,
+    user: req.body.user,
+    product: req.body.product,
     discount: req.body.discount,
     deliveryPrice: req.body.deliveryPrice,
 
