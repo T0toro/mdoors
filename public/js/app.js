@@ -69,7 +69,7 @@ $(function() {
       // Form data
       departament: '',
       saller: '',
-      discount: 1,
+      discount: 0,
 
       colors: [],
       colorsActive: [],

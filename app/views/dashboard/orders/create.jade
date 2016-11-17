@@ -29,6 +29,7 @@ block content
               label(for="discount").control-label.col-sm-3 Скидка:
               .col-sm-6
                 select(name="product", placeholder="Продукт", id="product", v-model="discount").form-control
+                  option(value="0") нет
                   option(value="1") 1%
                   option(value="2") 2%
                   option(value="3") 3%
@@ -213,19 +214,19 @@ block content
                 td {{ pagon.price * pagon.count }}р
             tfoot.pagon-price
               tr
-                td(colspan="6")
+                td(colspan="4")
                 td(colspan="2") Доставка
                 td(colspan="1") {{ deliveryPrice }}р
               tr
-                td(colspan="6")
+                td(colspan="4")
                 td(colspan="2") Скидка
                 td(colspan="1") {{ discount }}%
               tr
-                td(colspan="6")
+                td(colspan="4")
                 td(colspan="2") Итого
                 td(colspan="1") {{ pagonTotalPrice }}р
               tr
-                td(colspan="6")
+                td(colspan="4")
                 td(colspan="2") Итого с скидкой
                 td(colspan="1") {{ pagonTotalPrice - ((pagonTotalPrice / 100) * discount) }}р
           //- Modal
@@ -301,20 +302,20 @@ block content
                 td {{ furn.price * furn.count }}р
             tfoot.furnityra-price
               tr
-                td(colspan="6")
-                td(colspan="2") Доставка
+                td(colspan="3")
+                td(colspan="1") Доставка
                 td(colspan="1") {{ deliveryPrice }}р
               tr
-                td(colspan="6")
-                td(colspan="2") Скидка
+                td(colspan="3")
+                td(colspan="1") Скидка
                 td(colspan="1") {{ discount }}%
               tr
-                td(colspan="6")
-                td(colspan="2") Итого
+                td(colspan="3")
+                td(colspan="1") Итого
                 td(colspan="1") {{ furnTotalPrice }}р
               tr
-                td(colspan="6")
-                td(colspan="2") Итого с скидкой
+                td(colspan="3")
+                td(colspan="1") Итого с скидкой
                 td(colspan="1") {{ furnTotalPrice - ((furnTotalPrice / 100) * discount) }}р
           //- Modal
           .modal.fade#modalFurnityra(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
