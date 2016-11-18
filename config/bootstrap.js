@@ -27,13 +27,14 @@ module.exports = (app) => {
     if (!user) {
       User.create({
         name: 'admin',
+        group: 'accountant',
         login: 'admin@mail.com',
         password: bcrypt.hashSync('123', 8),
-      }, (err, user) => {
+      }, (err) => {
         if (err) { return console.info('При создании пользователя произошла ошибка: ', err); }
 
         return true;
       });
     }
   });
-}
+};

@@ -33,7 +33,7 @@ html
             ul.nav.navbar-nav
               li
                 a(href="/dashboard") Главная
-              if (req.user.group === 'accountant' || req.user.group === 'manager')
+              if (req.user.group === 'manager' && req.user.group === 'accountant')
                 li.dropdown
                   a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Новости
                       span.caret
@@ -50,7 +50,7 @@ html
                     a(href="/dashboard/orders") Все заказы
                   li
                     a(href="/dashboard/orders/create") Оформить заказ
-              if (req.user.group === 'manager')
+              if (req.user.group === 'manager' && req.user.group === 'accountant')
                 li.dropdown
                   a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Продукция
                       span.caret
