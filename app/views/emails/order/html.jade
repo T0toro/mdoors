@@ -1,0 +1,183 @@
+- var doorsTotalPrice = 0;
+- var pagonTotalPrice = 0;
+- var furnTotalPrice = 0;
+
+div.block.block-info.container
+  .col-md-6.col-sm-12
+    h3 Продавец
+    hr
+    table.table.table-bordered.table-head-center
+      tbody
+        colgroup(width="200")
+        tr
+          td
+            strong Отдел
+          td= departament
+        tr
+          td
+            strong Сотрудник
+          td= user
+        tr
+          td
+            strong Продукт
+          td= product
+        tr
+          td
+            strong Скидка
+          td= discount + '%'
+        tr
+          td
+            strong Доставка
+          td= deliveryPrice + 'р'
+        tr
+          td
+            strong Примечание
+          td= comment
+  .col-md-6.col-sm-12
+    h3 Покупатель
+    table.table.table-bordered.table-head-center
+      tbody
+        colgroup(width="200")
+        tr
+          td
+            strong Дата изготовления
+          td= manufactureDate
+        tr
+          td
+            strong Дата доставки
+          td= deliveryDate
+        tr
+          td
+            strong ФИО
+          td= fio
+        tr
+          td
+            strong Адрес
+          td= address
+        tr
+          td
+            strong Телефон
+          td= telephone
+  div.block.block-doors
+    h2 Двери
+    table.table.table-bordered.table-head-center
+      thead
+        tr
+          th #
+          th Модель
+          th Размер
+          th Цвет
+          th Тип
+          th Стекло
+          th Кол-во
+          th Цена
+            br
+            |( за ед )
+          th Цена
+            br
+            |( итог )
+      tbody.text-center
+        if (Array.isArray(doors) && !!doors.length)
+          each door, index in doors
+            - doorsTotalPrice += door.price * door.count;
+            tr
+              td= index + 1
+              td= door.model
+              td= door.width + 'x' + door.height
+              td= door.color
+              td= door.open 
+              td= door.glass
+              td= door.count
+              td= door.price + 'р'
+              td= (door.price * door.count) + 'р'
+      tfoot.furnityra-price
+        tr
+          td(colspan="7")
+          td(colspan="1") Итого
+          td(colspan="1")= doorsTotalPrice + 'р'
+  div.block.block-pagon
+    h2 Пагонаж
+    table.table.table-bordered.table-head-center
+      thead
+        tr
+          th #
+          th Тип
+          th Цвет
+          th Размер
+          th Уплотнитель
+          th Кол-во
+          th Цена
+            br
+            |( за ед )
+          th Цена
+            br
+            |( итог )
+      tbody.text-center
+        if (Array.isArray(pagonazsh) && !!pagonazsh.length)
+          each pagon, index in pagonazsh
+            - pagonTotalPrice += pagon.price * pagon.count;
+            tr
+              td= index + 1
+              td= pagon.type
+              td= pagon.color
+              td= pagon.width + 'x' + pagon.height 
+              td= pagon.gaskit
+              td= pagon.count
+              td= pagon.price + 'р'
+              td= (pagon.price * pagon.count) + 'р'
+      tfoot.pagon-price
+        tr
+          td(colspan="6")
+          td(colspan="1") Итого
+          td(colspan="1")= pagonTotalPrice + 'р'
+  div.block.block-furnityra
+    h2 Фурнитура
+    hr
+    table.table.table-bordered.table-head-center
+      thead
+        tr
+          th #
+          th Элемент
+          th Кол-во
+          th Цена
+            br
+            |( за ед )
+          th Цена
+            br
+            |( итог )
+      tbody.text-center
+        if (Array.isArray(furnityra) && !!furnityra.length)
+          each furn, index in furnityra
+            - furnTotalPrice += furn.price * furn.count;
+            tr
+              td= index + 1
+              td= furn.name
+              td= furn.count
+              td= furn.price + 'р'
+              td= (furn.price * furn.count) + 'р'
+      tfoot.pagon-price
+        tr
+          td(colspan="3")
+          td(colspan="1") Итого
+          td(colspan="1")= furnTotalPrice + 'р'
+  div.total-price
+    .clearfix
+      .pricebox.pull-right
+        table.table
+          tbody
+            tr
+              td
+                strong Доставка:
+              td(style="text-align: right;")= deliveryPrice + 'р'
+            tr
+              td
+                strong Скидка:
+              td(style="text-align: right;")= discount + '%'
+            tr
+              td
+                strong Общая цена:
+              td(style="text-align: right;")= doorsTotalPrice + pagonTotalPrice + furnTotalPrice + parseInt(deliveryPrice) + 'р'
+            tr
+              td
+                strong Общая цена с скидкой:
+              td(width="150", style="text-align: right;")= doorsTotalPrice + pagonTotalPrice + furnTotalPrice + parseInt(deliveryPrice) - (((doorsTotalPrice + pagonTotalPrice + furnTotalPrice + parseInt(deliveryPrice)) / 100) * discount ) + 'р'

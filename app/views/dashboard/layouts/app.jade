@@ -33,14 +33,15 @@ html
             ul.nav.navbar-nav
               li
                 a(href="/dashboard") Главная
-              li.dropdown
-                a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Новости
-                    span.caret
-                ul.dropdown-menu
-                  li
-                    a(href="/dashboard/news") Все новости
-                  li
-                    a(href="/dashboard/news") Добавить новость
+              if (req.user.group === 'accountant')
+                li.dropdown
+                  a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Новости
+                      span.caret
+                  ul.dropdown-menu
+                    li
+                      a(href="/dashboard/news") Все новости
+                    li
+                      a(href="/dashboard/news") Добавить новость
               li.dropdown
                 a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Заказы
                     span.caret
@@ -49,30 +50,32 @@ html
                     a(href="/dashboard/orders") Все заказы
                   li
                     a(href="/dashboard/orders/create") Оформить заказ
-              li.dropdown
-                a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Продукция
-                    span.caret
-                ul.dropdown-menu
-                  li
-                    a(href="/dashboard/products") Все продукты
-                  li.divider
-                  li
-                    a(href="/dashboard/attribute-groups") Группы атрибутов
-                  li
-                    a(href="/dashboard/attributes") Атрибуты
-              li.dropdown
-                a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Персонал
-                    span.caret
-                ul.dropdown-menu
-                  li
-                    a(href="/dashboard/departaments") Отделы
-                  li
-                    a(href="/dashboard/departaments/create") Добавить отдел
-                  li.divider
-                  li
-                    a(href="/dashboard/users") Пользователи
-                  li
-                    a(href="/dashboard/users/create") Добавить пользователя
+              if (req.user.group === 'manager')
+                li.dropdown
+                  a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Продукция
+                      span.caret
+                  ul.dropdown-menu
+                    li
+                      a(href="/dashboard/products") Все продукты
+                    li.divider
+                    li
+                      a(href="/dashboard/attribute-groups") Группы атрибутов
+                    li
+                      a(href="/dashboard/attributes") Атрибуты
+              if (req.user.group === 'accountant')
+                li.dropdown
+                  a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Персонал
+                      span.caret
+                  ul.dropdown-menu
+                    li
+                      a(href="/dashboard/departaments") Отделы
+                    li
+                      a(href="/dashboard/departaments/create") Добавить отдел
+                    li.divider
+                    li
+                      a(href="/dashboard/users") Пользователи
+                    li
+                      a(href="/dashboard/users/create") Добавить пользователя
               li
                 a(href="/dashboard/odz") ОДЗ
               li

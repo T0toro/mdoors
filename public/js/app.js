@@ -74,6 +74,7 @@ $(function() {
       departament: '',
       seller: '',
       productName: '',
+      product: '',
       discount: 0,
 
       colors: [],
@@ -127,6 +128,7 @@ $(function() {
           departament: this.departament,
           user: this.seller,
           product: this.productName,
+          productID: this.product,
           discount: this.discount,
           deliveryPrice: this.deliveryPrice,
 
@@ -143,8 +145,6 @@ $(function() {
           pagonazsh: this.pagonazsh,
           furnityra: this.furnityra
         };
-
-        console.info(order);
 
         $.ajax({
           url: '/dashboard/orders/store',

@@ -23,6 +23,7 @@
     "cookie-parser": "^1.3.5",
     "cookie-session": "^1.2.0",
     "csurf": "^1.8.3",
+    "email-templates": "^2.5.4",
     "express": "^4.13.1",
     "express-session": "^1.11.3",
     "jade": "^1.11.0",
@@ -32,6 +33,7 @@
     "mongoose-timestamp": "^0.6.0",
     "mongoose-user": "0.0.1",
     "morgan": "^1.6.1",
+    "nodemailer": "^2.6.4",
     "passport": "0.3.2",
     "passport-local": "^1.0.0",
     "react": "^15.3.2",
@@ -41,16 +43,16 @@
   },
   "devDependencies": {
     "eslint": "^2.13.1",
-    "ts-loader": "^1.1.0",
-    "webpack": "^1.13.3",
-    "typescript": "^2.0.8",
-    "source-map-loader": "^0.1.5",
     "eslint-config-google": "^0.6.0",
     "flow-bin": "^0.27.0",
     "mocha": "latest",
     "nodemon": "latest",
     "should": "latest",
-    "supertest": "latest"
+    "source-map-loader": "^0.1.5",
+    "supertest": "latest",
+    "ts-loader": "^1.1.0",
+    "typescript": "^2.0.8",
+    "webpack": "^1.13.3"
   },
   "repository": {
     "type": "git",

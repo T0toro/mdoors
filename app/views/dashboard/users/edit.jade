@@ -17,7 +17,7 @@ block content
         label(for="user-telephone") Телефон
         input(type="text", name="telephone", id="user-telephone", value="#{ !!user.telephone.length ? user.telephone : ''}").form-control
       p.form-group
-        label(for="user-group") Группа
+        label(for="user-group") Должность
         select(name="group", id="user-group").form-control
           option(value="saller") Продавец
           option(value="manager") Менеджер
