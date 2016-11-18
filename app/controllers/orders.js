@@ -89,7 +89,6 @@ exports.store = (req, res, next) => {
   }),
   departamentEmails = {
     'mr.makdoors@mail.ru': [
-      '5822bb9f83abe41b9f451c01',
       '5819971b4bebf14032fc1b3d',
       '581997714bebf14032fc1b3e',
       '581997e54bebf14032fc1b40',
@@ -99,7 +98,8 @@ exports.store = (req, res, next) => {
       '582a92c16c09946b8c36469c'
     ],
     'pryahinaa@list.ru, dveri74-buh@mail.ru': [
-      '5819991b4bebf14032fc1b46'
+      '5819991b4bebf14032fc1b46',
+      '5822bbcc83abe41b9f451c03'
     ],
     'pryahinaa@list.ru': [
       '5819979e4bebf14032fc1b3f',
@@ -136,9 +136,7 @@ exports.store = (req, res, next) => {
     if (err) { return next(err); }
 
     for(let email in departamentEmails) {
-      if (departamentEmails[email].indexOf(orderObj.productID) !== -1) {
-        orderEmail = email;
-      }
+      if (departamentEmails[email].indexOf(orderObj.productID) !== -1) { orderEmail = email; }
     }
 
     let mailOptions = {

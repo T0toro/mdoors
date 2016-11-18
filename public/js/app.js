@@ -48,10 +48,12 @@ $(function() {
           data.attributes.forEach(function(attr) {
             if(attr.group.indexOf(data.attributeGroups[0]._id) !== -1) {
               self.colors.push(attr);
+              if(attr.product.indexOf(self.product) !== -1) { self.colorsActive.push(attr); }
             }
 
             if(attr.group.indexOf(data.attributeGroups[1]._id) !== -1) {
               self.glasses.push(attr);
+              if(attr.product.indexOf(self.product) !== -1) { self.glassesActive.push(attr); }
             }
 
             if(attr.group.indexOf(data.attributeGroups[2]._id) !== -1) {
@@ -203,6 +205,7 @@ $(function() {
         this.glassesActive   = [];
         this.manufactureDate = moment(selectEl.options[ selectEl.selectedIndex ].dataset.manufacture).locale('ru').format('L');
         this.deliveryDate    = moment(selectEl.options[ selectEl.selectedIndex ].dataset.manufacture).locale('ru').format('L');
+        this.productName     = selectEl.options[ selectEl.selectedIndex ].dataset.name;
         this.product         = selectEl.value;
 
         this.colors.forEach(function(color) {
