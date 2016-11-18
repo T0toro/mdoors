@@ -33,7 +33,7 @@ html
             ul.nav.navbar-nav
               li
                 a(href="/dashboard") Главная
-              if (req.user.group === 'accountant')
+              if (req.user.group === 'accountant' || req.user.group === 'manager')
                 li.dropdown
                   a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Новости
                       span.caret
