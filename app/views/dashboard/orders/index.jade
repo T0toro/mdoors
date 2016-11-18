@@ -26,9 +26,10 @@ block content
               td= order.product
               td= order.address
               td= order.telephone
-              td.table-controls
-                a(href="/dashboard/orders/destroy/#{order.id}").btn.btn-default.btn-danger
-                  i.fa.fa-trash
+              if (req.user.group === 'manager' || req.user.group === 'accountant')
+                td.table-controls
+                  a(href="/dashboard/orders/destroy/#{order.id}").btn.btn-default.btn-danger
+                    i.fa.fa-trash
         else
           tr
             td(colspan="6").text-center
