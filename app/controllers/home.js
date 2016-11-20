@@ -13,13 +13,13 @@ const mongoose = require('mongoose'),
  */
 
 exports.index = (req, res, next) => {
-    News
-      .find()
-      .exec((err, news) => {
-        if (err) { return next(err); }
+  News
+    .find()
+    .exec((err, news) => {
+      if (err) { return next(err); }
 
-        return res.render('dashboard/home/index', {
-          news: news
-        });
+      return res.render('dashboard/home/index', {
+        news: news
       });
+    });
 };

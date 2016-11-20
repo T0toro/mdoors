@@ -62,7 +62,7 @@ html
                       a(href="/dashboard/attribute-groups") Группы атрибутов
                     li
                       a(href="/dashboard/attributes") Атрибуты
-              if (req.user.group === 'accountant')
+              if (req.user.group === 'manager')
                 li.dropdown
                   a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Персонал
                       span.caret

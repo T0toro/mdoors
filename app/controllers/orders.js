@@ -31,8 +31,9 @@ const mongoose       = require('mongoose'),
  */
 
 exports.index = (req, res, next) => {
+  const searchObj = req.user.group === 'manager' ? {} : req.user._id;
   Order
-    .find()
+    .find(searchObj)
     .exec((err, orders) => {
       if (err) { return next(err); }
 
@@ -111,7 +112,7 @@ exports.store = (req, res, next) => {
   orderObj = {
     // Seller info
     departament: req.body.departament,
-    user: req.body.user,
+    user: req.user._id,
     product: req.body.product,
     productID: req.body.productID,
     discount: req.body.discount,

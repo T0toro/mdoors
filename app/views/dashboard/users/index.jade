@@ -16,6 +16,7 @@ block content
           th Фамилия
           th Телефон
           th Должность
+          th Пароль
           th(colspan="2") Отдел
       tbody
         if (Array.isArray(users) && !!users.length)
@@ -39,6 +40,8 @@ block content
                   each departament, index in departaments
                     if (departament.id === user.departament)
                       = departament.name
+              td
+                button(data-id="#{user.id}").btn.btn-primary.btn-send-password выслать на почту
               td.table-controls
                 a(href="/dashboard/users/edit/#{user.id}").btn.btn-default.btn-primary
                   i.fa.fa-pencil
