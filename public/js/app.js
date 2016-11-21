@@ -223,3 +223,20 @@ $(function() {
     }
   });
 });
+
+$(function() {
+  $.ajaxSetup({
+    headers: {'X-CSRF-Token': $('meta[name="_csrf"]').attr('content')}
+  });
+
+
+  $('.btn-send-password').click(function() {
+    var _id = $(this).data('id');
+
+    $.post('/dashboard/users/restore', {
+      id: _id
+    }).done(function(req) {
+      console.info(req);
+    });
+  });
+});

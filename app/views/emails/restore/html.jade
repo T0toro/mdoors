@@ -1,0 +1,18 @@
+div.block.block-info.container
+  .col-md-6.col-sm-12
+    h3 Пользователь
+    table.table.table-bordered.table-head-center
+      tbody
+        colgroup(width="200")
+        tr
+          td
+            strong Имя
+          td= user.name
+        tr
+          td
+            strong Идентификатор
+          td= user.login
+        tr
+          td
+            strong Пароль
+          td= pass

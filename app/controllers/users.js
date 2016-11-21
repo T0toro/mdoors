@@ -12,7 +12,11 @@
 
 const mongoose    = require('mongoose'),
       bcrypt      = require('bcryptjs'),
+      path        = require('path'),
       async       = require('async'),
+      passgen     = require('password-generator'),
+      Etpl        = require('email-templates').EmailTemplate,
+      email       = require('nodemailer'),
       Departament = mongoose.model('Departament'),
       User        = mongoose.model('User');
 
@@ -127,6 +131,71 @@ exports.destroy = (req, res, next) => {
 
       return res.redirect('/dashboard/users');
     });
+};
+
+exports.restore = (req, res, next) => {
+  const id = req.body.id || '',
+        pass = passgen(),
+        transporter = email.createTransport({
+          service: 'Yandex',
+          auth: {
+            user: 'access@makdoors.ru',
+            pass: 'x8RhDShCtb3tCf5'
+          }
+        });
+        let restoreTpl = path.join(`${__dirname}/../views`, 'emails', 'restore'),
+        restoreLetter = new Etpl(restoreTpl),
+        mailOptions = {
+          from: 'access@makdoors.ru',
+          to: 'access@makdoors.ru',
+          subject: 'Доступ к сайту - makdoors.ru',
+          html: ''
+        };
+
+  async.waterfall([
+    (cb) => {
+      User
+        .find({
+          _id: id
+        }).exec((err, user) => {
+          return cb(err, user);
+        });
+    },
+    (user, cb) => {
+      User
+        .update({
+          _id: id
+        }, {
+          password: bcrypt.hashSync(pass, 8)
+        }).exec((err) => {
+          return cb(err, user);
+        });
+    },
+  ], (err, result) => {
+    if(err) { return next(err); }
+
+    restoreLetter
+      .render({
+        user: result[0],
+        pass: pass
+      })
+      .then((result) => {
+        mailOptions.html = result.html;
+         transporter.sendMail(mailOptions, (error, info) => {
+            if(error) {
+                console.log('Ошибка отправки: ' + error);
+            }
+            else {
+                console.log('Письмо успешно отправлено: ' + info);
+                console.info(mailOptions.to);
+            }
+          });
+      });
+
+    return res.json({
+      code: 200
+    });
+  });
 };
 
 exports.login = (req, res) => {

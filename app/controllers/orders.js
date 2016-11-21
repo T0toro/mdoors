@@ -13,7 +13,7 @@
 const mongoose       = require('mongoose'),
       async          = require('async'),
       path           = require('path'),
-      EmailTemplate  = require('email-templates').EmailTemplate,
+      Etpl           = require('email-templates').EmailTemplate,
       email          = require('nodemailer'),
       Product        = mongoose.model('Product'),
       Departament    = mongoose.model('Departament'),
@@ -131,7 +131,7 @@ exports.store = (req, res, next) => {
     pagonazsh: req.body.pagonazsh,
     furnityra: req.body.furnityra
   },
-  orderLetter = new EmailTemplate(orderTpl);
+  orderLetter = new Etpl(orderTpl);
 
   Order.create(orderObj, (err, order) => {
     if (err) { return next(err); }

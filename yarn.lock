@@ -3208,7 +3208,7 @@ optimist@~0.3.5:
   dependencies:
     wordwrap "~0.0.2"
 
-optimist@~0.6.0:
+optimist@~0.6.0, optimist@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/optimist/-/optimist-0.6.1.tgz#da3ea74686fa21a19a111c326e90eb15a0196686"
   dependencies:
@@ -3306,6 +3306,12 @@ passport@0.3.2:
   dependencies:
     passport-strategy "1.x.x"
     pause "0.0.1"
+
+password-generator:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/password-generator/-/password-generator-2.0.2.tgz#ea4ad822fb88088638e42263db6970424600f279"
+  dependencies:
+    optimist "0.6.1"
 
 path-browserify@0.0.0:
   version "0.0.0"

@@ -110,6 +110,7 @@ module.exports = (app, passport) => {
   app.get('/dashboard/users/edit/:id', users.edit);
   app.get('/dashboard/users/destroy/:id', users.destroy);
 
+  app.post('/dashboard/users/restore', users.restore);
   app.post('/dashboard/users/store', users.store);
   app.post('/dashboard/users/update', users.update);
 
