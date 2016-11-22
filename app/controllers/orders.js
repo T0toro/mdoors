@@ -31,7 +31,8 @@ const mongoose       = require('mongoose'),
  */
 
 exports.index = (req, res, next) => {
-  const searchObj = req.user.group === 'manager' ? {} : req.user._id;
+  const searchObj = req.user.group === 'manager' ? {} : { user: req.user._id };
+
   Order
     .find(searchObj)
     .exec((err, orders) => {
@@ -89,7 +90,7 @@ exports.store = (req, res, next) => {
       }
   }),
   departamentEmails = {
-    'mr.makdoors@mail.ru': [
+    'mr.makdoors@mail.ru, orders@makdoors.ru': [
       '5819971b4bebf14032fc1b3d',
       '581997714bebf14032fc1b3e',
       '581997e54bebf14032fc1b40',
@@ -98,11 +99,11 @@ exports.store = (req, res, next) => {
       '5819989f4bebf14032fc1b44',
       '582a92c16c09946b8c36469c'
     ],
-    'pryahinaa@list.ru, dveri74-buh@mail.ru': [
+    'pryahinaa@list.ru, dveri74-buh@mail.ru, orders@makdoors.ru': [
       '5819991b4bebf14032fc1b46',
       '5822bbcc83abe41b9f451c03'
     ],
-    'pryahinaa@list.ru': [
+    'pryahinaa@list.ru, orders@makdoors.ru': [
       '5819979e4bebf14032fc1b3f',
       '581998ee4bebf14032fc1b45'
     ]
@@ -146,6 +147,8 @@ exports.store = (req, res, next) => {
         subject: 'Заказ с сайта - makdoors.ru',
         html: ''
     };
+
+    orderObj.user = req.user.name;
 
     orderLetter
       .render(orderObj)

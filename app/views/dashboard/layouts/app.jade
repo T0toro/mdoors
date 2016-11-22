@@ -83,6 +83,8 @@ html
             if (isAuthenticated)
               ul.nav.navbar-nav.navbar-right
                 li
+                  a= req.user.name
+                li
                     a(href="/logout") Выйти
 
       main.content-wrapper.container

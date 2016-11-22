@@ -96,7 +96,7 @@ div.block.block-info.container
           td(colspan="1") Итого
           td(colspan="1")= doorsTotalPrice + 'р'
   div.block.block-pagon
-    h2 Пагонаж
+    h2 Погонаж
     table.table.table-bordered.table-head-center
       thead
         tr
@@ -180,4 +180,4 @@ div.block.block-info.container
             tr
               td
                 strong Общая цена с скидкой:
-              td(width="150", style="text-align: right;")= doorsTotalPrice + pagonTotalPrice + furnTotalPrice + parseInt(deliveryPrice) - (((doorsTotalPrice + pagonTotalPrice + furnTotalPrice + parseInt(deliveryPrice)) / 100) * discount ) + 'р'
+              td(width="150", style="text-align: right;")= doorsTotalPrice + pagonTotalPrice + furnTotalPrice + parseInt(deliveryPrice) - (((doorsTotalPrice + pagonTotalPrice) / 100) * discount ) + 'р'

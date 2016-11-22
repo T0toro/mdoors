@@ -122,6 +122,10 @@ $(function() {
       }
     },
     methods: {
+      removeItem: function(collection, index) {
+        console.info(collection, index);
+        this[collection].splice(index, 1);
+      },
       createOrder: function(e) {
         e.preventDefault();
 

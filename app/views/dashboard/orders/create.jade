@@ -102,7 +102,9 @@ block content
                   |( итог )
             tbody.text-center
               tr(v-for="(door, index) in doors")
-                td {{ index + 1 }}
+                td
+                      a(href="#remove", @click="removeItem('doors', index)")
+                        i.fa.fa-trash
                 td {{ door.model }}
                 td {{ door.width }} x {{ door.height }}
                 td {{ door.color }}
@@ -127,7 +129,7 @@ block content
               tr
                 td(colspan="7")
                 td(colspan="1") Итого с скидкой
-                td(colspan="1") {{ (doorsTotalPrice + parseInt(deliveryPrice)) - (((doorsTotalPrice + parseInt(deliveryPrice)) / 100) * discount) }}р
+                td(colspan="1") {{ (doorsTotalPrice + parseInt(deliveryPrice)) - ((doorsTotalPrice / 100) * discount) }}р
           //- Modal
           .modal.fade#modalDoors(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
             .modal-dialog(role="document")
@@ -203,7 +205,9 @@ block content
                   |( итог )
             tbody.text-center
               tr(v-for="(pagon, index) in pagonazsh")
-                td {{ index + 1 }}
+                td
+                  a(href="#remove", @click="removeItem('pagonazsh', index)")
+                    i.fa.fa-trash
                 td {{ pagon.type }}
                 td {{ pagon.color }}
                 td {{ pagon.width }} x {{ pagon.height }}
@@ -227,7 +231,7 @@ block content
               tr
                 td(colspan="6")
                 td(colspan="1") Итого с скидкой
-                td(colspan="1") {{ (pagonTotalPrice + parseInt(deliveryPrice)) - (((pagonTotalPrice + parseInt(deliveryPrice) / 100)) * discount) }}р
+                td(colspan="1") {{ (pagonTotalPrice + parseInt(deliveryPrice)) - ((pagonTotalPrice / 100) * discount) }}р
           //- Modal
           .modal.fade#modalPagonazh(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
             .modal-dialog(role="document")
@@ -243,8 +247,9 @@ block content
                       .col-sm-6
                         select(name="type", id="pagonazh-type").form-control
                           option Коробка
-                          option Наличник
                           option Коробка телескоп
+                          option Наличник
+                          option Наличник прямой
                           option Наличник телескоп
                           option Наличник телескоп прямой
                           option Добор
@@ -304,7 +309,9 @@ block content
                   |( итог )
             tbody.text-center
               tr(v-for="(furn, index) in furnityra")
-                td {{ index + 1 }}
+                td
+                  a(href="#remove", @click="removeItem('furnityra', index)")
+                    i.fa.fa-trash
                 td {{ furn.name }}
                 td {{ furn.count }}
                 td {{ furn.price }}р
@@ -325,7 +332,7 @@ block content
               tr
                 td(colspan="3")
                 td(colspan="1") Итого с скидкой
-                td(colspan="1") {{ (furnTotalPrice + parseInt(deliveryPrice)) - (((furnTotalPrice + parseInt(deliveryPrice)) / 100) * discount) }}р
+                td(colspan="1") {{ furnTotalPrice + parseInt(deliveryPrice) }}р
           //- Modal
           .modal.fade#modalFurnityra(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
             .modal-dialog(role="document")
@@ -531,7 +538,7 @@ block content
                     tr
                       td
                         strong Общая цена с скидкой:
-                      td(width="150") {{ doorsTotalPrice + pagonTotalPrice + furnTotalPrice + parseInt(deliveryPrice) - (((doorsTotalPrice + pagonTotalPrice + furnTotalPrice + parseInt(deliveryPrice)) / 100) * discount )}}р
+                      td(width="150") {{ doorsTotalPrice + pagonTotalPrice + furnTotalPrice + parseInt(deliveryPrice) - (((doorsTotalPrice + pagonTotalPrice) / 100) * discount )}}р
           .modal-footer
             button(type="button", class="btn btn-default" data-dismiss="modal") Закрыть
     .button
