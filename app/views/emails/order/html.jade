@@ -2,63 +2,65 @@
 - var pagonTotalPrice = 0;
 - var furnTotalPrice = 0;
 
-div.block.block-info.container
-  .col-md-6.col-sm-12
-    h3 Продавец
-    hr
-    table.table.table-bordered.table-head-center
-      tbody
-        colgroup(width="200")
-        tr
-          td
-            strong Отдел
-          td= departament
-        tr
-          td
-            strong Сотрудник
-          td= user
-        tr
-          td
-            strong Продукт
-          td= product
-        tr
-          td
-            strong Скидка
-          td= discount + '%'
-        tr
-          td
-            strong Доставка
-          td= deliveryPrice + 'р'
-        tr
-          td
-            strong Примечание
-          td= comment
-  .col-md-6.col-sm-12
-    h3 Покупатель
-    table.table.table-bordered.table-head-center
-      tbody
-        colgroup(width="200")
-        tr
-          td
-            strong Дата изготовления
-          td= manufactureDate
-        tr
-          td
-            strong Дата доставки
-          td= deliveryDate
-        tr
-          td
-            strong ФИО
-          td= fio
-        tr
-          td
-            strong Адрес
-          td= address
-        tr
-          td
-            strong Телефон
-          td= telephone
-  div.block.block-doors
+.block.block-info.container
+  .col-md-12.row
+    .col-md-6.col-sm-12
+      h3 Продавец
+      hr
+      table.table.table-bordered.table-head-center
+        tbody
+          colgroup(width="200")
+          tr
+            td
+              strong Отдел
+            td= departament
+          tr
+            td
+              strong Сотрудник
+            td= user
+          tr
+            td
+              strong Продукт
+            td= product
+          tr
+            td
+              strong Скидка
+            td= discount + '%'
+          tr
+            td
+              strong Доставка
+            td= deliveryPrice + 'р'
+          tr
+            td
+              strong Примечание
+            td= comment
+    .col-md-6.col-sm-12
+      h3 Покупатель
+      hr
+      table.table.table-bordered.table-head-center
+        tbody
+          colgroup(width="200")
+          tr
+            td
+              strong Дата изготовления
+            td= manufactureDate
+          tr
+            td
+              strong Дата доставки
+            td= deliveryDate
+          tr
+            td
+              strong ФИО
+            td= fio
+          tr
+            td
+              strong Адрес
+            td= address
+          tr
+            td
+              strong Телефон
+            td= telephone
+  .block.block-doors.col-sm-12
     h2 Двери
     table.table.table-bordered.table-head-center
       thead
@@ -85,7 +87,7 @@ div.block.block-info.container
               td= door.model
               td= door.width + 'x' + door.height
               td= door.color
-              td= door.open 
+              td= door.open
               td= door.glass
               td= door.count
               td= door.price + 'р'
@@ -95,7 +97,7 @@ div.block.block-info.container
           td(colspan="7")
           td(colspan="1") Итого
           td(colspan="1")= doorsTotalPrice + 'р'
-  div.block.block-pagon
+  .block.block-pagon.col-sm-12
     h2 Погонаж
     table.table.table-bordered.table-head-center
       thead
@@ -120,7 +122,7 @@ div.block.block-info.container
               td= index + 1
               td= pagon.type
               td= pagon.color
-              td= pagon.width + 'x' + pagon.height 
+              td= pagon.width + 'x' + pagon.height
               td= pagon.gaskit
               td= pagon.count
               td= pagon.price + 'р'
@@ -130,7 +132,7 @@ div.block.block-info.container
           td(colspan="6")
           td(colspan="1") Итого
           td(colspan="1")= pagonTotalPrice + 'р'
-  div.block.block-furnityra
+  .block.block-furnityra.col-sm-12
     h2 Фурнитура
     hr
     table.table.table-bordered.table-head-center
@@ -160,7 +162,7 @@ div.block.block-info.container
           td(colspan="3")
           td(colspan="1") Итого
           td(colspan="1")= furnTotalPrice + 'р'
-  div.total-price
+  .total-price
     .clearfix
       .pricebox.pull-right
         table.table

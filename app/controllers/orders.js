@@ -19,6 +19,7 @@ const mongoose       = require('mongoose'),
       Departament    = mongoose.model('Departament'),
       Attribute      = mongoose.model('Attribute'),
       AttributeGroup = mongoose.model('AttributeGroup'),
+      User           = mongoose.model('User'),
       Order          = mongoose.model('Order');
 
 /*!
@@ -44,8 +45,42 @@ exports.index = (req, res, next) => {
     });
 };
 
-exports.create = (req, res, next) => {
 
+exports.show = (req, res, next) => {
+  const id = req.params.id || '';
+
+  async.parallel([
+    (cb) => {
+      Order
+        .findById(id)
+        .exec((err, order) => {
+          return cb(err, order);
+        });
+    },
+    (cb) => {
+      User
+        .find()
+        .exec((err, users) => {
+          return cb(err, users);
+        });
+    }
+  ], function(err, result) {
+    if (err) { return next(err); }
+
+
+    if (Array.isArray(result[1]) && Boolean(result[1].length)) {
+      result[1].forEach((user) => {
+        if (String(user._id) === result[0].user) { result[0].user = user.name; }
+      });
+    }
+
+    if (result[0]) { return res.render('dashboard/orders/show', result[0]); }
+
+    return res.render('dashboard/orders/index');
+  });
+};
+
+exports.create = (req, res, next) => {
   async.parallel([
     function(cb) {
       Product

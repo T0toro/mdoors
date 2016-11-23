@@ -16,6 +16,7 @@ block content
           th Продукт
           th Адрес доставки
           th Телефон
+          th(colspan="2")
       tbody
         if (Array.isArray(orders) && !!orders.length)
           each order, index in orders
@@ -26,9 +27,11 @@ block content
               td= order.product
               td= order.address
               td= order.telephone
-              if (req.user.group === 'manager' || req.user.group === 'accountant')
-                td.table-controls
-                  a(href="/dashboard/orders/destroy/#{order.id}").btn.btn-default.btn-danger
+              td.table-controls
+                a(href="/dashboard/orders/show/#{order.id}").btn.btn-primary
+                  i.fa.fa-eye
+                if (req.user.group === 'manager' || req.user.group === 'accountant')
+                  a(href="/dashboard/orders/destroy/#{order.id}").btn.btn-danger
                     i.fa.fa-trash
         else
           tr
