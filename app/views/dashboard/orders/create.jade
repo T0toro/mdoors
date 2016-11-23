@@ -43,7 +43,15 @@ block content
             .form-group
               label(for="delivery-price").control-label.col-sm-3 Доставка:
               .col-sm-6
-                input(type="text", name="deliveryPrice", placeholder="200", id="seller", v-model="deliveryPrice").form-control
+                input(type="text", name="deliveryPrice", placeholder="200", id="delivery-price", v-model="deliveryPrice").form-control
+            .form-group
+              label(for="prepay").control-label.col-sm-3 Предоплата:
+              .col-sm-6
+                input(type="text", name="prepay", placeholder="200", id="prepay", v-model="prepay").form-control
+            .form-group
+              label(for="balance").control-label.col-sm-3 Остаток:
+              .col-sm-6
+                input(type="text", name="balance", placeholder="200", id="balance", v-model="balance").form-control
           fieldset.col-lg-6
             legend Покупатель
             .form-group
@@ -540,6 +548,14 @@ block content
                       td
                         strong Общая цена с скидкой:
                       td(width="150") {{ doorsTotalPrice + pagonTotalPrice + furnTotalPrice + parseInt(deliveryPrice) - (((doorsTotalPrice + pagonTotalPrice) / 100) * discount )}}р
+                    tr
+                      td
+                        strong Предоплата:
+                      td {{ prepay }}р
+                    tr
+                      td
+                        strong Остаток:
+                      td {{ balance }}р
           .modal-footer
             button(type="button", class="btn btn-default" data-dismiss="modal") Закрыть
     .button

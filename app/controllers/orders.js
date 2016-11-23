@@ -165,7 +165,11 @@ exports.store = (req, res, next) => {
     // Order info
     doors: req.body.doors,
     pagonazsh: req.body.pagonazsh,
-    furnityra: req.body.furnityra
+    furnityra: req.body.furnityra,
+
+    // Balance
+    balance: req.body.balance,
+    prepay: req.body.prepay
   },
   orderLetter = new Etpl(orderTpl);
 

@@ -88,7 +88,11 @@ $(function() {
       // Order data
       doors: [],
       pagonazsh: [],
-      furnityra: []
+      furnityra: [],
+
+      // Balance
+      balance: 0,
+      prepay: 0
     },
     computed: {
       doorsTotalPrice: function() {
@@ -123,7 +127,6 @@ $(function() {
     },
     methods: {
       removeItem: function(collection, index) {
-        console.info(collection, index);
         this[collection].splice(index, 1);
       },
       createOrder: function(e) {
@@ -149,7 +152,11 @@ $(function() {
           // Order info
           doors: this.doors,
           pagonazsh: this.pagonazsh,
-          furnityra: this.furnityra
+          furnityra: this.furnityra,
+
+          // Balance
+          balance: this.balance,
+          prepay: this.prepay
         };
 
         $.ajax({
@@ -239,8 +246,6 @@ $(function() {
 
     $.post('/dashboard/users/restore', {
       id: _id
-    }).done(function(req) {
-      console.info(req);
     });
   });
 });

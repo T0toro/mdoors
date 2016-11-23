@@ -122,16 +122,16 @@
               td= index + 1
               td= pagon.type
               td= pagon.color
-              td= pagon.width + 'x' + pagon.height
+              td= `${pagon.width}x${pagon.height}`
               td= pagon.gaskit
               td= pagon.count
-              td= pagon.price + 'р'
-              td= (pagon.price * pagon.count) + 'р'
+              td= `${pagon.price}р`
+              td= `${pagon.price * pagon.count}р`
       tfoot.pagon-price
         tr
           td(colspan="6")
           td(colspan="1") Итого
-          td(colspan="1")= pagonTotalPrice + 'р'
+          td(colspan="1")= `${pagonTotalPrice}р`
   .block.block-furnityra.col-sm-12
     h2 Фурнитура
     hr
@@ -155,14 +155,14 @@
               td= index + 1
               td= furn.name
               td= furn.count
-              td= furn.price + 'р'
-              td= (furn.price * furn.count) + 'р'
+              td= `${furn.price}р`
+              td= `${furn.price * furn.count}р`
       tfoot.pagon-price
         tr
           td(colspan="3")
           td(colspan="1") Итого
-          td(colspan="1")= furnTotalPrice + 'р'
-  .total-price
+          td(colspan="1")= `${furnTotalPrice}р`
+  .total-price.col-sm-12
     .clearfix
       .pricebox.pull-right
         table.table
@@ -170,11 +170,11 @@
             tr
               td
                 strong Доставка:
-              td(style="text-align: right;")= deliveryPrice + 'р'
+              td(style="text-align: right;")= `${deliveryPrice}р`
             tr
               td
                 strong Скидка:
-              td(style="text-align: right;")= discount + '%'
+              td(style="text-align: right;")= `${discount}%`
             tr
               td
                 strong Общая цена:
@@ -183,3 +183,11 @@
               td
                 strong Общая цена с скидкой:
               td(width="150", style="text-align: right;")= doorsTotalPrice + pagonTotalPrice + furnTotalPrice + parseInt(deliveryPrice) - (((doorsTotalPrice + pagonTotalPrice) / 100) * discount ) + 'р'
+            tr
+              td
+                strong Предоплата:
+              td(style="text-align: right;")= `${prepay}р`
+            tr
+              td
+                strong Остаток:
+              td(style="text-align: right;")= `${balance}р`

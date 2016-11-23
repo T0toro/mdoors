@@ -34,13 +34,13 @@ const OrderSchema = new Schema({
   },
 
   discount: {
-    type: String,
-    default: ''
+    type: Number,
+    default: 0
   },
 
   deliveryPrice: {
-    type: String,
-    default: ''
+    type: Number,
+    default: 0
   },
 
   comment: {
@@ -87,6 +87,17 @@ const OrderSchema = new Schema({
   furnityra: {
     type: Array,
     default: []
+  },
+
+  // Balance
+  balance: {
+    type: Number,
+    default: 0
+  },
+
+  prepay: {
+    type: Number,
+    default: 0
   }
 });
 
