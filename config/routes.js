@@ -12,6 +12,8 @@
 const home            = require('./../app/controllers/home'),
       users           = require('./../app/controllers/users'),
       news            = require('./../app/controllers/news'),
+      odz             = require('./../app/controllers/odz'),
+      odds            = require('./../app/controllers/odds'),
       orders          = require('./../app/controllers/orders'),
       products        = require('./../app/controllers/products'),
       attributes      = require('./../app/controllers/attributes'),
@@ -90,6 +92,28 @@ module.exports = (app, passport) => {
   app.post('/dashboard/orders/store', orders.store);
   app.post('/dashboard/orders/update', orders.update);
 
+
+  // Odz
+  // --------------------------------------------
+
+  app.get('/dashboard/odz', odz.index);
+  app.get('/dashboard/odz/create', odz.create);
+  app.get('/dashboard/odz/edit/:id', odz.edit);
+  app.get('/dashboard/odz/destroy/:id', odz.destroy);
+
+  app.post('/dashboard/odz/store', odz.store);
+  app.post('/dashboard/odz/update', odz.update);
+
+  // Odds
+  // --------------------------------------------
+
+  app.get('/dashboard/odds', odds.index);
+  app.get('/dashboard/odds/create', odds.create);
+  app.get('/dashboard/odds/edit/:id', odds.edit);
+  app.get('/dashboard/odds/destroy/:id', odds.destroy);
+
+  app.post('/dashboard/odds/store', odds.store);
+  app.post('/dashboard/odds/update', odds.update);
 
   // News
   // --------------------------------------------
