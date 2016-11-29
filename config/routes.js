@@ -12,7 +12,7 @@
 const home            = require('./../app/controllers/home'),
       users           = require('./../app/controllers/users'),
       news            = require('./../app/controllers/news'),
-      odz             = require('./../app/controllers/odz'),
+      ozp             = require('./../app/controllers/ozp'),
       odds            = require('./../app/controllers/odds'),
       orders          = require('./../app/controllers/orders'),
       products        = require('./../app/controllers/products'),
@@ -93,16 +93,16 @@ module.exports = (app, passport) => {
   app.post('/dashboard/orders/update', orders.update);
 
 
-  // Odz
+  // ozp
   // --------------------------------------------
 
-  app.get('/dashboard/odz', odz.index);
-  app.get('/dashboard/odz/create', odz.create);
-  app.get('/dashboard/odz/edit/:id', odz.edit);
-  app.get('/dashboard/odz/destroy/:id', odz.destroy);
+  app.get('/dashboard/ozp', ozp.index);
+  app.get('/dashboard/ozp/create', ozp.create);
+  app.get('/dashboard/ozp/edit/:id', ozp.edit);
+  app.get('/dashboard/ozp/destroy/:id', ozp.destroy);
 
-  app.post('/dashboard/odz/store', odz.store);
-  app.post('/dashboard/odz/update', odz.update);
+  app.post('/dashboard/ozp/store', ozp.store);
+  app.post('/dashboard/ozp/update', ozp.update);
 
   // Odds
   // --------------------------------------------

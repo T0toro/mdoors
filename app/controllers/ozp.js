@@ -1,10 +1,10 @@
 'use strict';
 
 /**
- * Odz controller
+ * Ozp controller
  *
  * @module       :: controller
- * @description  :: keep logic for handle Odz ( CRUD and etc )
+ * @description  :: keep logic for handle Ozp ( CRUD and etc )
  *
  *
  * Module dependencies
@@ -12,7 +12,7 @@
 
 const mongoose = require('mongoose'),
       moment   = require('moment'),
-      Odz = mongoose.model('Odz');
+      Ozp = mongoose.model('Ozp');
 
 /*
  * Expos
@@ -20,29 +20,29 @@ const mongoose = require('mongoose'),
 
 
 /**
- * Odz list
+ * Ozp list
  */
 
 exports.index = (req, res, next) => {
-  Odz
+  Ozp
     .find()
-    .exec((err, odzs) => {
+    .exec((err, ozps) => {
       if (err) { return next(err); }
 
-      if (Array.isArray(odzs)) {
-        return res.render('dashboard/odzs/index', { odzs: odzs });
+      if (Array.isArray(ozps)) {
+        return res.render('dashboard/ozp/index', { ozps: ozps });
       }
 
-      return res.render('dashboard/odzs/index');
+      return res.render('dashboard/ozp/index');
     });
 };
 
-exports.create = (req, res) => res.render('dashboard/odzs/create');
+exports.create = (req, res) => res.render('dashboard/ozp/create');
 
 exports.store = (req, res, next) => {
   const userDate = req.body.manufactureDate.split('.');
 
-  Odz.create({
+  Ozp.create({
     name: req.body.name,
     slug: req.body.slug,
     count: req.body.count,
@@ -50,21 +50,21 @@ exports.store = (req, res, next) => {
   }, (err) => {
     if (err) { return next(err); }
 
-    return res.redirect('/dashboard/odzs');
+    return res.redirect('/dashboard/ozp');
   });
 };
 
 exports.edit = (req, res, next) => {
   const id = req.params.id || '';
 
-  Odz
+  Ozp
     .findById(id)
-    .exec((err, Odz) => {
+    .exec((err, ozp) => {
       if (err) { return next(err); }
 
-      if (Odz) { return res.render('dashboard/odzs/edit', { odz: odz }); }
+      if (ozp) { return res.render('dashboard/ozp/edit', { ozp: ozp }); }
 
-      return res.redirect('/dashboard/odzs');
+      return res.redirect('/dashboard/ozp');
     });
 };
 
@@ -72,7 +72,7 @@ exports.update = (req, res, next) => {
   const id = req.body.id || '',
         userDate = req.body.manufactureDate.split('.');
 
-  Odz.update({ _id: id }, {
+  Ozp.update({ _id: id }, {
     name: req.body.name,
     slug: req.body.slug,
     count: req.body.count,
@@ -80,18 +80,18 @@ exports.update = (req, res, next) => {
   }, (err) => {
     if (err) { return next(err); }
 
-    return res.redirect('/dashboard/odzs');
+    return res.redirect('/dashboard/ozps');
   });
 };
 
 exports.destroy = (req, res, next) => {
   const id = req.params.id || '';
 
-  Odz
+  Ozp
     .findByIdAndRemove(id)
     .exec((err) => {
       if (err) { return next(err); }
 
-      return res.redirect('/dashboard/odzs');
+      return res.redirect('/dashboard/ozps');
     });
 };

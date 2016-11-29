@@ -24,7 +24,7 @@ block content
           option(value="accountant") Бухгалтер
       p.form-group
         label(for="user-deportament") Отдел
-        select(name="deportament", id="user-deportament").form-control
+        select(name="departament", id="user-departament").form-control
           option(value="0") нет
           if (Array.isArray(departaments) && !!departaments.length)
             each deportament, index in departaments
