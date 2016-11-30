@@ -97,23 +97,17 @@ module.exports = (app, passport) => {
   // --------------------------------------------
 
   app.get('/dashboard/ozp', ozp.index);
-  app.get('/dashboard/ozp/create', ozp.create);
-  app.get('/dashboard/ozp/edit/:id', ozp.edit);
   app.get('/dashboard/ozp/destroy/:id', ozp.destroy);
 
   app.post('/dashboard/ozp/store', ozp.store);
-  app.post('/dashboard/ozp/update', ozp.update);
 
   // Odds
   // --------------------------------------------
 
   app.get('/dashboard/odds', odds.index);
-  app.get('/dashboard/odds/create', odds.create);
-  app.get('/dashboard/odds/edit/:id', odds.edit);
   app.get('/dashboard/odds/destroy/:id', odds.destroy);
 
   app.post('/dashboard/odds/store', odds.store);
-  app.post('/dashboard/odds/update', odds.update);
 
   // News
   // --------------------------------------------

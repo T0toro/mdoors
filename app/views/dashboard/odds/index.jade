@@ -1,0 +1,97 @@
+extends ../layouts/app
+
+block script
+  script(src="/js/vendor/moment.min.js")
+
+block content
+  - var retiredAmountSumm = 0;
+  - var receivedAmountSumm = 0;
+  article.content
+    header
+      h2 Отчет о ДДС
+        button(type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#modalOdds") Добавить
+      //- Modal
+      .modal.fade#modalOdds(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
+        .modal-dialog(role="document")
+          .modal-content
+            .modal-header
+              button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+                span(aria-hidden="true") &times;
+              h4(class="modal-title" id="myModalLabel") Добавить запись
+            .modal-body
+              form(action="/dashboard/odds/store", id="form-odds" method="POST", style="margin: 0;")
+                input(type="hidden", name="_csrf", value="#{csrf}")
+                fieldset
+                  legend Поступило
+                  .form-group
+                    label(for="odds-date") Дата:
+                    input(type="text", name="date", id="odds-date", value="#{ moment().locale('ru').format('L') }").form-control.makdoors-datepicker
+                  .form-group
+                    label(for="odds-received-amount") Сумма (р.):
+                    input(type="text", name="receivedAmount", id="odds-received-amount").form-control
+                  .form-group
+                    label(for="odds-received-comment") Комментарий (р.):
+                    textarea(name="receivedComment", id="odds-received-comment").form-control
+                fieldset
+                  legend Выбыло
+                  .form-group
+                    label(for="odds-retired-amount") Сумма (р.):
+                    input(type="text", name="retiredAmount", id="odds-retired-amount").form-control
+                  .form-group
+                    label(for="odds-retired-comment") Комментарий (р.):
+                    textarea(name="retiredComment", id="odds-retired-comment").form-control
+            .modal-footer
+              button(type="button" class="btn btn-default" data-dismiss="modal") Закрыть
+              button(type="button" class="btn btn-primary btn-odds-send") Добавить в отчет
+    table.table.table-bordered.text-center
+      thead
+        tr
+          th(colspan="4").text-center Поступило
+          th(colspan="2").text-center Выбыло
+        tr
+          th.text-center #
+          th.text-center Дата
+          th.text-center Сумма (р.)
+          th.text-center Комментарий
+          th.text-center Сумма (р.)
+          th.text-center Комментарий
+          th(colspan="1", width="230")
+      tbody
+        if (Array.isArray(odds) && !!odds.length)
+          each odd, index in odds
+            - receivedAmountSumm += parseInt(odd.receivedAmount);
+            - retiredAmountSumm += parseInt(odd.retiredAmount);
+            tr
+              td= index + 1
+              td= moment(odd.date).locale('ru').format('L')
+              td= odd.receivedAmount
+              td= odd.receivedComment
+              td= odd.retiredAmount
+              td= odd.retiredComment
+              td.text-right
+                if (req.user.group === 'manager' || req.user.group === 'accountant')
+                  a(href="/dashboard/odds/destroy/#{odd.id}").btn.btn-danger
+                    i.fa.fa-trash
+        else
+          tr
+            td(colspan="8").text-center
+              i.fa.fa-cart
+              | На данный момент отчетов нет
+      tfoot()
+        tr
+          td(colspan="5")
+          td(colspan="3")
+            table.table.table-bordered
+              tbody
+                tr
+                  td Остаток:
+                  td 0
+                tr
+                  td Итого поступило:
+                  td= `${receivedAmountSumm} р.`
+                tr
+                  td Итого выбыло:
+                  td= `${retiredAmountSumm} р.`
+                tr
+                  td Итого в кассе:
+                  td= `${receivedAmountSumm - retiredAmountSumm} р.`

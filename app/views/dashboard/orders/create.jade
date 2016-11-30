@@ -111,8 +111,8 @@ block content
             tbody.text-center
               tr(v-for="(door, index) in doors")
                 td
-                      a(href="#remove", @click="removeItem('doors', index)")
-                        i.fa.fa-trash
+                  a(href="#remove", @click="removeItem('doors', index)")
+                    i.fa.fa-trash
                 td {{ door.model }}
                 td {{ door.width }} x {{ door.height }}
                 td {{ door.color }}

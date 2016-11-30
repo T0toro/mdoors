@@ -1,0 +1,82 @@
+extends ../layouts/app
+
+block content
+  - var amountSumm = 0;
+  - var paymentSumm = 0;
+  article.content
+    header
+      h2 Отчет о ЗП
+        button(type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#modalOzp") Добавить
+      //- Modal
+      .modal.fade#modalOzp(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
+        .modal-dialog(role="document")
+          .modal-content
+            .modal-header
+              button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+                span(aria-hidden="true") &times;
+              h4(class="modal-title" id="myModalLabel") Добавить запись
+            .modal-body
+              form(action="/dashboard/ozp/store", name="ozp", id="form-ozp" method="POST", style="margin: 0;")
+                input(type="hidden", name="_csrf", value="#{csrf}")
+                .form-group
+                  label(for="ozp-date") Дата:
+                  input(type="text", name="date", id="ozp-date", value="#{ moment().locale('ru').format('L') }").form-control.makdoors-datepicker
+                .form-group
+                  label(for="ozp-amount") Сумма (р.):
+                  input(type="text", name="amount", id="ozp-amount").form-control
+                .form-group
+                  label(for="ozp-payment") Предоплата (р.):
+                  input(type="text", name="payment", id="ozp-payment").form-control
+                .form-group
+                  label(for="ozp-address") Адрес доставки или номер и дата заказа на самовывоз:
+                  textarea(name="address", id="ozp-address").form-control
+            .modal-footer
+              button(type="button" class="btn btn-default" data-dismiss="modal") Закрыть
+              button(form="ozp" class="btn btn-primary btn-ozp-send") Добавить в отчет
+    table.table
+      thead
+        tr
+          th #
+          th Дата
+          th Сумма (р.)
+          th Предоплата (р.)
+          th Адрес доставки или номер и дата заказа на самовывоз
+          th(colspan="2", width="230")
+      tbody
+        if (Array.isArray(ozps) && !!ozps.length)
+          each ozp, index in ozps
+            - amountSumm += parseInt(ozp.amount);
+            - paymentSumm += parseInt(ozp.payment);
+            tr
+              td= index + 1
+              td= moment(ozp.date).locale('ru').format('L')
+              td= ozp.amount
+              td= ozp.payment
+              td= ozp.address
+              td.table-controls
+                if (req.user.group === 'manager' || req.user.group === 'accountant')
+                  a(href="/dashboard/ozp/destroy/#{ozp.id}").btn.btn-danger
+                    i.fa.fa-trash
+        else
+          tr
+            td(colspan="8").text-center
+              i.fa.fa-cart
+              | На данный момент отчетов нет
+      tfoot
+        tr
+          td(colspan="5")
+          td(colspan="3")
+            table.table.table-bordered
+              tbody
+                tr
+                  td Итого:
+                  td= `${amountSumm} р.`
+                tr
+                  td Аванс:
+                  td= `${paymentSumm} р.`
+                tr
+                  td Кол-во смен:
+                  td 0
+                tr
+                  td Итого к выплате:
+                  td= `${amountSumm - paymentSumm} р.`

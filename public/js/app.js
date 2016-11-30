@@ -24,17 +24,21 @@ $(function() {
   $('#attr-product').select2();
 
 
+  if( $('.page-order').length === 0 ) { return false; }
+
   new Vue({
     el: '.page-order',
     beforeMount: function() {
       var selectEl = this.$el.querySelector('#product');
 
-      this.product         = selectEl.value;
-      this.seller          = this.$el.querySelector('#seller').value;
-      this.departament     = this.$el.querySelector('#departament').value;
-      this.productName     = selectEl.options[ selectEl.selectedIndex ].dataset.name;
-      this.manufactureDate = moment(selectEl.options[ selectEl.selectedIndex ].dataset.manufacture).locale('ru').format('L');
-      this.deliveryDate    = moment(selectEl.options[ selectEl.selectedIndex ].dataset.manufacture).locale('ru').format('L');
+      if (selectEl) {
+        this.product         = selectEl.value;
+        this.seller          = this.$el.querySelector('#seller').value;
+        this.departament     = this.$el.querySelector('#departament').value;
+        this.productName     = selectEl.options[ selectEl.selectedIndex ].dataset.name;
+        this.manufactureDate = moment(selectEl.options[ selectEl.selectedIndex ].dataset.manufacture).locale('ru').format('L');
+        this.deliveryDate    = moment(selectEl.options[ selectEl.selectedIndex ].dataset.manufacture).locale('ru').format('L');
+      }
     },
     mounted: function() {
       var self = this;
@@ -70,7 +74,7 @@ $(function() {
       comment: '',
       manufactureDate: '',
       deliveryDate: '',
-      deliveryPrice: 200,
+      deliveryPrice: 350,
 
       // Form data
       departament: '',
@@ -240,6 +244,13 @@ $(function() {
     headers: {'X-CSRF-Token': $('meta[name="_csrf"]').attr('content')}
   });
 
+  $('.btn-ozp-send').click(function() {
+    $('#form-ozp').submit();
+  });
+
+  $('.btn-odds-send').click(function() {
+    $('#form-odds').submit();
+  });
 
   $('.btn-send-password').click(function() {
     var _id = $(this).data('id');

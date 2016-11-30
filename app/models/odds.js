@@ -18,86 +18,29 @@ const mongoose   = require('mongoose'),
 
 const OddsSchema = new Schema({
   // Seller info
-  departament: {
-    type: String,
-    default: ''
+  date: {
+    type: Date,
+    default: Date.now
   },
 
-  user: {
-    type: String,
-    default: ''
-  },
-
-  product: {
-    type: String,
-    default: ''
-  },
-
-  discount: {
+  receivedAmount: {
     type: Number,
     default: 0
   },
 
-  deliveryPrice: {
+  receivedComment: {
+    type: String,
+    default: ''
+  },
+
+  retiredAmount: {
     type: Number,
     default: 0
   },
 
-  comment: {
+  retiredComment: {
     type: String,
     default: ''
-  },
-
-  // Bayer info
-  fio: {
-    type: String,
-    default: ''
-  },
-
-  address: {
-    type: String,
-    default: ''
-  },
-
-  telephone: {
-    type: String,
-    default: ''
-  },
-
-  manufactureDate: {
-    type: String,
-    default: ''
-  },
-
-  deliveryDate: {
-    type: String,
-    default: ''
-  },
-
-  doors: {
-    type: Array,
-    default: []
-  },
-
-  pagonazsh: {
-    type: Array,
-    default: []
-  },
-
-  furnityra: {
-    type: Array,
-    default: []
-  },
-
-  // Balance
-  balance: {
-    type: Number,
-    default: 0
-  },
-
-  prepay: {
-    type: Number,
-    default: 0
   }
 });
 

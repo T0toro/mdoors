@@ -11,7 +11,6 @@
  */
 
 const mongoose = require('mongoose'),
-      moment   = require('moment'),
       Ozp = mongoose.model('Ozp');
 
 /*
@@ -37,50 +36,19 @@ exports.index = (req, res, next) => {
     });
 };
 
-exports.create = (req, res) => res.render('dashboard/ozp/create');
-
 exports.store = (req, res, next) => {
-  const userDate = req.body.manufactureDate.split('.');
+  const date = req.body.date.split('.');
 
   Ozp.create({
-    name: req.body.name,
-    slug: req.body.slug,
-    count: req.body.count,
-    manufactureDate: new Date(userDate[2], userDate[1] - 1, userDate[0])
+    user: req.user.id,
+    date: new Date(date[2], date[1] - 1, date[0]),
+    amount: req.body.amount,
+    payment: req.body.payment,
+    address: req.body.address
   }, (err) => {
     if (err) { return next(err); }
 
     return res.redirect('/dashboard/ozp');
-  });
-};
-
-exports.edit = (req, res, next) => {
-  const id = req.params.id || '';
-
-  Ozp
-    .findById(id)
-    .exec((err, ozp) => {
-      if (err) { return next(err); }
-
-      if (ozp) { return res.render('dashboard/ozp/edit', { ozp: ozp }); }
-
-      return res.redirect('/dashboard/ozp');
-    });
-};
-
-exports.update = (req, res, next) => {
-  const id = req.body.id || '',
-        userDate = req.body.manufactureDate.split('.');
-
-  Ozp.update({ _id: id }, {
-    name: req.body.name,
-    slug: req.body.slug,
-    count: req.body.count,
-    manufactureDate: new Date(userDate[2], userDate[1] - 1, userDate[0])
-  }, (err) => {
-    if (err) { return next(err); }
-
-    return res.redirect('/dashboard/ozps');
   });
 };
 
@@ -92,6 +60,6 @@ exports.destroy = (req, res, next) => {
     .exec((err) => {
       if (err) { return next(err); }
 
-      return res.redirect('/dashboard/ozps');
+      return res.redirect('/dashboard/ozp');
     });
 };

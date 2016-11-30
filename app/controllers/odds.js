@@ -11,7 +11,6 @@
  */
 
 const mongoose = require('mongoose'),
-      moment   = require('moment'),
       Odds = mongoose.model('Odds');
 
 /*
@@ -37,46 +36,18 @@ exports.index = (req, res, next) => {
     });
 };
 
-exports.create = (req, res) => res.render('dashboard/odds/create');
-
 exports.store = (req, res, next) => {
-  const userDate = req.body.manufactureDate.split('.');
+  const date = req.body.date.split('.');
+
+  console.info(req.body);
 
   Odds.create({
-    name: req.body.name,
-    slug: req.body.slug,
-    count: req.body.count,
-    manufactureDate: new Date(userDate[2], userDate[1] - 1, userDate[0])
-  }, (err) => {
-    if (err) { return next(err); }
-
-    return res.redirect('/dashboard/odds');
-  });
-};
-
-exports.edit = (req, res, next) => {
-  const id = req.params.id || '';
-
-  Odds
-    .findById(id)
-    .exec((err, odds) => {
-      if (err) { return next(err); }
-
-      if (odds) { return res.render('dashboard/odds/edit', { odds: odds }); }
-
-      return res.redirect('/dashboard/odds');
-    });
-};
-
-exports.update = (req, res, next) => {
-  const id = req.body.id || '',
-        userDate = req.body.manufactureDate.split('.');
-
-  Odds.update({ _id: id }, {
-    name: req.body.name,
-    slug: req.body.slug,
-    count: req.body.count,
-    manufactureDate: new Date(userDate[2], userDate[1] - 1, userDate[0])
+    user: req.user.id,
+    date: new Date(date[2], date[1] - 1, date[0]),
+    receivedAmount: req.body.receivedAmount,
+    receivedComment: req.body.receivedComment,
+    retiredAmount: req.body.retiredAmount,
+    retiredComment: req.body.retiredComment
   }, (err) => {
     if (err) { return next(err); }
 
