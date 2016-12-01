@@ -17,7 +17,16 @@ const mongoose   = require('mongoose'),
  */
 
 const OddsSchema = new Schema({
-  // Seller info
+  user: {
+    type: String,
+    default: ''
+  },
+
+  departament: {
+    type: String,
+    default: ''
+  },
+
   date: {
     type: Date,
     default: Date.now

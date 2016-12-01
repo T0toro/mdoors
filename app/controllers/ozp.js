@@ -24,7 +24,7 @@ const mongoose = require('mongoose'),
 
 exports.index = (req, res, next) => {
   Ozp
-    .find()
+    .findById(req.user.id)
     .exec((err, ozps) => {
       if (err) { return next(err); }
 
@@ -41,6 +41,7 @@ exports.store = (req, res, next) => {
 
   Ozp.create({
     user: req.user.id,
+    departament: req.user.departament,
     date: new Date(date[2], date[1] - 1, date[0]),
     amount: req.body.amount,
     payment: req.body.payment,

@@ -24,7 +24,7 @@ const mongoose = require('mongoose'),
 
 exports.index = (req, res, next) => {
   Odds
-    .find()
+    .findById(req.user.id)
     .exec((err, odds) => {
       if (err) { return next(err); }
 
@@ -43,6 +43,7 @@ exports.store = (req, res, next) => {
 
   Odds.create({
     user: req.user.id,
+    departament: req.user.departament,
     date: new Date(date[2], date[1] - 1, date[0]),
     receivedAmount: req.body.receivedAmount,
     receivedComment: req.body.receivedComment,

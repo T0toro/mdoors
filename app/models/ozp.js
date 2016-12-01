@@ -17,6 +17,16 @@ const mongoose   = require('mongoose'),
  */
 
 const OzpSchema = new Schema({
+  user: {
+    type: String,
+    default: ''
+  },
+
+  departament: {
+    type: String,
+    default: ''
+  },
+
   date: {
     type: Date,
     default: Date.now
