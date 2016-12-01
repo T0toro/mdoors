@@ -100,6 +100,7 @@ module.exports = (app, passport) => {
   app.get('/dashboard/ozp/destroy/:id', ozp.destroy);
 
   app.post('/dashboard/ozp/store', ozp.store);
+  app.post('/dashboard/ozp/filter', ozp.filter);
 
   // Odds
   // --------------------------------------------

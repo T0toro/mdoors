@@ -10,6 +10,7 @@ body(class="login-page")
   form(action="/login", method="POST").login
     input(type="hidden", name="_csrf", value="#{csrf}")
     .login-form
+      p(style="text-align: center; margin: 0 0 10px 0; color: #222;") v0.9.0
       .form-group
         input#login-name.form-control.login-field(type='text', name="login", placeholder='login', required)
         label.login-field-icon.fui-user(for='login-name')

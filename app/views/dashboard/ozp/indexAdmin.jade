@@ -1,0 +1,96 @@
+extends ../layouts/app
+
+block content
+  - var amountSumm  = 0;
+  - var paymentSumm = 0;
+  - var startYear   = 2016;
+  - var currentYear = new Date().getFullYear();
+  article.content
+    header
+      h2 Отчет о ЗП
+    table.table
+      thead
+        tr
+          th(colspan="8")
+            form(action="/dashboard/ozp/filter", name="ozp", id="form-ozp-filter" method="POST", style="margin: 0;").form-inline
+              fieldset
+                legend Фильтр
+                input(type="hidden", name="_csrf", value="#{csrf}")
+                .form-group
+                  label(for="ozp-year") Год:
+                  select(name="year", id="ozp-year").form-control
+                    option= startYear
+                    while startYear !== currentYear
+                      option ++startYear
+                .form-group
+                  label(for="ozp-mounth") Месяц:
+                  select(name="mounth", id="ozp-mounth").form-control
+                    option(value="1") Январь
+                    option(value="2") Февраль
+                    option(value="3") Март
+                    option(value="4") Апрель
+                    option(value="5") Май
+                    option(value="6") Июнь
+                    option(value="7") Июль
+                    option(value="8") Август
+                    option(value="9") Сентябрь
+                    option(value="10") Октябрь
+                    option(value="11") Ноябрь
+                    option(value="12") Декабрь
+                .form-group
+                  label(for="ozp-departament") Отдел:
+                  select(name="departament", id="ozp-departament").form-control
+                    if (departaments)
+                      each departament, key in departaments
+                        option(value="#{key}")= departament
+                .form-group.pull-right
+                  input(type="submit", name="submit", class="btn btn-primary btn-ozp-filter", value="Показать")
+        tr
+          th #
+          th Дата
+          th Сотрудник
+          th Отдел
+          th Сумма (р.)
+          th Предоплата (р.)
+          th Адрес доставки или номер и дата заказа на самовывоз
+          th(colspan="1", width="230")
+      tbody
+        if (Array.isArray(ozps) && !!ozps.length)
+          each ozp, index in ozps
+            - amountSumm += parseInt(ozp.amount);
+            - paymentSumm += parseInt(ozp.payment);
+            tr
+              td= index + 1
+              td= moment(ozp.date).locale('ru').format('L')
+              td= users[ozp.user]
+              td= departaments[ozp.departament]
+              td= ozp.amount
+              td= ozp.payment
+              td= ozp.address
+              td.table-controls
+                if (req.user.group === 'manager' || req.user.group === 'accountant')
+                  a(href="/dashboard/ozp/destroy/#{ozp.id}").btn.btn-danger
+                    i.fa.fa-trash
+        else
+          tr
+            td(colspan="8").text-center
+              i.fa.fa-cart
+              | На данный момент отчетов нет
+      tfoot
+        tr
+          td(colspan="5")
+          td(colspan="3")
+            table.table.table-bordered
+              tbody
+                tr
+                  td Итого:
+                  td= `${amountSumm} р.`
+                tr
+                  td Аванс:
+                  td= `${paymentSumm} р.`
+                tr
+                  td Кол-во смен:
+                  td 0
+                tr
+                  td Итого к выплате:
+                  td= `${amountSumm - paymentSumm} р.`

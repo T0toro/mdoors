@@ -252,6 +252,10 @@ $(function() {
     $('#form-odds').submit();
   });
 
+  $('.btn-odds-send').click(function() {
+    $('#form-odds').submit();
+  });
+
   $('.btn-send-password').click(function() {
     var _id = $(this).data('id');
 

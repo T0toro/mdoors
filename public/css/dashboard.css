@@ -34,6 +34,14 @@ form legend {
     text-align: right;
 }
 
+#form-ozp-filter .form-group + .form-group {
+    margin-left: 10px;
+}
+
+#form-ozp-filter .form-group label {
+    margin-right: 10px;
+}
+
 
 /*
 //  Select2
