@@ -109,6 +109,7 @@ module.exports = (app, passport) => {
   app.get('/dashboard/odds/destroy/:id', odds.destroy);
 
   app.post('/dashboard/odds/store', odds.store);
+  app.post('/dashboard/odds/filter', odds.filter);
 
   // News
   // --------------------------------------------

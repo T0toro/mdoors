@@ -1,0 +1,99 @@
+extends ../layouts/app
+
+block script
+  script(src="/js/vendor/moment.min.js")
+
+block content
+  - var retiredAmountSumm = 0;
+  - var receivedAmountSumm = 0;
+  - var startYear   = 2016;
+  - var currentYear = new Date().getFullYear();
+  article.content
+    header
+      h2 Отчет о ДДС 
+    table.table.table-bordered.text-center
+      thead
+       tr
+          th(colspan="7")
+            form(action="/dashboard/odds/filter", name="odds", id="form-odds-filter" method="POST", style="margin: 0;").form-inline
+              fieldset
+                input(type="hidden", name="_csrf", value="#{csrf}")
+                .form-group
+                  label(for="odds-year") Год:
+                  select(name="year", id="odds-year").form-control
+                    option= startYear
+                    while startYear !== currentYear
+                      option ++startYear
+                .form-group
+                  label(for="odds-mounth") Месяц:
+                  select(name="mounth", id="odds-mounth").form-control
+                    option(value="1") Январь
+                    option(value="2") Февраль
+                    option(value="3") Март
+                    option(value="4") Апрель
+                    option(value="5") Май
+                    option(value="6") Июнь
+                    option(value="7") Июль
+                    option(value="8") Август
+                    option(value="9") Сентябрь
+                    option(value="10") Октябрь
+                    option(value="11") Ноябрь
+                    option(value="12") Декабрь
+                .form-group
+                  label(for="odds-departament") Отдел:
+                  select(name="departament", id="odds-departament").form-control
+                    if (departaments)
+                      each departament, key in departaments
+                        option(value="#{key}")= departament
+                .form-group.pull-right
+                  input(type="submit", name="submit", class="btn btn-primary btn-odds-filter", value="Показать")
+        tr
+          th(colspan="4").text-center Поступило
+          th(colspan="3").text-center Выбыло
+        tr
+          th.text-center #
+          th.text-center Дата
+          th.text-center Сумма (р.)
+          th.text-center Комментарий
+          th.text-center Сумма (р.)
+          th.text-center Комментарий
+          th(colspan="1", width="230")
+      tbody
+        if (Array.isArray(odds) && !!odds.length)
+          each odd, index in odds
+            - receivedAmountSumm += parseInt(odd.receivedAmount);
+            - retiredAmountSumm += parseInt(odd.retiredAmount);
+            tr
+              td= index + 1
+              td= moment(odd.date).locale('ru').format('L')
+              td= odd.receivedAmount
+              td= odd.receivedComment
+              td= odd.retiredAmount
+              td= odd.retiredComment
+              td.text-right
+                if (req.user.group === 'manager' || req.user.group === 'accountant')
+                  a(href="/dashboard/odds/destroy/#{odd.id}").btn.btn-danger
+                    i.fa.fa-trash
+        else
+          tr
+            td(colspan="8").text-center
+              i.fa.fa-cart
+              | На данный момент отчетов нет
+      tfoot()
+        tr
+          td(colspan="5")
+          td(colspan="3")
+            table.table.table-bordered
+              tbody
+                tr
+                  td Остаток:
+                  td 0
+                tr
+                  td Итого поступило:
+                  td= `${receivedAmountSumm} р.`
+                tr
+                  td Итого выбыло:
+                  td= `${retiredAmountSumm} р.`
+                tr
+                  td Итого в кассе:
+                  td= `${receivedAmountSumm - retiredAmountSumm} р.`

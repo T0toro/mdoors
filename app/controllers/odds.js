@@ -10,8 +10,11 @@
  * Module dependencies
  */
 
-const mongoose = require('mongoose'),
-      Odds = mongoose.model('Odds');
+const mongoose    = require('mongoose'),
+      async       = require('async'),
+      Odds        = mongoose.model('Odds'),
+      User        = mongoose.model('User'),
+      Departament = mongoose.model('Departament');
 
 /*
  * Expos
@@ -23,18 +26,131 @@ const mongoose = require('mongoose'),
  */
 
 exports.index = (req, res, next) => {
-  Odds
-    .findById(req.user.id)
-    .exec((err, odds) => {
+  if (req.user.group === 'accountant') {
+    async.parallel([
+      function(cb) {
+        User
+          .find()
+          .exec(function(err, users) {
+            return cb(err, users);
+          });
+      },
+      function(cb) {
+        Departament
+          .find()
+          .exec(function(err, departaments) {
+            return cb(err, departaments);
+          });
+      },
+      function(cb) {
+        Odds
+          .find()
+          .exec((err, oddss) => {
+            return cb(err, oddss);
+          });
+      },
+    ], function(err, result) {
       if (err) { return next(err); }
 
-      if (Array.isArray(odds)) {
-        return res.render('dashboard/odds/index', { odds: odds });
+      let users = {},
+          departaments = {};
+
+      if(Array.isArray(result[0]) && !!result[0].length) {
+        result[0].forEach(function(user) {
+          users[user.id] = user.name;
+        });
       }
 
-      return res.render('dashboard/odds/index');
+      if(Array.isArray(result[1]) && !!result[1].length) {
+        result[1].forEach(function(departament) {
+          departaments[departament.id] = departament.name;
+        });
+      }
+
+
+      return res.render('dashboard/odds/indexAdmin', {
+        users: users,
+        departaments: departaments,
+        oddss: result[2]
+      });
     });
+  } else {
+    Odds
+      .findById(req.user.id)
+      .exec((err, odds) => {
+        if (err) { return next(err); }
+
+        if (Array.isArray(odds)) {
+          return res.render('dashboard/odds/index', { odds: odds });
+        }
+
+        return res.render('dashboard/odds/index');
+      });
+  }
 };
+
+exports.filter = (req, res, next) => {
+  var start = new Date(req.body.year, req.body.mounth, 1),
+      end   = new Date(req.body.year, req.body.mounth, 30);
+
+  if (req.user.group === 'accountant') {
+    async.parallel([
+      function(cb) {
+        User
+          .find()
+          .exec(function(err, users) {
+            return cb(err, users);
+          });
+      },
+      function(cb) {
+        Departament
+          .find()
+          .exec(function(err, departaments) {
+            return cb(err, departaments);
+          });
+      },
+      function(cb) {
+        Odds
+          .find({
+            departament: req.body.departament,
+            date: {
+              $gte: start,
+              $lt: end
+            }
+          })
+          .exec((err, ozps) => {
+            return cb(err, ozps);
+          });
+      },
+    ], function(err, result) {
+      if (err) { return next(err); }
+
+      let users = {},
+          departaments = {};
+
+      if(Array.isArray(result[0]) && !!result[0].length) {
+        result[0].forEach(function(user) {
+          users[user.id] = user.name;
+        });
+      }
+
+      if(Array.isArray(result[1]) && !!result[1].length) {
+        result[1].forEach(function(departament) {
+          departaments[departament.id] = departament.name;
+        });
+      }
+
+      return res.render('dashboard/odds/indexAdmin', {
+        users: users,
+        departaments: departaments,
+        odds: result[2]
+      });
+    });
+  } else {
+    return res.redirect('dashboard/odds');
+  }
+};
+
 
 exports.store = (req, res, next) => {
   const date = req.body.date.split('.');
