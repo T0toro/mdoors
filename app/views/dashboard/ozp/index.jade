@@ -45,13 +45,13 @@ block content
       tbody
         if (Array.isArray(ozps) && !!ozps.length)
           each ozp, index in ozps
-            - amountSumm += parseInt(ozp.amount);
-            - paymentSumm += parseInt(ozp.payment);
+            - amountSumm += ozp.amount != null ? parseInt(ozp.amount) : 0;
+            - paymentSumm += ozp.payment != null ? parseInt(ozp.payment) : 0;
             tr
               td= index + 1
               td= moment(ozp.date).locale('ru').format('L')
-              td= ozp.amount
-              td= ozp.payment
+              td= ozp.amount != null ? ozp.amount : 0
+              td= ozp.payment != null ? ozp.payment : 0
               td= ozp.address
               td.table-controls
                 if (req.user.group === 'manager' || req.user.group === 'accountant')

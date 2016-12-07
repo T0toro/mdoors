@@ -82,11 +82,11 @@ exports.index = (req, res, next) => {
       .sort({
         createdAt: -1
       })
-      .exec((err, odds) => {
+      .exec((err, oddss) => {
         if (err) { return next(err); }
 
-        if (Array.isArray(odds)) {
-          return res.render('dashboard/odds/index', { odds: odds });
+        if (Array.isArray(oddss)) {
+          return res.render('dashboard/odds/index', { oddss: oddss });
         }
 
         return res.render('dashboard/odds/index');

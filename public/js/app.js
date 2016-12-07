@@ -244,6 +244,12 @@ $(function() {
     headers: {'X-CSRF-Token': $('meta[name="_csrf"]').attr('content')}
   });
 
+  $('.btn-print').click(function() {
+    window.print();
+
+    return false;
+  });
+
   $('.btn-ozp-send').click(function() {
     $('#form-ozp').submit();
   });

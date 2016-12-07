@@ -10,7 +10,7 @@ block content
       h2 Отчет о ЗП
     table.table
       thead
-        tr
+        tr.no-print
           th(colspan="8")
             form(action="/dashboard/ozp/filter", name="ozp", id="form-ozp-filter" method="POST", style="margin: 0;").form-inline
               fieldset
@@ -45,6 +45,8 @@ block content
                         option(value="#{key}")= departament
                 .form-group.pull-right
                   input(type="submit", name="submit", class="btn btn-primary btn-ozp-filter", value="Показать")
+                  button.btn.btn-primary.btn-print
+                    i.fa.fa-print
         tr
           th #
           th Дата
@@ -57,15 +59,15 @@ block content
       tbody
         if (Array.isArray(ozps) && !!ozps.length)
           each ozp, index in ozps
-            - amountSumm += parseInt(ozp.amount);
-            - paymentSumm += parseInt(ozp.payment);
+            - amountSumm += ozp.amount != null ? parseInt(ozp.amount) : 0;
+            - paymentSumm += ozp.payment != null ? parseInt(ozp.payment) : 0;
             tr
               td= index + 1
               td= moment(ozp.date).locale('ru').format('L')
               td= users[ozp.user]
               td= departaments[ozp.departament]
-              td= ozp.amount
-              td= ozp.payment
+              td= ozp.amount != null ? ozp.amount : 0
+              td= ozp.payment != null ? ozp.payment : 0
               td= ozp.address
               td.table-controls
                 if (req.user.group === 'manager' || req.user.group === 'accountant')

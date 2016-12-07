@@ -118,3 +118,7 @@ form legend {
     background: #e74c3c;
     border-radius: 5px;
 }
+
+.btn-print {
+    margin-left: 15px;
+}

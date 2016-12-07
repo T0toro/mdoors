@@ -57,16 +57,16 @@ block content
           th.text-center Комментарий
           th(colspan="1", width="230")
       tbody
-        if (Array.isArray(odds) && !!odds.length)
-          each odd, index in odds
-            - receivedAmountSumm += parseInt(odd.receivedAmount);
-            - retiredAmountSumm += parseInt(odd.retiredAmount);
+        if (Array.isArray(oddss) && !!oddss.length)
+          each odd, index in oddss
+            - receivedAmountSumm += odd.receivedAmount != null ? parseInt(odd.receivedAmount) : 0;
+            - retiredAmountSumm += odd.retiredAmount != null ? parseInt(odd.retiredAmount) : 0;
             tr
               td= index + 1
               td= moment(odd.date).locale('ru').format('L')
-              td= odd.receivedAmount
+              td= odd.receivedAmount != null ? parseInt(odd.receivedAmount) : 0
               td= odd.receivedComment
-              td= odd.retiredAmount
+              td= odd.retiredAmount != null ? parseInt(odd.retiredAmount) : 0
               td= odd.retiredComment
               td.text-right
                 if (req.user.group === 'manager' || req.user.group === 'accountant')
