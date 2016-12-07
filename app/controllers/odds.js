@@ -76,7 +76,12 @@ exports.index = (req, res, next) => {
     });
   } else {
     Odds
-      .findById(req.user.id)
+      .find({
+        user: req.user.id
+      })
+      .sort({
+        createdAt: -1
+      })
       .exec((err, odds) => {
         if (err) { return next(err); }
 

@@ -32,7 +32,7 @@ block content
               td.table-controls
                 a(href="/dashboard/orders/show/#{order.id}").btn.btn-primary
                   i.fa.fa-eye
-                if (req.user.group === 'manager' || req.user.group === 'accountant')
+                if (req.user.group === 'accountant')
                   a(href="/dashboard/orders/destroy/#{order.id}").btn.btn-danger
                     i.fa.fa-trash
         else

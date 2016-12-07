@@ -62,7 +62,7 @@ html
                       a(href="/dashboard/attribute-groups") Группы атрибутов
                     li
                       a(href="/dashboard/attributes") Атрибуты
-              if (req.user.group === 'manager' || req.user.group === 'accountant')
+              if (req.user.group === 'accountant')
                 li.dropdown
                   a(href="", class="dropdown-toggle", data-toggle="dropdown", role="button") Персонал
                       span.caret
@@ -76,10 +76,11 @@ html
                       a(href="/dashboard/users") Пользователи
                     li
                       a(href="/dashboard/users/create") Добавить пользователя
-              li
-                a(href="/dashboard/ozp") ОЗП
-              li
-                a(href="/dashboard/odds") ОДДС
+              if (req.user.group !== 'manager')
+                li
+                  a(href="/dashboard/ozp") ОЗП
+                li
+                  a(href="/dashboard/odds") ОДДС
             if (isAuthenticated)
               ul.nav.navbar-nav.navbar-right
                 li
