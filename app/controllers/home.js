@@ -15,6 +15,9 @@ const mongoose = require('mongoose'),
 exports.index = (req, res, next) => {
   News
     .find()
+    .sort({
+      createdAt: -1
+    })
     .exec((err, news) => {
       if (err) { return next(err); }
 

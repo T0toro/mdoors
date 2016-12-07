@@ -11,6 +11,7 @@ block content
       thead
         tr
           th #
+          th Создан
           th Отдел
           th Продавец
           th Продукт
@@ -22,8 +23,9 @@ block content
           each order, index in orders
             tr
               td= index + 1
+              td= moment(order.createdAt).locale('ru').format('L')
               td= order.departament
-              td= req.user.name
+              td= users[order.user]
               td= order.product
               td= order.address
               td= order.telephone

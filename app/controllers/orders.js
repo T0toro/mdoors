@@ -34,15 +34,45 @@ const mongoose       = require('mongoose'),
 exports.index = (req, res, next) => {
   const searchObj = req.user.group === 'manager' ? {} : { user: req.user._id };
 
-  Order
-    .find(searchObj)
-    .exec((err, orders) => {
-      if (err) { return next(err); }
+  async.parallel([
+    function(cb) {
+     Order
+      .find(searchObj)
+      .sort({
+        createdAt: -1
+      })
+      .exec(function(err, orders) {
+        return cb(err, orders);
+      });
+    },
+    function(cb) {
+      User
+        .find()
+        .exec((err, users) => {
+          return cb(err, users);
+        });
+    },
+  ], function(err, result) {
+    if (err) { return next(err); }
 
-      if (Array.isArray(orders)) { return res.render('dashboard/orders/index', { orders: orders }); }
+    let users = {};
 
-      return res.render('dashboard/orders/index');
-    });
+    if (Array.isArray(result[1]) && Boolean(result[1].length)) {
+      result[1].forEach(function(user) {
+        console.info(user);
+        users[user.id] = user.name;
+      });
+    }
+
+    if (Array.isArray(result[0]) && Boolean(result[0].length)) {
+      return res.render('dashboard/orders/index', {
+        orders: result[0],
+        users: users
+      });
+    }
+
+    return res.render('dashboard/orders/index');
+  });
 };
 
 
@@ -66,7 +96,6 @@ exports.show = (req, res, next) => {
     }
   ], function(err, result) {
     if (err) { return next(err); }
-
 
     if (Array.isArray(result[1]) && Boolean(result[1].length)) {
       result[1].forEach((user) => {
