@@ -55,6 +55,7 @@ block content
         tr
           th.text-center #
           th.text-center Дата
+          th.text-center Отдел
           th.text-center Сумма (р.)
           th.text-center Комментарий
           th.text-center Сумма (р.)
@@ -68,6 +69,7 @@ block content
             tr
               td= index + 1
               td= moment(odd.date).locale('ru').format('L')
+              td= departaments[odd.departament]
               td= odd.receivedAmount != null ? parseInt(odd.receivedAmount) : 0
               td= odd.receivedComment
               td= odd.retiredAmount != null ? parseInt(odd.retiredAmount) : 0

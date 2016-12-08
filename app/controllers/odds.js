@@ -45,7 +45,7 @@ exports.index = (req, res, next) => {
       function(cb) {
         Odds
           .find()
-          .exec((err, oddss) => {
+          .exec(function(err, oddss) {
             return cb(err, oddss);
           });
       },
@@ -82,7 +82,7 @@ exports.index = (req, res, next) => {
       .sort({
         createdAt: -1
       })
-      .exec((err, oddss) => {
+      .exec(function(err, oddss) {
         if (err) { return next(err); }
 
         if (Array.isArray(oddss)) {
@@ -148,7 +148,7 @@ exports.filter = (req, res, next) => {
       return res.render('dashboard/odds/indexAdmin', {
         users: users,
         departaments: departaments,
-        odds: result[2]
+        oddss: result[2]
       });
     });
   } else {
