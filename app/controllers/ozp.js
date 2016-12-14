@@ -45,6 +45,9 @@ exports.index = (req, res, next) => {
       function(cb) {
         Ozp
           .find()
+          .sort({
+            createdAt: -1
+          })
           .exec((err, ozps) => {
             return cb(err, ozps);
           });
@@ -55,13 +58,13 @@ exports.index = (req, res, next) => {
       let users = {},
           departaments = {};
 
-      if(Array.isArray(result[0]) && !!result[0].length) {
+      if (Array.isArray(result[0]) && !!result[0].length) {
         result[0].forEach(function(user) {
           users[user.id] = user.name;
         });
       }
 
-      if(Array.isArray(result[1]) && !!result[1].length) {
+      if (Array.isArray(result[1]) && !!result[1].length) {
         result[1].forEach(function(departament) {
           departaments[departament.id] = departament.name;
         });
@@ -77,6 +80,9 @@ exports.index = (req, res, next) => {
   } else {
     Ozp
     .findById(req.user.id)
+    .sort({
+      createdAt: -1
+    })
     .exec((err, ozps) => {
       if (err) { return next(err); }
 
@@ -90,8 +96,10 @@ exports.index = (req, res, next) => {
 };
 
 exports.filter = (req, res, next) => {
-  var start = new Date(req.body.year, req.body.mounth, 1),
-      end   = new Date(req.body.year, req.body.mounth, 30);
+  const month = Number(req.body.mounth),
+        year  = Number(req.body.year),
+        start = new Date(year, month - 1, 1),
+        end = new Date(year, month, 1);
 
   if (req.user.group === 'accountant') {
     async.parallel([
