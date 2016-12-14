@@ -39,7 +39,7 @@ module.exports = (app, passport) => {
   // ---------------- Dashboard -----------------
   // --------------------------------------------
 
-  app.get('/', (req, res)          => { return res.redirect('/dashboard'); });
+  app.get('/', (req, res) => { return res.redirect('/dashboard'); });
 
   app.get('/dashboard', home.index);
 

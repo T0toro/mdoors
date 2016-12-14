@@ -10,7 +10,7 @@ block content
   - var currentYear = new Date().getFullYear();
   article.content
     header
-      h2 Отчет о ДДС 
+      h2 Отчет о ДДС
     table.table.table-bordered.text-center
       thead
         tr.no-print
@@ -21,9 +21,8 @@ block content
                 .form-group
                   label(for="odds-year") Год:
                   select(name="year", id="odds-year").form-control
-                    option= startYear
-                    while startYear !== currentYear
-                      option ++startYear
+                    while startYear <= currentYear
+                      option= startYear++
                 .form-group
                   label(for="odds-mounth") Месяц:
                   select(name="mounth", id="odds-mounth").form-control

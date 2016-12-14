@@ -45,6 +45,9 @@ exports.index = (req, res, next) => {
       function(cb) {
         Odds
           .find()
+          .sort({
+            date: -1
+          })
           .exec(function(err, oddss) {
             return cb(err, oddss);
           });
@@ -67,7 +70,6 @@ exports.index = (req, res, next) => {
         });
       }
 
-
       return res.render('dashboard/odds/indexAdmin', {
         users: users,
         departaments: departaments,
@@ -80,7 +82,7 @@ exports.index = (req, res, next) => {
         user: req.user.id
       })
       .sort({
-        createdAt: -1
+        date: -1
       })
       .exec(function(err, oddss) {
         if (err) { return next(err); }
@@ -95,22 +97,24 @@ exports.index = (req, res, next) => {
 };
 
 exports.filter = (req, res, next) => {
-  var start = new Date(req.body.year, req.body.mounth, 1),
-      end   = new Date(req.body.year, req.body.mounth, 30);
+  const month = Number(req.body.mounth),
+        year  = Number(req.body.year),
+        start = new Date(year, month - 1, 1),
+        end = new Date(year, month, 1);
 
   if (req.user.group === 'accountant') {
     async.parallel([
       function(cb) {
         User
           .find()
-          .exec(function(err, users) {
+          .exec((err, users) => {
             return cb(err, users);
           });
       },
       function(cb) {
         Departament
           .find()
-          .exec(function(err, departaments) {
+          .exec((err, departaments) => {
             return cb(err, departaments);
           });
       },
@@ -159,8 +163,6 @@ exports.filter = (req, res, next) => {
 
 exports.store = (req, res, next) => {
   const date = req.body.date.split('.');
-
-  console.info(req.body);
 
   Odds.create({
     user: req.user.id,
