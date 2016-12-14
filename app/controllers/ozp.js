@@ -46,7 +46,7 @@ exports.index = (req, res, next) => {
         Ozp
           .find()
           .sort({
-            createdAt: -1
+            date: -1
           })
           .exec((err, ozps) => {
             return cb(err, ozps);
@@ -81,7 +81,7 @@ exports.index = (req, res, next) => {
     Ozp
     .findById(req.user.id)
     .sort({
-      createdAt: -1
+      date: -1
     })
     .exec((err, ozps) => {
       if (err) { return next(err); }
