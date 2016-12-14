@@ -127,23 +127,23 @@ exports.filter = (req, res, next) => {
               $lt: end
             }
           })
-          .exec((err, ozps) => {
-            return cb(err, ozps);
+          .exec((err, oddss) => {
+            return cb(err, oddss);
           });
-      },
+      }
     ], function(err, result) {
       if (err) { return next(err); }
 
       let users = {},
           departaments = {};
 
-      if(Array.isArray(result[0]) && !!result[0].length) {
+      if (Array.isArray(result[0]) && !!result[0].length) {
         result[0].forEach(function(user) {
           users[user.id] = user.name;
         });
       }
 
-      if(Array.isArray(result[1]) && !!result[1].length) {
+      if (Array.isArray(result[1]) && !!result[1].length) {
         result[1].forEach(function(departament) {
           departaments[departament.id] = departament.name;
         });
@@ -156,7 +156,21 @@ exports.filter = (req, res, next) => {
       });
     });
   } else {
-    return res.redirect('dashboard/odds');
+    Odds
+      .find({
+        user: req.user.id,
+        date: {
+          $gte: start,
+          $lt: end
+        }
+      })
+      .exec((err, oddss) => {
+        if (err) { return next(err); }
+
+        return res.render('dashboard/odds/index', {
+          oddss: oddss
+        });
+      });
   }
 };
 

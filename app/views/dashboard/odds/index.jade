@@ -6,6 +6,8 @@ block script
 block content
   - var retiredAmountSumm = 0;
   - var receivedAmountSumm = 0;
+  - var startYear   = 2016;
+  - var currentYear = new Date().getFullYear();
   article.content
     header
       h2 Отчет о ДДС
@@ -45,6 +47,33 @@ block content
               button(type="button" class="btn btn-primary btn-odds-send") Добавить в отчет
     table.table.table-bordered.text-center
       thead
+        tr.no-print
+          th(colspan="7")
+            form(action="/dashboard/odds/filter", name="odds", id="form-odds-filter" method="POST", style="margin: 0;").form-inline
+              fieldset
+                input(type="hidden", name="_csrf", value="#{csrf}")
+                .form-group
+                  label(for="odds-year") Год:
+                  select(name="year", id="odds-year").form-control
+                    while startYear <= currentYear
+                      option= startYear++
+                .form-group
+                  label(for="odds-mounth") Месяц:
+                  select(name="mounth", id="odds-mounth").form-control
+                    option(value="1") Январь
+                    option(value="2") Февраль
+                    option(value="3") Март
+                    option(value="4") Апрель
+                    option(value="5") Май
+                    option(value="6") Июнь
+                    option(value="7") Июль
+                    option(value="8") Август
+                    option(value="9") Сентябрь
+                    option(value="10") Октябрь
+                    option(value="11") Ноябрь
+                    option(value="12") Декабрь
+                .form-group.pull-right
+                  input(type="submit", name="submit", class="btn btn-primary btn-odds-filter", value="Показать")
         tr
           th(colspan="4").text-center Поступило
           th(colspan="2").text-center Выбыло
