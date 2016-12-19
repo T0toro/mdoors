@@ -23,7 +23,7 @@ const fs       = require('fs'),
 // Connect to mongodb
 function connect() {
   mongoose.connect(
-    'mongodb://localhost/jsbook', {
+    'mongodb://localhost/mdoors', {
       server: {
         socketOptions: {
           keepAlive: 1
