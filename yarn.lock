@@ -2018,6 +2018,10 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
+flat-ui@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/flat-ui/-/flat-ui-2.1.1.tgz#16be89413fc4f44cd24f4dfc0d04e33c4f42e135"
+
 flow-bin@^0.27.0:
   version "0.27.0"
   resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.27.0.tgz#d849a67b1251f73ab9071e9a3398d1eb538f189b"
@@ -5041,10 +5045,6 @@ vm-browserify@0.0.4:
 void-elements@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
-
-vue-resource@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/vue-resource/-/vue-resource-1.0.3.tgz#8d52d0d8a9ed5f2ae704c68d530c84ceaf97be14"
 
 vue@^2.1.6:
   version "2.1.6"

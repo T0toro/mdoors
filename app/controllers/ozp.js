@@ -13,6 +13,7 @@
 const mongoose = require('mongoose'),
       async = require('async'),
       Ozp = mongoose.model('Ozp'),
+      OzpShifts = mongoose.model('OzpShifts'),
       User = mongoose.model('User'),
       Departament = mongoose.model('Departament');
 
@@ -26,6 +27,11 @@ const mongoose = require('mongoose'),
  */
 
 exports.index = (req, res, next) => {
+  const year = new Date().getFullYear(),
+        month = new Date().getMonth() + 1,
+        start = new Date(year, month - 1, 1),
+        end = new Date(year, month, 1);
+
   if (req.user.group === 'accountant') {
     async.parallel([
       function(cb) {
@@ -51,6 +57,18 @@ exports.index = (req, res, next) => {
           .exec((err, ozps) => {
             return cb(err, ozps);
           });
+      },
+      function(cb) {
+        OzpShifts
+          .find({
+            date: {
+              $gte: start,
+              $lt: end
+            }
+          })
+          .exec(function(err, ozpShifts) {
+            return cb(err, ozpShifts);
+          });
       }
     ], function(err, result) {
       if (err) { return next(err); }
@@ -70,27 +88,45 @@ exports.index = (req, res, next) => {
         });
       }
 
-
       return res.render('dashboard/ozp/indexAdmin', {
         users: users,
         departaments: departaments,
-        ozps: result[2]
+        ozps: result[2],
+        ozpShifts: result[3]
       });
     });
   } else {
-    Ozp
-    .findById(req.user.id)
-    .sort({
-      date: -1
-    })
-    .exec((err, ozps) => {
+    async.parallel([
+      function(cb) {
+        Ozp
+        .findById(req.user.id)
+        .sort({
+          date: -1
+        })
+        .exec((err, ozps) => {
+          return cb(err, ozps);
+        });
+      }, 
+      function(cb) {
+        OzpShifts
+          .find({
+            date: {
+              departament: req.user.departament,
+              $gte: start,
+              $lt: end
+            }
+          })
+          .exec(function(err, ozpShifts) {
+            return cb(err, ozpShifts);
+          });
+      }
+    ], (err, result) => {
       if (err) { return next(err); }
 
-      if (Array.isArray(ozps)) {
-        return res.render('dashboard/ozp/index', { ozps: ozps });
-      }
-
-      return res.render('dashboard/ozp/index');
+      return res.render('dashboard/ozp/index', {
+        ozps: result[0],
+        ozpShifts: result[1]
+      });
     });
   }
 };
@@ -130,6 +166,19 @@ exports.filter = (req, res, next) => {
             return cb(err, ozps);
           });
       },
+      function(cb) {
+        OzpShifts
+          .find({
+            departament: req.body.departament,
+            date: {
+              $gte: start,
+              $lt: end
+            }
+          })
+          .exec(function(err, ozpShifts) {
+            return cb(err, ozpShifts);
+          });
+      }
     ], function(err, result) {
       if (err) { return next(err); }
 
@@ -151,7 +200,8 @@ exports.filter = (req, res, next) => {
       return res.render('dashboard/ozp/indexAdmin', {
         users: users,
         departaments: departaments,
-        ozps: result[2]
+        ozps: result[2],
+        ozpShifts: result[3]
       });
     });
   } else {
@@ -174,6 +224,24 @@ exports.store = (req, res, next) => {
 
     return res.redirect('/dashboard/ozp');
   });
+};
+
+
+exports.setShift = (req, res, next) => {
+  const date = req.body.date.split('.');
+
+  OzpShifts
+    .create({
+      date: new Date(date[2], date[1] - 1, date[0]),
+      user: req.user.id,
+      departament: req.user.departament,
+      amount: req.body.amount,
+      count: req.body.count
+    }, (err) => {
+      if (err) { return next(err); }
+
+      return res.redirect('/dashboard/odds');
+    });
 };
 
 exports.destroy = (req, res, next) => {

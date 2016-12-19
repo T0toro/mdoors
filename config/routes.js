@@ -98,6 +98,7 @@ module.exports = (app, passport) => {
   app.get('/dashboard/ozp/destroy/:id', ozp.destroy);
 
   app.post('/dashboard/ozp/store', ozp.store);
+  app.post('/dashboard/ozp/setShift', ozp.setShift);
   app.post('/dashboard/ozp/filter', ozp.filter);
 
   // Odds
@@ -107,6 +108,7 @@ module.exports = (app, passport) => {
   app.get('/dashboard/odds/destroy/:id', odds.destroy);
 
   app.post('/dashboard/odds/store', odds.store);
+  app.post('/dashboard/odds/setBalance', odds.setBalance);
   app.post('/dashboard/odds/filter', odds.filter);
 
   // News

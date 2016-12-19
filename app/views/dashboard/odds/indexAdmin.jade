@@ -14,7 +14,7 @@ block content
     table.table.table-bordered.text-center
       thead
         tr.no-print
-          th(colspan="7")
+          th(colspan="8")
             form(action="/dashboard/odds/filter", name="odds", id="form-odds-filter" method="POST", style="margin: 0;").form-inline
               fieldset
                 input(type="hidden", name="_csrf", value="#{csrf}")
@@ -50,7 +50,7 @@ block content
                     i.fa.fa-print
         tr
           th(colspan="4").text-center Поступило
-          th(colspan="3").text-center Выбыло
+          th(colspan="4").text-center Выбыло
         tr
           th.text-center #
           th.text-center Дата

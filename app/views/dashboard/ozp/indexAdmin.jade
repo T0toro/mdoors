@@ -1,7 +1,6 @@
 extends ../layouts/app
 
 block content
-  - var amountSumm  = 0;
   - var paymentSumm = 0;
   - var startYear   = 2016;
   - var currentYear = new Date().getFullYear();
@@ -59,7 +58,6 @@ block content
       tbody
         if (Array.isArray(ozps) && !!ozps.length)
           each ozp, index in ozps
-            - amountSumm += ozp.amount != null ? parseInt(ozp.amount) : 0;
             - paymentSumm += ozp.payment != null ? parseInt(ozp.payment) : 0;
             tr
               td= index + 1
@@ -86,13 +84,21 @@ block content
               tbody
                 tr
                   td Итого:
-                  td= `${amountSumm} р.`
-                tr
-                  td Аванс:
                   td= `${paymentSumm} р.`
-                tr
-                  td Кол-во смен:
-                  td 0
+                if (Array.isArray(ozpShifts) && !!ozpShifts.length)
+                  tr
+                    td Аванс:
+                    td= `${ozpShifts[ozpShifts.length - 1].amount}р.`
+                  tr
+                    td Кол-во смен:
+                    td= ozpShifts[ozpShifts.length - 1].count
+                else
+                  tr
+                    td Аванс:
+                    td 0
+                  tr
+                    td Кол-во смен:
+                    td 0
                 tr
                   td Итого к выплате:
-                  td= `${amountSumm - paymentSumm} р.`
+                  td= `${paymentSumm} р.`

@@ -11,7 +11,8 @@ block content
   article.content
     header
       h2 Отчет о ДДС
-        button(type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#modalOdds") Добавить
+        button(type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#modalOdds" style="margin-left: 15px") Добавить
+        button(type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#modalOddsBalance") Остаток
       //- Modal
       .modal.fade#modalOdds(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
         .modal-dialog(role="document")
@@ -45,6 +46,26 @@ block content
             .modal-footer
               button(type="button" class="btn btn-default" data-dismiss="modal") Закрыть
               button(type="button" class="btn btn-primary btn-odds-send") Добавить в отчет
+      //- Modal
+      .modal.fade#modalOddsBalance(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
+        .modal-dialog(role="document")
+          .modal-content
+            .modal-header
+              button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+                span(aria-hidden="true") &times;
+              h4(class="modal-title" id="myModalLabel") Остаток
+            .modal-body
+              form(action="/dashboard/odds/setBalance", id="form-oddsBalance" method="POST", style="margin: 0;")
+                input(type="hidden", name="_csrf", value="#{csrf}")
+                .form-group
+                  label(for="oddsBalance-date") Дата:
+                  input(type="text", name="date", id="oddsBalance-date", value="#{ moment().locale('ru').format('L') }").form-control.makdoors-datepicker
+                .form-group
+                  label(for="oddsBalance-balance") Сумма (р.):
+                  input(type="text", name="balance", id="oddsBalance-balance").form-control
+            .modal-footer
+              button(type="button" class="btn btn-default" data-dismiss="modal") Закрыть
+              button(type="button" class="btn btn-primary btn-oddsBalance-send") Добавить в отчет
     table.table.table-bordered.text-center
       thead
         tr.no-print
@@ -114,7 +135,10 @@ block content
               tbody
                 tr
                   td Остаток:
-                  td 0
+                  if (Array.isArray(oddsBalance) && !!oddsBalance.length)
+                    td= `${oddsBalance[oddsBalance.length - 1].balance}р`
+                  else
+                    td 0р
                 tr
                   td Итого поступило:
                   td= `${receivedAmountSumm} р.`

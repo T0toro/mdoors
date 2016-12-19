@@ -1,7 +1,10 @@
 extends ../layouts/app
 
 block script
-  script(src="/js/vendor/moment.min.js")
+    script(src="/js/vendor/jquery.min.js")
+    script(src="/js/vendor/moment.min.js")
+    script(src="/js/vendor/vue.min.js")
+    script(src="/js/order.js")
 
 block content
   .page-order
@@ -635,7 +638,7 @@ block content
                     td {{ furn.price * furn.count }}р
                 tfoot.furn-price
                   tr
-                    td(colspan="6")
+                    td(colspan="3")
                     td(colspan="1") Итого
                     td(colspan="1") {{ furnTotalPrice }}р
             section.block.block-arki
