@@ -32,7 +32,7 @@ const mongoose       = require('mongoose'),
  */
 
 exports.index = (req, res, next) => {
-  const searchObj = req.user.group === 'manager' ? {} : { user: req.user._id };
+  const searchObj = (req.user.group === 'manager' || req.user.group === 'accountant') ? {} : { user: req.user._id };
 
   async.parallel([
     function(cb) {

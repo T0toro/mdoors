@@ -1,5 +1,10 @@
 extends ../layouts/app
 
+block script
+    script(src="/js/vendor/tinymce/tinymce.min.js")
+    script(src="/js/vendor/tinymce/ru.js")
+    script(src="/js/editor.js")
+
 block content
   form(action="/dashboard/news/store", method="POST")
     fieldset

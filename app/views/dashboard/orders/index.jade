@@ -27,8 +27,8 @@ block content
               td= order.departament
               td= users[order.user]
               td= order.product
-              td= order.address
-              td= order.telephone
+              td= `${order.address.slice(0, 20)}...`
+              td= `${order.telephone.slice(0, 15)}...`
               td.table-controls
                 a(href="/dashboard/orders/show/#{order.id}").btn.btn-primary
                   i.fa.fa-eye
