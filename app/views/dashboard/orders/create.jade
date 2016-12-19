@@ -85,6 +85,8 @@ block content
           a(href="#pagonazh", role="tab", data-toggle="tab", aria-controls="pagonazh", aria-expanded="true") Погонаж
         li(role="presentation")
           a(href="#furnityra", role="tab", data-toggle="tab", aria-controls="furnityra", aria-expanded="true") Фурнитура
+        li(role="presentation")
+          a(href="#arki", role="tab", data-toggle="tab", aria-controls="arki", aria-expanded="true") Арки
       #makdoorsTabsContent.tab-content
         div(role="tabpanel")#doors.tab-pane.fade.in.active
           table.table.table-bordered.table-head-center
@@ -370,6 +372,112 @@ block content
                 .modal-footer
                   button(type="button", class="btn btn-default" data-dismiss="modal") Закрыть
                   button(type="button", class="btn btn-primary", @click="addFurn") Добавить к заказу
+        div(role="tabpanel")#arki.tab-pane.fade
+          table.table.table-bordered.table-head-center
+            thead
+              tr
+                th(colspan="6").text-center
+                  h5 Арки
+                th(colspan="2").text-center
+                  button(type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalArki") Добавить
+              tr
+                th #
+                th Название
+                th Размер
+                th Вид
+                th радиус
+                th Кол-во
+                th Цена
+                  br
+                  |( за ед )
+                th Цена
+                  br
+                  |( итог )
+            tbody.text-center
+              tr(v-for="(arka, index) in arki")
+                td
+                  a(href="#remove", @click="removeItem('arki', index)")
+                    i.fa.fa-trash
+                td {{ arka.name }}
+                td {{ arka.height + 'x' + arka.width + 'x' + arka.deep }}
+                td {{ arka.view }}
+                td {{ arka.radius }}
+                td {{ arka.count }}
+                td {{ arka.price }}р
+                td {{ arka.price * arka.count }}р
+            tfoot.arka-price
+              tr
+                td(colspan="6")
+                td(colspan="1") Доставка
+                td(colspan="1") {{ deliveryPrice }}р
+              tr
+                td(colspan="6")
+                td(colspan="1") Скидка
+                td(colspan="1") {{ discount }}%
+              tr
+                td(colspan="6")
+                td(colspan="1") Итого
+                td(colspan="1") {{ arkTotalPrice + parseInt(deliveryPrice) }}р
+              tr
+                td(colspan="6")
+                td(colspan="1") Итого с скидкой
+                td(colspan="1") {{ arkTotalPrice + parseInt(deliveryPrice) }}р
+          //- Modal
+          .modal.fade#modalArki(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
+            .modal-dialog(role="document")
+              .modal-content
+                .modal-header
+                  button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+                    span(aria-hidden="true") &times;
+                  h4(class="modal-title" id="myModalLabel") Добавить арку:
+                .modal-body
+                  form#form-arka.form-horizontal
+                    .form-group
+                      label(for="arka-name").col-sm-3.control-label Название:
+                      .col-sm-6
+                        input(type="text", name="name", placeholder="xxxxxx", id="arka-name").form-control
+                    .form-group
+                      label(for="arka-size").col-sm-3.control-label Размеры &nbsp;
+                        span(style="font-size: 11px;") ( В x Ш x Г ):
+                      .row
+                        .col-sm-2
+                          input(type="text", name="height", placeholder="100", id="arka-height").form-control
+                        p(style="float: left;") x
+                        .col-sm-2
+                          input(type="text", name="width", placeholder="100", id="arka-width", pattern="\d").form-control
+                        p(style="float: left;") x
+                        .col-sm-2
+                          input(type="text", name="deep", placeholder="100", id="arka-deep", pattern="\d").form-control
+                    .form-group
+                      label(for="arka-view").col-sm-3.control-label Вид:
+                      .col-sm-6
+                        select(name="view", id="arka-view").form-control
+                          option вид 1
+                          option вид 2
+                          option вид 3
+                          option вид 4
+                          option вид 5
+                          option вид 6
+                          option вид 7
+                    .form-group
+                      label(for="arka-radius").col-sm-3.control-label Радиус:
+                      .col-sm-6
+                        select(name="radius", id="arka-radius").form-control
+                          option Раздвижной с углами
+                          option Раздвижной без углов
+                          option Полный с углами
+                          option Полный без углов
+                    .form-group
+                      label(for="arka-count").col-sm-3.control-label.label-two-line Кол - во:
+                      .col-sm-6
+                        input(type="text", name="count", placeholder="xxxxxx", id="arka-count").form-control
+                    .form-group
+                      label(for="arka-price").col-sm-3.control-label.label-two-line Цена ( за ед ):
+                      .col-sm-6
+                        input(type="text", name="price", placeholder="xxxxxx", id="arka-price").form-control
+                .modal-footer
+                  button(type="button", class="btn btn-default" data-dismiss="modal") Закрыть
+                  button(type="button", class="btn btn-primary", @click="addArk") Добавить к заказу
     //- Modal
     .modal.fade#modalPreview(tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
       .modal-dialog(role="document")
@@ -465,7 +573,7 @@ block content
                     td {{ door.count }}
                     td {{ door.price }}р
                     td {{ door.price * door.count }}р
-                tfoot.furnityra-price
+                tfoot.doors-price
                   tr
                     td(colspan="7")
                     td(colspan="1") Итого
@@ -525,11 +633,44 @@ block content
                     td {{ furn.count }}
                     td {{ furn.price }}р
                     td {{ furn.price * furn.count }}р
-                tfoot.pagon-price
+                tfoot.furn-price
                   tr
-                    td(colspan="3")
+                    td(colspan="6")
                     td(colspan="1") Итого
                     td(colspan="1") {{ furnTotalPrice }}р
+            section.block.block-arki
+              h5 Арки
+              hr
+              table.table.table-bordered.table-head-center
+                thead
+                  tr
+                  th #
+                  th Название
+                  th Размер
+                  th Вид
+                  th радиус
+                  th Кол-во
+                  th Цена
+                    br
+                    |( за ед )
+                  th Цена
+                    br
+                    |( итог )
+                tbody.text-center
+                  tr(v-for="(arka, index) in arki")
+                    td {{ index + 1 }}
+                    td {{ arka.name }}
+                    td {{ arka.height + 'x' + arka.width + 'x' + arka.deep }}
+                    td {{ arka.view }}
+                    td {{ arka.radius }}
+                    td {{ arka.count }}
+                    td {{ arka.price }}р
+                    td {{ arka.price * arka.count }}р
+                tfoot.arki-price
+                  tr
+                    td(colspan="6")
+                    td(colspan="1") Итого
+                    td(colspan="1") {{ arkTotalPrice }}р
             section.total-price
               .clearfix
                 .pricebox.pull-right
@@ -545,11 +686,11 @@ block content
                     tr
                       td
                         strong Общая цена:
-                      td {{ doorsTotalPrice + pagonTotalPrice + furnTotalPrice + parseInt(deliveryPrice) }}р
+                      td {{ doorsTotalPrice + pagonTotalPrice + furnTotalPrice + arkTotalPrice + parseInt(deliveryPrice) }}р
                     tr
                       td
                         strong Общая цена с скидкой:
-                      td(width="150") {{ doorsTotalPrice + pagonTotalPrice + furnTotalPrice + parseInt(deliveryPrice) - (((doorsTotalPrice + pagonTotalPrice) / 100) * discount )}}р
+                      td(width="150") {{ doorsTotalPrice + pagonTotalPrice + furnTotalPrice + arkTotalPrice + parseInt(deliveryPrice) - (((doorsTotalPrice + pagonTotalPrice) / 100) * discount )}}р
                     tr
                       td
                         strong Предоплата:

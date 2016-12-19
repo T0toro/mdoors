@@ -89,6 +89,11 @@ const OrderSchema = new Schema({
     default: []
   },
 
+  arki: {
+    type: Array,
+    default: []
+  },
+
   // Balance
   balance: {
     type: Number,

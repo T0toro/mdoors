@@ -59,7 +59,6 @@ exports.index = (req, res, next) => {
 
     if (Array.isArray(result[1]) && Boolean(result[1].length)) {
       result[1].forEach(function(user) {
-        console.info(user);
         users[user.id] = user.name;
       });
     }
@@ -195,6 +194,7 @@ exports.store = (req, res, next) => {
     doors: req.body.doors,
     pagonazsh: req.body.pagonazsh,
     furnityra: req.body.furnityra,
+    arki: req.body.arki,
 
     // Balance
     balance: req.body.balance,
@@ -254,23 +254,6 @@ exports.edit = (req, res, next) => {
     });
 };
 
-exports.update = (req, res, next) => {
-  const id = req.body.id || '';
-
-  Order.update({ _id: id }, {
-    title: req.body.title,
-    description: req.body.description,
-    name: req.body.name,
-    content: req.body.content,
-    status: req.body.status,
-    slug: req.body.slug
-  }, (err, order) => {
-    if (err) { return next(err); }
-
-    return res.redirect('/dashboard/orders');
-  });
-};
-
 exports.destroy = (req, res, next) => {
   const id = req.params.id || '';
 
@@ -318,4 +301,4 @@ exports.info = (req, res, next) => {
         attributeGroups: result[2]
       });
   });
-}
+};

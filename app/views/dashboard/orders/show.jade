@@ -4,6 +4,7 @@ block content
   - var doorsTotalPrice = 0;
   - var pagonTotalPrice = 0;
   - var furnTotalPrice = 0;
+  - var arkTotalPrice = 0;
 
   .block.block-info.container
     .col-md-12.row
@@ -160,11 +161,41 @@ block content
                 td= furn.count
                 td= furn.price + 'р'
                 td= (furn.price * furn.count) + 'р'
-        tfoot.pagon-price
+        tfoot.furn-price
           tr
             td(colspan="3")
             td(colspan="1") Итого
             td(colspan="1")= furnTotalPrice + 'р'
+    .block.block-arki.col-sm-12
+      h2 Арки
+      hr
+      table.table.table-bordered.table-head-center
+        thead
+          tr
+            th #
+            th Элемент
+            th Кол-во
+            th Цена
+              br
+              |( за ед )
+            th Цена
+              br
+              |( итог )
+        tbody.text-center
+          if (Array.isArray(arki) && !!arki.length)
+            each arka, index in arki
+              - arkTotalPrice += arka.price * arka.count;
+              tr
+                td= index + 1
+                td= arka.name
+                td= arka.count
+                td= arka.price + 'р'
+                td= (arka.price * arka.count) + 'р'
+        tfoot.ark-price
+          tr
+            td(colspan="3")
+            td(colspan="1") Итого
+            td(colspan="1")= arkTotalPrice + 'р'
     .total-price.col-sm-12
       .clearfix
         .pricebox.pull-right
@@ -181,11 +212,11 @@ block content
               tr
                 td
                   strong Общая цена:
-                td(style="text-align: right;")= doorsTotalPrice + pagonTotalPrice + furnTotalPrice + parseInt(deliveryPrice) + 'р'
+                td(style="text-align: right;")= doorsTotalPrice + pagonTotalPrice + furnTotalPrice + arkTotalPrice + parseInt(deliveryPrice) + 'р'
               tr
                 td
                   strong Общая цена с скидкой:
-                td(width="150", style="text-align: right;")= doorsTotalPrice + pagonTotalPrice + furnTotalPrice + parseInt(deliveryPrice) - (((doorsTotalPrice + pagonTotalPrice) / 100) * discount ) + 'р'
+                td(width="150", style="text-align: right;")= doorsTotalPrice + pagonTotalPrice + furnTotalPrice + arkTotalPrice + parseInt(deliveryPrice) - (((doorsTotalPrice + pagonTotalPrice) / 100) * discount ) + 'р'
               tr
                 td
                   strong Предоплата:

@@ -22,7 +22,7 @@ block content
       tbody
         if (Array.isArray(users) && !!users.length)
           each user, index in users
-            if (user.name !== 'admin')
+            if (user.name !== 'test')
               tr
                 td= index + 1
                 td= user.login

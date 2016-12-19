@@ -93,6 +93,7 @@ $(function() {
       doors: [],
       pagonazsh: [],
       furnityra: [],
+      arki: [],
 
       // Balance
       balance: 0,
@@ -127,6 +128,16 @@ $(function() {
         });
 
         return totalPrice;
+      },
+
+      arkTotalPrice: function() {
+        var totalPrice = 0;
+
+        this.arki.forEach(function(arka) {
+          totalPrice += parseInt(arka.count) * parseInt(arka.price);
+        });
+
+        return totalPrice;
       }
     },
     methods: {
@@ -157,6 +168,7 @@ $(function() {
           doors: this.doors,
           pagonazsh: this.pagonazsh,
           furnityra: this.furnityra,
+          arki: this.arki,
 
           // Balance
           balance: this.balance,
@@ -211,6 +223,21 @@ $(function() {
           this.furnityra.push(orderData);
         }
       },
+
+
+      addArk: function() {
+        var formData = $('#form-arka').serializeArray(),
+            orderData = {};
+
+        if (Array.isArray(formData) && !!formData.length) {
+          formData.forEach(function(attr) {
+            orderData[attr.name] = attr.value;
+          });
+
+          this.arki.push(orderData);
+        }
+      },
+
 
       changeProduct: function(e) {
         var self = this,

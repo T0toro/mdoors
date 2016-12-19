@@ -86,11 +86,9 @@ module.exports = (app, passport) => {
   app.get('/dashboard/orders/info', orders.info);
   app.get('/dashboard/orders/create', orders.create);
   app.get('/dashboard/orders/show/:id', orders.show);
-  app.get('/dashboard/orders/edit/:id', orders.edit);
   app.get('/dashboard/orders/destroy/:id', orders.destroy);
 
   app.post('/dashboard/orders/store', orders.store);
-  app.post('/dashboard/orders/update', orders.update);
 
 
   // ozp

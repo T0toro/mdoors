@@ -51,7 +51,7 @@ exports.index = (req, res, next) => {
           .exec((err, ozps) => {
             return cb(err, ozps);
           });
-      },
+      }
     ], function(err, result) {
       if (err) { return next(err); }
 
