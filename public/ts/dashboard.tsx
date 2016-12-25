@@ -1,18 +1,14 @@
 'use strict';
 
+/// <reference path="interfaces.d.ts" />
+
+
 /**
  * jquery plugins
  */
 
 import '../js/vendor/datepicker.min';
 import 'select2';
-
-/**
- * Global
- */
-
-window.$ = $;
-window.jQuery = $;
 
 /**
  * Expos

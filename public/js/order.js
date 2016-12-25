@@ -9,12 +9,16 @@ $(function () {
             var selectEl = this.$el.querySelector('#product');
 
             if (selectEl) {
-                this.product = selectEl.value;
-                this.seller = this.$el.querySelector('#seller').value;
-                this.departament = this.$el.querySelector('#departament').value;
-                this.productName = selectEl.options[selectEl.selectedIndex].dataset.name;
+                this.product         = selectEl.value;
+                this.seller          = this.$el.querySelector('#seller').value;
+                this.departament     = this.$el.querySelector('#departament').value;
+            }
+
+
+            if (Boolean(selectEl.options[selectEl.selectedIndex])) {
+                this.productName     = selectEl.options[selectEl.selectedIndex].dataset.name;
                 this.manufactureDate = moment(selectEl.options[selectEl.selectedIndex].dataset.manufacture).locale('ru').format('L');
-                this.deliveryDate = moment(selectEl.options[selectEl.selectedIndex].dataset.manufacture).locale('ru').format('L');
+                this.deliveryDate    = moment(selectEl.options[selectEl.selectedIndex].dataset.manufacture).locale('ru').format('L');
             }
         },
         mounted: function () {

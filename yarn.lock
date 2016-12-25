@@ -1829,6 +1829,10 @@ expand-range@^1.8.1:
   dependencies:
     fill-range "^2.1.0"
 
+expose-loader@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/expose-loader/-/expose-loader-0.7.1.tgz#411ee89443aa682f8ea9d9111accf41bfd7e94d9"
+
 express-session@^1.11.3:
   version "1.14.2"
   resolved "https://registry.yarnpkg.com/express-session/-/express-session-1.14.2.tgz#6bcf586ed6d1dc37b02570087756c9de7b80b275"
@@ -2017,10 +2021,6 @@ flat-cache@^1.2.1:
     del "^2.0.2"
     graceful-fs "^4.1.2"
     write "^0.2.1"
-
-flat-ui@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/flat-ui/-/flat-ui-2.1.1.tgz#16be89413fc4f44cd24f4dfc0d04e33c4f42e135"
 
 flow-bin@^0.27.0:
   version "0.27.0"
