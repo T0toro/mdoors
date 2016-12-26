@@ -99,19 +99,22 @@ exports.index = (req, res, next) => {
     async.parallel([
       function(cb) {
         Ozp
-        .findById(req.user.id)
+        .find({
+          user: req.user.id
+        })
         .sort({
           date: -1
         })
         .exec((err, ozps) => {
+          console.info(ozps);
           return cb(err, ozps);
         });
-      }, 
+      },
       function(cb) {
         OzpShifts
           .find({
+            departament: req.user.departament,
             date: {
-              departament: req.user.departament,
               $gte: start,
               $lt: end
             }
@@ -205,7 +208,41 @@ exports.filter = (req, res, next) => {
       });
     });
   } else {
-    return res.redirect('dashboard/ozp');
+    async.parallel([
+      function(cb) {
+        Ozp
+          .find({
+            user: req.user.id,
+            date: {
+              $gte: start,
+              $lt: end
+            }
+          })
+          .exec((err, ozps) => {
+            return cb(err, ozps);
+          });
+      },
+      function(cb) {
+        OzpShifts
+          .find({
+            user: req.user.id,
+            date: {
+              $gte: start,
+              $lt: end
+            }
+          })
+          .exec(function(err, ozpShifts) {
+            return cb(err, ozpShifts);
+          });
+      }
+    ], function(err, result) {
+      if (err) { return next(err); }
+
+      return res.render('dashboard/ozp/index', {
+        ozps: result[0],
+        ozpShifts: result[1]
+      });
+    });
   }
 };
 
