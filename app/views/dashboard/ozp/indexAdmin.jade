@@ -7,7 +7,7 @@ block content
   article.content
     header
       h2 Отчет о ЗП
-    table.table
+    table.table.table-bordered
       thead
         tr.no-print
           th(colspan="8")
@@ -47,27 +47,27 @@ block content
                   button.btn.btn-primary.btn-print
                     i.fa.fa-print
         tr
-          th #
+          th.no-print #
           th Дата
-          th Сотрудник
-          th Отдел
+          th.no-print Сотрудник
+          th.no-print Отдел
           th Сумма (р.)
           th Предоплата (р.)
-          th Адрес доставки или номер и дата заказа на самовывоз
-          th(colspan="1", width="230")
+          th(width="250") Адрес доставки или номер и дата заказа на самовывоз
+          th.no-print(width="150")
       tbody
         if (Array.isArray(ozps) && !!ozps.length)
           each ozp, index in ozps
             - paymentSumm += ozp.payment != null ? parseInt(ozp.payment) : 0;
             tr
-              td= index + 1
+              td.no-print= index + 1
               td= moment(ozp.date).locale('ru').format('L')
-              td= users[ozp.user]
-              td= departaments[ozp.departament]
+              td.no-print= users[ozp.user]
+              td.no-print= departaments[ozp.departament]
               td= ozp.amount != null ? ozp.amount : 0
               td= ozp.payment != null ? ozp.payment : 0
               td= ozp.address
-              td.table-controls
+              td.table-controls.no-print
                 if (req.user.group === 'manager' || req.user.group === 'accountant')
                   a(href="/dashboard/ozp/destroy/#{ozp.id}").btn.btn-danger
                     i.fa.fa-trash
@@ -78,8 +78,8 @@ block content
               | На данный момент отчетов нет
       tfoot
         tr
-          td(colspan="5")
-          td(colspan="3")
+          td(colspan="6").no-print
+          td(colspan="2")
             table.table.table-bordered
               tbody
                 tr

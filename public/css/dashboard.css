@@ -24,6 +24,10 @@ form legend {
     color: #222;
 }
 
+.print {
+    display: none
+}
+
 #modalPreview .modal-dialog {
     max-width: 960px;
     min-width: 600px;

@@ -1,4 +1,8 @@
 .btn-danger,
 .no-print {
-    display: none;
+    display: none !important;
+}
+
+.print {
+    display: block !important;
 }

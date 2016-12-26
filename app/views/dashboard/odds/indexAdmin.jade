@@ -52,9 +52,9 @@ block content
           th(colspan="4").text-center Поступило
           th(colspan="4").text-center Выбыло
         tr
-          th.text-center #
+          th.text-center.no-print #
           th.text-center Дата
-          th.text-center Отдел
+          th.text-center.no-print Отдел
           th.text-center Сумма (р.)
           th.text-center Комментарий
           th.text-center Сумма (р.)
@@ -66,9 +66,9 @@ block content
             - receivedAmountSumm += odd.receivedAmount != null ? parseInt(odd.receivedAmount) : 0;
             - retiredAmountSumm += odd.retiredAmount != null ? parseInt(odd.retiredAmount) : 0;
             tr
-              td= index + 1
+              td.no-print= index + 1
               td= moment(odd.date).locale('ru').format('L')
-              td= departaments[odd.departament]
+              td.no-print= departaments[odd.departament]
               td= odd.receivedAmount != null ? parseInt(odd.receivedAmount) : 0
               td= odd.receivedComment
               td= odd.retiredAmount != null ? parseInt(odd.retiredAmount) : 0
@@ -82,7 +82,7 @@ block content
             td(colspan="8").text-center
               i.fa.fa-cart
               | На данный момент отчетов нет
-      tfoot()
+      tfoot
         tr
           td(colspan="5")
           td(colspan="3")
