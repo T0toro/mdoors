@@ -106,7 +106,6 @@ exports.index = (req, res, next) => {
           date: -1
         })
         .exec((err, ozps) => {
-          console.info(ozps);
           return cb(err, ozps);
         });
       },
