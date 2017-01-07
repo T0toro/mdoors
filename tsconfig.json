@@ -1,5 +1,8 @@
 {
     "compilerOptions": {
+        "rootDir": "public/ts",
+        "outDir": "public/js",
+        "watch": true,
         "sourceMap": true,
         "noImplicitAny": true,
         "module": "commonjs",
