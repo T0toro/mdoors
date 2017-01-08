@@ -11,6 +11,19 @@ import '../js/vendor/datepicker.min';
 import 'select2';
 
 /**
+ * React
+ */
+
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+
+/**
+ * React Containers
+ */
+
+import OrderListContainer from './containers/orderListContainer';
+
+/**
  * Expos
  */
 $(function () {
@@ -25,6 +38,13 @@ $(function () {
 
     return false;
   });
+
+  !!$('.order-list').length && (() => {
+    ReactDOM.render(
+      <OrderListContainer />,
+      $('.order-list')[0]
+    );
+  })();
 
   $('.btn-ozp-send').click(function () {
     $('#form-ozp').submit();

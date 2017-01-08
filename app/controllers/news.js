@@ -12,7 +12,7 @@
 
 const mongoose = require('mongoose'),
       moment   = require('moment'),
-      News = mongoose.model('News');
+      News     = mongoose.model('News');
 
 /*
  * Expos

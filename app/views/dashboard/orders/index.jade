@@ -1,42 +1,4 @@
 extends ../layouts/app
 
 block content
-  article.content
-    header
-      h1 Заказы
-        a(href="/dashboard/orders/create").btn.btn-primary.pull-right
-          i.fa.fa-plus
-          | Создать заказ
-    table.table
-      thead
-        tr
-          th #
-          th Создан
-          th Отдел
-          th Продавец
-          th Продукт
-          th Адрес доставки
-          th Телефон
-          th(colspan="2", width="230")
-      tbody
-        if (Array.isArray(orders) && !!orders.length)
-          each order, index in orders
-            tr
-              td= index + 1
-              td= moment(order.createdAt).locale('ru').format('L')
-              td= order.departament
-              td= users[order.user]
-              td= order.product
-              td= `${order.address.slice(0, 20)}...`
-              td= `${order.telephone.slice(0, 15)}...`
-              td.table-controls
-                a(href="/dashboard/orders/show/#{order.id}").btn.btn-primary
-                  i.fa.fa-eye
-                if (req.user.group === 'accountant')
-                  a(href="/dashboard/orders/destroy/#{order.id}").btn.btn-danger
-                    i.fa.fa-trash
-        else
-          tr
-            td(colspan="6").text-center
-              i.fa.fa-cart
-              | На данный момент заказов нет
+  div.list.order-list

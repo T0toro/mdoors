@@ -10,6 +10,7 @@
 
 const mongoose   = require('mongoose'),
       timestamps = require('mongoose-timestamp'),
+      paginate   = require('mongoose-paginate'),
       Schema     = mongoose.Schema;
 
 /*
@@ -118,6 +119,7 @@ const OrderSchema = new Schema({
  */
 
 OrderSchema.plugin(timestamps);
+paginate(OrderSchema);
 
 /**
  * Methods
