@@ -96,6 +96,8 @@ module.exports = (app, passport) => {
   // --------------------------------------------
 
   app.get('/dashboard/ozp', ozp.index);
+  app.get('/dashboard/uozp.json', ozp.indexUser);
+  app.get('/dashboard/aozp.json', ozp.indexAdmin);
   app.get('/dashboard/ozp/destroy/:id', ozp.destroy);
 
   app.post('/dashboard/ozp/store', ozp.store);

@@ -44,6 +44,10 @@ form legend {
     border-bottom: 1px solid #eee;
 }
 
+.form-clear {
+    margin: 0
+}
+
 .form-control[disabled] {
     color: #222;
 }

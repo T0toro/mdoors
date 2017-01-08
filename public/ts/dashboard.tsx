@@ -22,6 +22,7 @@ import * as ReactDOM from 'react-dom';
  */
 
 import OrderListContainer from './containers/orderListContainer';
+import OzpListContainer from './containers/ozpListContainer';
 
 /**
  * Expos
@@ -39,12 +40,20 @@ $(function () {
     return false;
   });
 
-  !!$('.order-list').length && (() => {
+  !!$('.list-order').length && (() => {
     ReactDOM.render(
       <OrderListContainer />,
-      $('.order-list')[0]
+      $('.list-order')[0]
     );
   })();
+
+  !!$('.list-ozp').length && (() => {
+    ReactDOM.render(
+      <OzpListContainer />,
+      $('.list-ozp')[0]
+    );
+  })();
+
 
   $('.btn-ozp-send').click(function () {
     $('#form-ozp').submit();

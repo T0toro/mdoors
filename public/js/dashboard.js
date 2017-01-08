@@ -19,6 +19,7 @@ webpackJsonp([0,1],[
 	 * React Containers
 	 */
 	var orderListContainer_1 = __webpack_require__(183);
+	var ozpListContainer_1 = __webpack_require__(303);
 	/**
 	 * Expos
 	 */
@@ -31,8 +32,11 @@ webpackJsonp([0,1],[
 	        window.print();
 	        return false;
 	    });
-	    !!$('.order-list').length && function () {
-	        ReactDOM.render(React.createElement(orderListContainer_1.default, null), $('.order-list')[0]);
+	    !!$('.list-order').length && function () {
+	        ReactDOM.render(React.createElement(orderListContainer_1.default, null), $('.list-order')[0]);
+	    }();
+	    !!$('.list-ozp').length && function () {
+	        ReactDOM.render(React.createElement(ozpListContainer_1.default, null), $('.list-ozp')[0]);
 	    }();
 	    $('.btn-ozp-send').click(function () {
 	        $('#form-ozp').submit();
@@ -10307,7 +10311,7 @@ webpackJsonp([0,1],[
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var require;var require;/* WEBPACK VAR INJECTION */(function($) {/*!
+	var require;var require;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function($) {/*!
 	 * Select2 4.0.3
 	 * https://select2.github.io
 	 *
@@ -53000,6 +53004,120 @@ webpackJsonp([0,1],[
 	
 	})));
 
+
+/***/ },
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
+	        this.constructor = d;
+	    }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	/// <reference path='../interfaces.d.ts' />
+	/**
+	 * Ozp List
+	 * @description :: render ozp list
+	 */
+	/**
+	 * Vendor
+	 */
+	var React = __webpack_require__(6);
+	var jquery_1 = __webpack_require__(1);
+	/**
+	 * My code
+	 */
+	var yearDDList_1 = __webpack_require__(305);
+	var monthDDList_1 = __webpack_require__(306);
+	/**
+	 * Expo
+	 */
+	var OzpListContainer = function (_super) {
+	    __extends(OzpListContainer, _super);
+	    function OzpListContainer() {
+	        var _this = _super.call(this) || this;
+	        _this.state = {
+	            ozps: []
+	        };
+	        // Method Binding
+	        _this.filterHandle = _this._filterHandle.bind(_this);
+	        return _this;
+	    }
+	    OzpListContainer.prototype._filterHandle = function () {
+	        jquery_1.ajax({
+	            url: '/dashboard/ozp/filter'
+	        }).done(function (data) {
+	            console.info(data);
+	        });
+	    };
+	    OzpListContainer.prototype.componentDidMount = function () {
+	        jquery_1.ajax({
+	            url: '/dashboard/uozp.json'
+	        }).done(function (data) {
+	            console.info(data);
+	        });
+	    };
+	    OzpListContainer.prototype.render = function () {
+	        return React.createElement("article", null, React.createElement("header", null, React.createElement("h2", null, "\u041E\u0442\u0447\u0435\u0442 \u043E \u0417\u041F", React.createElement("button", { type: 'button', "data-toggle": 'modal', "data-target": '#modalOzp', className: 'btn btn-primary pull-right' }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C"), React.createElement("button", { type: 'button', "data-toggle": 'modal', "data-target": '#modalOzpShift', className: 'btn btn-primary pull-right' }, "\u0410\u0432\u0430\u043D\u0441/\u0421\u043C\u0435\u043D\u044B"))), React.createElement("table", { className: 'table table-bordered' }, React.createElement("thead", null, React.createElement("tr", { className: 'no-print' }, React.createElement("th", { colSpan: 7 }, React.createElement("form", { name: 'odds', id: 'form-odds-filter', method: 'POST', className: 'form-inline form-clear' }, React.createElement("fieldset", null, React.createElement(yearDDList_1.default, null), React.createElement(monthDDList_1.default, null), React.createElement("div", { className: 'form-group pull-right' }, React.createElement("input", { type: 'submit', name: 'submit', value: 'Показать', className: 'btn btn-primary btn-odds-filter', onClick: this.filterHandle })))))), React.createElement("tr", null, React.createElement("th", null, "#"), React.createElement("th", null, "\u0414\u0430\u0442\u0430"), React.createElement("th", null, "\u0421\u0443\u043C\u043C\u0430 (\u0440.)"), React.createElement("th", null, "\u041F\u0440\u0435\u0434\u043E\u043F\u043B\u0430\u0442\u0430 (\u0440.)"), React.createElement("th", null, "\u0410\u0434\u0440\u0435\u0441 \u0434\u043E\u0441\u0442\u0430\u0432\u043A\u0438 \u0438\u043B\u0438 \u043D\u043E\u043C\u0435\u0440 \u0438 \u0434\u0430\u0442\u0430 \u0437\u0430\u043A\u0430\u0437\u0430 \u043D\u0430 \u0441\u0430\u043C\u043E\u0432\u044B\u0432\u043E\u0437"), React.createElement("th", { colSpan: 2, width: '230' }))), React.createElement("tbody", null, React.createElement("tr", null, React.createElement("td", { colSpan: 8, className: 'text-center' }, React.createElement("i", { className: 'fa fa-cart' }), "\u041D\u0430 \u0434\u0430\u043D\u043D\u044B\u0439 \u043C\u043E\u043C\u0435\u043D\u0442 \u043E\u0442\u0447\u0435\u0442\u043E\u0432 \u043D\u0435\u0442"))), React.createElement("tfoot", null, React.createElement("tr", null, React.createElement("td", { colSpan: 5 }), React.createElement("td", { colSpan: 3 }, React.createElement("table", { className: 'table table-bordered' }, React.createElement("tbody", null, React.createElement("tr", null, React.createElement("td", null, "\u0418\u0442\u043E\u0433\u043E:"), React.createElement("td", null, "\u0440.")), React.createElement("tr", null, React.createElement("td", null, "\u0410\u0432\u0430\u043D\u0441:"), React.createElement("td", null, "0")), React.createElement("tr", null, React.createElement("td", null, "\u041A\u043E\u043B-\u0432\u043E \u0441\u043C\u0435\u043D:"), React.createElement("td", null, "0")))))))));
+	    };
+	    return OzpListContainer;
+	}(React.Component);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = OzpListContainer;
+
+/***/ },
+/* 304 */,
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	/**
+	 * Year List
+	 * @description draw simple select list contains year from 2016 to currentYear
+	 */
+	
+	var React = __webpack_require__(6);
+	/**
+	 * Expo
+	 */
+	var currentYear = new Date().getFullYear();
+	var options = [];
+	for (var i = 2016; i <= currentYear; i++) {
+	  options.push(React.createElement("option", { key: i }, i));
+	}
+	var YearDDList = function YearDDList() {
+	  return React.createElement("div", { className: 'form-group' }, React.createElement("label", { htmlFor: 'odds-year' }, "\u0413\u043E\u0434:"), React.createElement("select", { name: 'year', className: 'form-control' }, options));
+	};
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = YearDDList;
+
+/***/ },
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	/**
+	 * Month List
+	 * @description render simple dropDown list contains month
+	 */
+	/**
+	 * Vendor
+	 */
+	
+	var React = __webpack_require__(6);
+	/**
+	 * Expo
+	 */
+	var MonthList = function MonthList() {
+	  return React.createElement("div", { className: 'form-group' }, React.createElement("label", { htmlFor: 'odds-mounth' }, "\u041C\u0435\u0441\u044F\u0446:"), React.createElement("select", { name: 'mounth', id: 'odds-mounth', className: 'form-control' }, React.createElement("option", { value: '1' }, "\u042F\u043D\u0432\u0430\u0440\u044C"), React.createElement("option", { value: '2' }, "\u0424\u0435\u0432\u0440\u0430\u043B\u044C"), React.createElement("option", { value: '3' }, "\u041C\u0430\u0440\u0442"), React.createElement("option", { value: '4' }, "\u0410\u043F\u0440\u0435\u043B\u044C"), React.createElement("option", { value: '5' }, "\u041C\u0430\u0439"), React.createElement("option", { value: '6' }, "\u0418\u044E\u043D\u044C"), React.createElement("option", { value: '7' }, "\u0418\u044E\u043B\u044C"), React.createElement("option", { value: '8' }, "\u0410\u0432\u0433\u0443\u0441\u0442"), React.createElement("option", { value: '9' }, "\u0421\u0435\u043D\u0442\u044F\u0431\u0440\u044C"), React.createElement("option", { value: '10' }, "\u041E\u043A\u0442\u044F\u0431\u0440\u044C"), React.createElement("option", { value: '11' }, "\u041D\u043E\u044F\u0431\u0440\u044C"), React.createElement("option", { value: '12' }, "\u0414\u0435\u043A\u0430\u0431\u0440\u044C")));
+	};
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = MonthList;
 
 /***/ }
 ]);
