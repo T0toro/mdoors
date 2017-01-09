@@ -243,6 +243,41 @@ exports.store = (req, res, next) => {
   });
 };
 
+exports.edit = (req, res, next) => {
+  const id = req.params.id;
+
+  Odds
+    .findById(id)
+    .exec((err, odds) => {
+      if(err) { return next(err); }
+
+      return res.render('dashboard/odds/edit', {
+        odds: odds
+      });
+    });
+};
+
+exports.update = (req, res, next) => {
+  const date = req.body.date.split('.'),
+        id   = req.body.id;
+
+  Odds.update({
+    _id: id
+  }, {
+    user: req.user.id,
+    departament: req.user.departament,
+    date: new Date(date[2], date[1] - 1, date[0]),
+    receivedAmount: req.body.receivedAmount,
+    receivedComment: req.body.receivedComment,
+    retiredAmount: req.body.retiredAmount,
+    retiredComment: req.body.retiredComment
+  }, (err) => {
+    if (err) { return next(err); }
+
+    return res.redirect('/dashboard/odds');
+  });
+};
+
 exports.setBalance = (req, res, next) => {
   const date = req.body.date.split('.');
 
