@@ -105,6 +105,8 @@ block content
               td= ozp.payment != null ? ozp.payment : 0
               td= ozp.address
               td.table-controls
+                a(href="/dashboard/ozp/edit/#{ozp.id}").btn.btn-primary
+                  i.fa.fa-pencil
                 if (req.user.group === 'manager' || req.user.group === 'accountant')
                   a(href="/dashboard/ozp/destroy/#{ozp.id}").btn.btn-danger
                     i.fa.fa-trash

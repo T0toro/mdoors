@@ -119,7 +119,9 @@ block content
               td= odd.retiredAmount != null ? parseInt(odd.retiredAmount) : 0
               td= odd.retiredComment
               td.text-right
-                if (req.user.group === 'manager' || req.user.group === 'accountant')
+                a(href="/dashboard/odds/edit/#{odd.id}").btn.btn-primary
+                  i.fa.fa-pencil
+                if (req.user.group === 'accountant')
                   a(href="/dashboard/odds/destroy/#{odd.id}").btn.btn-danger
                     i.fa.fa-trash
         else

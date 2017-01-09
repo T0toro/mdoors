@@ -1,0 +1,31 @@
+extends ../layouts/app
+
+block content
+  article.content
+    header
+      h2 Изменить отчет о ДДС
+    section
+      form(action="/dashboard/odds/update", id="form-odds" method="POST")
+        input(type="hidden", name="_csrf", value="#{csrf}")
+        input(type="hidden", name="id", value="#{odds._id}")
+        fieldset
+          legend Поступило
+          .form-group
+            label(for="odds-date") Дата:
+            input(type="text", name="date", id="odds-date", value="#{ moment(odds.date).locale('ru').format('L') }").form-control.makdoors-datepicker
+          .form-group
+            label(for="odds-received-amount") Сумма (р.):
+            input(type="text", name="receivedAmount", id="odds-received-amount", value="#{odds.receivedAmount == null ? 0 : odds.receivedAmount}").form-control
+          .form-group
+            label(for="odds-received-comment") Комментарий (р.):
+            textarea(name="receivedComment", id="odds-received-comment").form-control= odds.receivedComment
+        fieldset
+          legend Выбыло
+          .form-group
+            label(for="odds-retired-amount") Сумма (р.):
+            input(type="text", name="retiredAmount", id="odds-retired-amount", value="#{odds.retiredAmount == null ? 0 : odds.retiredAmount}").form-control
+          .form-group
+            label(for="odds-retired-comment") Комментарий (р.):
+            textarea(name="retiredComment", id="odds-retired-comment").form-control= odds.retiredComment
+        .form-group
+          input(type="submit", class="btn btn-primary", value="Сохранить")

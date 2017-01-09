@@ -245,6 +245,22 @@ exports.filter = (req, res, next) => {
   }
 };
 
+
+exports.edit = (req, res, next) => {
+  const id = req.params.id;
+
+  Ozp
+    .findById(id)
+    .exec((err, ozp) => {
+      if(err) { return next(err); }
+
+      return res.render('dashboard/ozp/edit', {
+        ozp: ozp
+      });
+    });
+};
+
+
 exports.store = (req, res, next) => {
   const date = req.body.date.split('.');
 
@@ -262,6 +278,26 @@ exports.store = (req, res, next) => {
   });
 };
 
+exports.update = (req, res, next) => {
+  const date = req.body.date.split('.'),
+        id   = req.body.id;
+
+  Ozp
+    .update({
+      _id: id
+    }, {
+      user: req.user.id,
+      departament: req.user.departament,
+      date: new Date(date[2], date[1] - 1, date[0]),
+      amount: req.body.amount,
+      payment: req.body.payment,
+      address: req.body.address
+    }, (err) => {
+      if (err) { return next(err); }
+
+      return res.redirect('/dashboard/ozp');
+    });
+};
 
 exports.setShift = (req, res, next) => {
   const date = req.body.date.split('.');

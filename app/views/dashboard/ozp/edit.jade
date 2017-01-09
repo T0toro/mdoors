@@ -1,0 +1,24 @@
+extends ../layouts/app
+
+block content
+  article.content
+    header
+      h2 Изменить отчет о ЗП
+    section
+      form(action="/dashboard/ozp/update", name="ozp", id="form-ozp" method="POST")
+        input(type="hidden", name="_csrf", value="#{csrf}")
+        input(type="hidden", name="id", value="#{ozp._id}")
+        .form-group
+          label(for="ozp-date") Дата:
+          input(type="text", name="date", id="ozp-date", value="#{ moment(ozp.date).locale('ru').format('L') }").form-control.makdoors-datepicker
+        .form-group
+          label(for="ozp-amount") Сумма (р.):
+          input(type="text", name="amount", id="ozp-amount", value="#{ozp.amount == null ? 0 : ozp.amount}").form-control
+        .form-group
+          label(for="ozp-payment") Предоплата (р.):
+          input(type="text", name="payment", id="ozp-payment", value="#{ozp.payment == null ? 0 : ozp.payment}").form-control
+        .form-group
+          label(for="ozp-address") Адрес доставки или номер и дата заказа на самовывоз:
+          textarea(name="address", id="ozp-address").form-control= ozp.address
+        .form-group
+          button(form="ozp" class="btn btn-primary btn-ozp-send") Сохранить
