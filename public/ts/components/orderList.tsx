@@ -11,12 +11,29 @@
 import * as React from 'react';
 import * as moment from 'moment';
 
+/**
+ * Components
+ */
+
+import RemoveButton from './buttons/remove';
+import ShowButton from './buttons/show';
+
+/**
+ * Expos
+ */
+
 const OrderListItem = (props: any) => {
-  const user     = props.user,
-        order    = props.item,
-        limit    = 8,
-        selected = props.pageSelected,
-        start    = selected === 0 ? 1 : selected * limit + 1;
+  const user            = props.user,
+        order           = props.item,
+        limit           = 8,
+        access          = props.access,
+        selected        = props.pageSelected,
+        controlButtons  = [<ShowButton key={props.index} url={`/dashboard/orders/show/${order._id}`} />],
+        start           = selected === 0 ? 1 : selected * limit + 1;
+
+  if (access === 'manager' || access === 'accountant') {
+    controlButtons.push(<RemoveButton key={props.index} url={`/dashboard/orders/destroy/${order._id}`} />);
+  }
 
   return (
     <tr>
@@ -27,16 +44,7 @@ const OrderListItem = (props: any) => {
       <td>{order.product}</td>
       <td>{order.address.slice(0, 20)}...</td>
       <td>{order.telephone.slice(0, 15)}...</td>
-      <td className='table-controls'>
-        <a href={`/dashboard/orders/show/${order._id}`}
-          className='btn btn-primary'>
-          <i className='fa fa-eye'></i>
-        </a>
-        <a href={`/dashboard/orders/destroy/${order._id}`}
-           className='btn btn-danger'>
-          <i className='fa fa-trash'></i>
-        </a>
-      </td>
+      <td className='table-controls'>{controlButtons}</td>
     </tr>
   );
 };
@@ -45,7 +53,7 @@ const OrderList = (props: any) => {
   return (
     <tbody>
       {props.items.map((item: any, index: number) => {
-        return <OrderListItem key={index} index={index} item={item} user={props.users[item.user]} pageSelected={ props.pageSelected }/>;
+        return <OrderListItem key={index} index={index} item={item} access={props.access} user={props.users[item.user]} pageSelected={ props.pageSelected }/>;
       })}
     </tbody>
   );

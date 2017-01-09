@@ -37506,6 +37506,7 @@ webpackJsonp([0,1],[
 	            orders: [],
 	            pages: 1,
 	            users: {},
+	            access: 'seller',
 	            pageSelected: 0
 	        };
 	        // Method binding
@@ -37518,7 +37519,8 @@ webpackJsonp([0,1],[
 	            _this.setState({
 	                orders: data.orders,
 	                users: data.users,
-	                pages: Math.ceil(data.records / 10)
+	                pages: Math.ceil(data.records / 10),
+	                access: data.access
 	            });
 	        });
 	    };
@@ -37536,7 +37538,7 @@ webpackJsonp([0,1],[
 	    OrderListContainer.prototype.render = function () {
 	        var orders = this.state.orders,
 	            users = this.state.users;
-	        return React.createElement("article", null, React.createElement("header", null, React.createElement("h1", null, "\u0417\u0430\u043A\u0430\u0437\u044B", React.createElement("a", { href: '/dashboard/orders/create', className: 'btn btn-primary pull-right' }, React.createElement("i", { className: 'fa fa-plus' }), "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u0437\u0430\u043A\u0430\u0437"))), React.createElement("table", { className: 'table' }, React.createElement("thead", null, React.createElement("tr", null, React.createElement("th", null, "#"), React.createElement("th", null, "\u0421\u043E\u0437\u0434\u0430\u043D"), React.createElement("th", null, "\u041E\u0442\u0434\u0435\u043B"), React.createElement("th", null, "\u041F\u0440\u043E\u0434\u0430\u0432\u0435\u0446"), React.createElement("th", null, "\u041F\u0440\u043E\u0434\u0443\u043A\u0442"), React.createElement("th", null, "\u0410\u0434\u0440\u0435\u0441 \u0434\u043E\u0441\u0442\u0430\u0432\u043A\u0438"), React.createElement("th", null, "\u0422\u0435\u043B\u0435\u0444\u043E\u043D"), React.createElement("th", { colSpan: 2, width: '230' }))), React.createElement(orderList_1.default, { items: orders, users: users, pageSelected: this.state.pageSelected })), React.createElement("div", { className: 'pagination-wrap' }, React.createElement(ReactPaginate, { previousLabel: '<', nextLabel: '>', breakLabel: React.createElement("a", { href: '' }, "..."), breakClassName: 'break-me', pageCount: this.state.pages, onPageChange: this.handlePageClick, marginPagesDisplayed: 2, pageRangeDisplayed: 5, containerClassName: 'pagination', subContainerClassName: 'pages pagination', activeClassName: 'active' })));
+	        return React.createElement("article", null, React.createElement("header", null, React.createElement("h1", null, "\u0417\u0430\u043A\u0430\u0437\u044B", React.createElement("a", { href: '/dashboard/orders/create', className: 'btn btn-primary pull-right' }, React.createElement("i", { className: 'fa fa-plus' }), "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u0437\u0430\u043A\u0430\u0437"))), React.createElement("table", { className: 'table' }, React.createElement("thead", null, React.createElement("tr", null, React.createElement("th", null, "#"), React.createElement("th", null, "\u0421\u043E\u0437\u0434\u0430\u043D"), React.createElement("th", null, "\u041E\u0442\u0434\u0435\u043B"), React.createElement("th", null, "\u041F\u0440\u043E\u0434\u0430\u0432\u0435\u0446"), React.createElement("th", null, "\u041F\u0440\u043E\u0434\u0443\u043A\u0442"), React.createElement("th", null, "\u0410\u0434\u0440\u0435\u0441 \u0434\u043E\u0441\u0442\u0430\u0432\u043A\u0438"), React.createElement("th", null, "\u0422\u0435\u043B\u0435\u0444\u043E\u043D"), React.createElement("th", { colSpan: 2, width: '230' }))), React.createElement(orderList_1.default, { items: orders, users: users, pageSelected: this.state.pageSelected, access: this.state.access })), React.createElement("div", { className: 'pagination-wrap' }, React.createElement(ReactPaginate, { previousLabel: '<', nextLabel: '>', breakLabel: React.createElement("a", { href: '' }, "..."), breakClassName: 'break-me', pageCount: this.state.pages, onPageChange: this.handlePageClick, marginPagesDisplayed: 2, pageRangeDisplayed: 5, containerClassName: 'pagination', subContainerClassName: 'pages pagination', activeClassName: 'active' })));
 	    };
 	    return OrderListContainer;
 	}(React.Component);
@@ -38088,17 +38090,30 @@ webpackJsonp([0,1],[
 	
 	var React = __webpack_require__(6);
 	var moment = __webpack_require__(192);
+	/**
+	 * Components
+	 */
+	var remove_1 = __webpack_require__(306);
+	var show_1 = __webpack_require__(307);
+	/**
+	 * Expos
+	 */
 	var OrderListItem = function OrderListItem(props) {
 	    var user = props.user,
 	        order = props.item,
 	        limit = 8,
+	        access = props.access,
 	        selected = props.pageSelected,
+	        controlButtons = [React.createElement(show_1.default, { key: props.index, url: "/dashboard/orders/show/" + order._id })],
 	        start = selected === 0 ? 1 : selected * limit + 1;
-	    return React.createElement("tr", null, React.createElement("td", null, start + props.index), React.createElement("td", null, moment(order.createdAt).locale('ru').format('L')), React.createElement("td", null, order.departament), React.createElement("td", null, user), React.createElement("td", null, order.product), React.createElement("td", null, order.address.slice(0, 20), "..."), React.createElement("td", null, order.telephone.slice(0, 15), "..."), React.createElement("td", { className: 'table-controls' }, React.createElement("a", { href: "/dashboard/orders/show/" + order._id, className: 'btn btn-primary' }, React.createElement("i", { className: 'fa fa-eye' })), React.createElement("a", { href: "/dashboard/orders/destroy/" + order._id, className: 'btn btn-danger' }, React.createElement("i", { className: 'fa fa-trash' }))));
+	    if (access === 'manager' || access === 'accountant') {
+	        controlButtons.push(React.createElement(remove_1.default, { key: props.index, url: "/dashboard/orders/destroy/" + order._id }));
+	    }
+	    return React.createElement("tr", null, React.createElement("td", null, start + props.index), React.createElement("td", null, moment(order.createdAt).locale('ru').format('L')), React.createElement("td", null, order.departament), React.createElement("td", null, user), React.createElement("td", null, order.product), React.createElement("td", null, order.address.slice(0, 20), "..."), React.createElement("td", null, order.telephone.slice(0, 15), "..."), React.createElement("td", { className: 'table-controls' }, controlButtons));
 	};
 	var OrderList = function OrderList(props) {
 	    return React.createElement("tbody", null, props.items.map(function (item, index) {
-	        return React.createElement(OrderListItem, { key: index, index: index, item: item, user: props.users[item.user], pageSelected: props.pageSelected });
+	        return React.createElement(OrderListItem, { key: index, index: index, item: item, access: props.access, user: props.users[item.user], pageSelected: props.pageSelected });
 	    }));
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -53116,6 +53131,42 @@ webpackJsonp([0,1],[
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = MonthList;
+
+/***/ },
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	/// <reference path="../../interfaces.d.ts" />
+	/**
+	 * Remove button
+	 * @description simple remove btn blank
+	 */
+	
+	var React = __webpack_require__(6);
+	var RemoveButton = function RemoveButton(props) {
+	  return React.createElement("a", { href: props.url, className: 'btn btn-danger' }, React.createElement("i", { className: 'fa fa-trash' }));
+	};
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = RemoveButton;
+
+/***/ },
+/* 307 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	/// <reference path="../../interfaces.d.ts" />
+	/**
+	 * Show button
+	 * @description simple show btn blank
+	 */
+	
+	var React = __webpack_require__(6);
+	var ShowButton = function ShowButton(props) {
+	  return React.createElement("a", { href: props.url, className: 'btn btn-primary' }, React.createElement("i", { className: 'fa fa-eye' }));
+	};
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = ShowButton;
 
 /***/ }
 ]);

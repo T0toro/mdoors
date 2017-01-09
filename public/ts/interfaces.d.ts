@@ -9,6 +9,7 @@ interface OrderListContainerState {
     orders: any[],
     users?: any,
     pages?: number,
+    access?: string,
     pageSelected?: number
 }
 
@@ -37,3 +38,9 @@ interface OddsListContainerState {
 
 interface OddsListProps {}
 interface OddsListState {}
+
+// Buttons
+
+interface IRemoveButtonProps {
+    url: string
+}

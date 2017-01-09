@@ -37,6 +37,7 @@ class OrderListContainer extends React.Component<OrderListContainerProps, OrderL
       orders: [],
       pages: 1,
       users: {},
+      access: 'seller',
       pageSelected: 0
     };
 
@@ -50,7 +51,8 @@ class OrderListContainer extends React.Component<OrderListContainerProps, OrderL
         this.setState({
           orders: data.orders,
           users: data.users,
-          pages: Math.ceil(data.records / 10)
+          pages: Math.ceil(data.records / 10),
+          access: data.access
         });
       });
 
@@ -94,7 +96,7 @@ class OrderListContainer extends React.Component<OrderListContainerProps, OrderL
               <th colSpan={2} width='230'></th>
             </tr>
           </thead>
-          <OrderList items={orders} users={users} pageSelected={ this.state.pageSelected } />
+          <OrderList items={orders} users={users} pageSelected={ this.state.pageSelected } access={ this.state.access } />
         </table>
         <div className='pagination-wrap'>
           <ReactPaginate previousLabel={'<'}

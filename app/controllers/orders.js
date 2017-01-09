@@ -82,7 +82,8 @@ exports.indexJson = (req, res) => {
       return res.json({
         orders: result[0],
         records: result[1],
-        users: users
+        users: users,
+        access: req.user.departament
       });
     }
   });
