@@ -83,7 +83,7 @@ exports.indexJson = (req, res) => {
         orders: result[0],
         records: result[1],
         users: users,
-        access: req.user.departament
+        access: req.user.group
       });
     }
   });
@@ -270,6 +270,11 @@ exports.edit = (req, res, next) => {
 
 exports.destroy = (req, res, next) => {
   const id = req.params.id || '';
+
+  if (req.user.departament !== 'accountant') return res.json({
+    code: 403,
+    msg: ''
+  });
 
   Order
     .findByIdAndRemove(id)

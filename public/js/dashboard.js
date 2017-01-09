@@ -10311,7 +10311,7 @@ webpackJsonp([0,1],[
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var require;var require;/* WEBPACK VAR INJECTION */(function($) {/*!
+	var require;var require;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function($) {/*!
 	 * Select2 4.0.3
 	 * https://select2.github.io
 	 *
@@ -38104,12 +38104,12 @@ webpackJsonp([0,1],[
 	        limit = 8,
 	        access = props.access,
 	        selected = props.pageSelected,
-	        controlButtons = [React.createElement(show_1.default, { key: props.index, url: "/dashboard/orders/show/" + order._id })],
 	        start = selected === 0 ? 1 : selected * limit + 1;
-	    if (access === 'manager' || access === 'accountant') {
-	        controlButtons.push(React.createElement(remove_1.default, { key: props.index, url: "/dashboard/orders/destroy/" + order._id }));
+	    var removeButton = null;
+	    if (access === 'accountant') {
+	        removeButton = React.createElement(remove_1.default, { url: "/dashboard/orders/destroy/" + order._id });
 	    }
-	    return React.createElement("tr", null, React.createElement("td", null, start + props.index), React.createElement("td", null, moment(order.createdAt).locale('ru').format('L')), React.createElement("td", null, order.departament), React.createElement("td", null, user), React.createElement("td", null, order.product), React.createElement("td", null, order.address.slice(0, 20), "..."), React.createElement("td", null, order.telephone.slice(0, 15), "..."), React.createElement("td", { className: 'table-controls' }, controlButtons));
+	    return React.createElement("tr", null, React.createElement("td", null, start + props.index), React.createElement("td", null, moment(order.createdAt).locale('ru').format('L')), React.createElement("td", null, order.departament), React.createElement("td", null, user), React.createElement("td", null, order.product), React.createElement("td", null, order.address.slice(0, 20), "..."), React.createElement("td", null, order.telephone.slice(0, 15), "..."), React.createElement("td", { className: 'table-controls' }, React.createElement(show_1.default, { url: "/dashboard/orders/show/" + order._id }), removeButton));
 	};
 	var OrderList = function OrderList(props) {
 	    return React.createElement("tbody", null, props.items.map(function (item, index) {

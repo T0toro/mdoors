@@ -23,16 +23,17 @@ import ShowButton from './buttons/show';
  */
 
 const OrderListItem = (props: any) => {
-  const user            = props.user,
-        order           = props.item,
-        limit           = 8,
-        access          = props.access,
-        selected        = props.pageSelected,
-        controlButtons  = [<ShowButton key={props.index} url={`/dashboard/orders/show/${order._id}`} />],
-        start           = selected === 0 ? 1 : selected * limit + 1;
+  const user: any         = props.user,
+        order: any        = props.item,
+        limit: number     = 8,
+        access: string    = props.access,
+        selected: number  = props.pageSelected,
+        start: number     = selected === 0 ? 1 : selected * limit + 1;
 
-  if (access === 'manager' || access === 'accountant') {
-    controlButtons.push(<RemoveButton key={props.index} url={`/dashboard/orders/destroy/${order._id}`} />);
+  let   removeButton: any = null;
+
+  if (access === 'accountant') {
+    removeButton = <RemoveButton url={`/dashboard/orders/destroy/${order._id}`} />;
   }
 
   return (
@@ -44,7 +45,10 @@ const OrderListItem = (props: any) => {
       <td>{order.product}</td>
       <td>{order.address.slice(0, 20)}...</td>
       <td>{order.telephone.slice(0, 15)}...</td>
-      <td className='table-controls'>{controlButtons}</td>
+      <td className='table-controls'>
+        <ShowButton url={`/dashboard/orders/show/${order._id}`} />
+        {removeButton}
+      </td>
     </tr>
   );
 };
