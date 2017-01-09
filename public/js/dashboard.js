@@ -38094,10 +38094,9 @@ webpackJsonp([0,1],[
 	        limit = 8,
 	        selected = props.pageSelected,
 	        start = selected === 0 ? 1 : selected * limit + 1;
-	    return React.createElement("tr", null, React.createElement("td", null, start + props.index), React.createElement("td", null, moment(order.createdAt).locale('ru').format('L')), React.createElement("td", null, order.departament), React.createElement("td", null, user), React.createElement("td", null, order.product), React.createElement("td", null, order.address.slice(0, 20), "..."), React.createElement("td", null, order.telephone.slice(0, 15), "..."), React.createElement("td", { className: 'table-controls' }, React.createElement("a", { href: "/dashboard/orders/show/" + props.id, className: 'btn btn-primary' }, React.createElement("i", { className: 'fa fa-eye' })), React.createElement("a", { href: "/dashboard/orders/destroy/" + props.id, className: 'btn btn-danger' }, React.createElement("i", { className: 'fa fa-trash' }))));
+	    return React.createElement("tr", null, React.createElement("td", null, start + props.index), React.createElement("td", null, moment(order.createdAt).locale('ru').format('L')), React.createElement("td", null, order.departament), React.createElement("td", null, user), React.createElement("td", null, order.product), React.createElement("td", null, order.address.slice(0, 20), "..."), React.createElement("td", null, order.telephone.slice(0, 15), "..."), React.createElement("td", { className: 'table-controls' }, React.createElement("a", { href: "/dashboard/orders/show/" + order._id, className: 'btn btn-primary' }, React.createElement("i", { className: 'fa fa-eye' })), React.createElement("a", { href: "/dashboard/orders/destroy/" + order._id, className: 'btn btn-danger' }, React.createElement("i", { className: 'fa fa-trash' }))));
 	};
 	var OrderList = function OrderList(props) {
-	    console.info(props);
 	    return React.createElement("tbody", null, props.items.map(function (item, index) {
 	        return React.createElement(OrderListItem, { key: index, index: index, item: item, user: props.users[item.user], pageSelected: props.pageSelected });
 	    }));

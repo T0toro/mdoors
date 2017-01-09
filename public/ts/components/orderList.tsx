@@ -28,11 +28,11 @@ const OrderListItem = (props: any) => {
       <td>{order.address.slice(0, 20)}...</td>
       <td>{order.telephone.slice(0, 15)}...</td>
       <td className='table-controls'>
-        <a href={`/dashboard/orders/show/${props.id}`}
+        <a href={`/dashboard/orders/show/${order._id}`}
           className='btn btn-primary'>
           <i className='fa fa-eye'></i>
         </a>
-        <a href={`/dashboard/orders/destroy/${props.id}`}
+        <a href={`/dashboard/orders/destroy/${order._id}`}
            className='btn btn-danger'>
           <i className='fa fa-trash'></i>
         </a>
@@ -42,7 +42,6 @@ const OrderListItem = (props: any) => {
 };
 
 const OrderList = (props: any) => {
-  console.info(props);
   return (
     <tbody>
       {props.items.map((item: any, index: number) => {
