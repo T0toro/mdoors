@@ -21,6 +21,7 @@ import { ajax as request } from 'jquery';
 
 import YearDDList from '../components/yearDDList';
 import MonthDDList from '../components/monthDDList';
+import OzpTotal from '../components/ozp/total';
 
 /**
  * Expo
@@ -99,22 +100,7 @@ class OzpListContainer extends React.Component<OzpListContainerProps, OzpListCon
             <tr>
               <td colSpan={5}></td>
               <td colSpan={3}>
-                <table className='table table-bordered'>
-                  <tbody>
-                    <tr>
-                      <td>Итого:</td>
-                      <td>р.</td>
-                    </tr>
-                    <tr>
-                      <td>Аванс:</td>
-                      <td>0</td>
-                    </tr>
-                    <tr>
-                      <td>Кол-во смен:</td>
-                      <td>0</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <OzpTotal />
               </td>
             </tr>
           </tfoot>

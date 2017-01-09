@@ -26,6 +26,10 @@ interface OzpListContainerState {
 interface OzpListProps {}
 interface OzpListState {}
 
+interface OzpTotalProps {}
+interface OzpTotalState {}
+
+
 // Odds list
 
 interface OddsListContainerProps {}
