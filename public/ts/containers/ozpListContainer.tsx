@@ -35,7 +35,8 @@ class OzpListContainer extends React.Component<OzpListContainerProps, OzpListCon
     super();
 
     this.state = {
-      ozps: []
+      ozps: [],
+      ozpsShifts: []
     };
 
     // Method Binding
@@ -54,11 +55,18 @@ class OzpListContainer extends React.Component<OzpListContainerProps, OzpListCon
     request({
       url: '/dashboard/uozp.json'
     }).done((data) => {
-      console.info(data);
+      if (data.code !== 200) return false;
+
+      this.setState({
+        ozps: data.ozps,
+        ozpsShifts: data.ozpsShifts
+      });
     });
   }
 
   render() {
+    const ozps: any[] = this.state.ozps;
+
     return (
       <article>
         <header>
@@ -100,7 +108,7 @@ class OzpListContainer extends React.Component<OzpListContainerProps, OzpListCon
             <tr>
               <td colSpan={5}></td>
               <td colSpan={3}>
-                <OzpTotal />
+                <OzpTotal items={ozps} />
               </td>
             </tr>
           </tfoot>

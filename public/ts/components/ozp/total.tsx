@@ -18,6 +18,19 @@ import * as React from 'react';
  */
 
 class OzpTotal extends React.Component<OzpTotalProps, OzpTotalState> {
+  constructor(props: OzpListProps) {
+    super();
+
+    this.state = {
+      ...props
+    };
+  }
+
+  componentDidMount () {
+    console.info(this.state);
+  }
+  
+
   render() {
     return (
       <table className='table table-bordered'>

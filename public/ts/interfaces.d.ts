@@ -20,13 +20,16 @@ interface OrderListState {}
 
 interface OzpListContainerProps {}
 interface OzpListContainerState {
-    ozps: any[]
+    ozps: any[],
+    ozpsShifts: any[]
 }
 
 interface OzpListProps {}
 interface OzpListState {}
 
-interface OzpTotalProps {}
+interface OzpTotalProps {
+    items: any[]
+}
 interface OzpTotalState {}
 
 
