@@ -12,6 +12,7 @@
  */
 
 import * as React from 'react';
+import { connect } from 'react-redux';
 
 /**
  * Expo
@@ -19,17 +20,24 @@ import * as React from 'react';
 
 const OzpListItem = () => {
     return (
-        <div></div>
+        <tr>
+            <td></td>
+        </tr>
     );
 };
 
 
-const OzpList = () => {
+const OzpList = (props: any) => {
+    console.info(props);
     return (
-        <div>
-            
-        </div>
+        <tbody>
+            <OzpListItem />
+        </tbody>
     );
 };
 
-export default OzpList;
+export default connect(
+    state => ({
+        store: state
+    })
+)(OzpList);

@@ -13,6 +13,7 @@
  */
 
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { ajax as request } from 'jquery';
 
 /**
@@ -22,6 +23,13 @@ import { ajax as request } from 'jquery';
 import YearDDList from '../components/yearDDList';
 import MonthDDList from '../components/monthDDList';
 import OzpTotal from '../components/ozp/total';
+import OzpList from '../components/ozp/list';
+
+/**
+ * Actions
+ */
+
+import { FETCH_OZP } from '../actions/ozp';
 
 /**
  * Expo
@@ -57,10 +65,7 @@ class OzpListContainer extends React.Component<OzpListContainerProps, OzpListCon
     }).done((data) => {
       if (data.code !== 200) return false;
 
-      this.setState({
-        ozps: data.ozps,
-        ozpsShifts: data.ozpsShifts
-      });
+      this.props.ozpFetch(data);
     });
   }
 
@@ -99,6 +104,7 @@ class OzpListContainer extends React.Component<OzpListContainerProps, OzpListCon
               <th colSpan={2} width='230'></th>
             </tr>
           </thead>
+          <OzpList>
           <tbody>
             <tr>
               <td colSpan={8} className='text-center'><i className='fa fa-cart'></i>На данный момент отчетов нет</td>
@@ -108,7 +114,7 @@ class OzpListContainer extends React.Component<OzpListContainerProps, OzpListCon
             <tr>
               <td colSpan={5}></td>
               <td colSpan={3}>
-                <OzpTotal items={ozps} />
+                <OzpTotal />
               </td>
             </tr>
           </tfoot>
@@ -118,4 +124,17 @@ class OzpListContainer extends React.Component<OzpListContainerProps, OzpListCon
   }
 }
 
-export default OzpListContainer;
+export default connect(
+  state => ({}),
+  dispatch => ({
+    ozpFetch: (data: any) => {
+      dispatch({
+        type: FETCH_OZP,
+        data: {
+          ozps: data.ozps,
+          ozpShifts: data.ozpShifts
+        }
+      });
+    }
+  })
+)(OzpListContainer);

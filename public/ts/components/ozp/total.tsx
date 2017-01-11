@@ -18,12 +18,8 @@ import * as React from 'react';
  */
 
 class OzpTotal extends React.Component<OzpTotalProps, OzpTotalState> {
-  constructor(props: OzpListProps) {
+  constructor() {
     super();
-
-    this.state = {
-      ...props
-    };
   }
 
   componentDidMount () {
