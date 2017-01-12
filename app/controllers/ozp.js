@@ -22,10 +22,10 @@ const mongoose = require('mongoose'),
  */
 
 exports.index = (req, res, next) => {
- const year = new Date().getFullYear(),
+ const year   = new Date().getFullYear(),
         month = new Date().getMonth() + 1,
         start = new Date(year, month - 1, 1),
-        end = new Date(year, month, 1);
+        end   = new Date(year, month, 1);
 
   if (req.user.group === 'accountant') {
     async.parallel([
@@ -83,7 +83,7 @@ exports.index = (req, res, next) => {
         });
       }
 
-      return res.json({
+      return res.render('dashboard/ozp/indexAdmin', {
         code: 200,
         users: users,
         departaments: departaments,
@@ -154,7 +154,7 @@ exports.filter = (req, res, next) => {
         start = new Date(year, month - 1, 1),
         end = new Date(year, month, 1);
 
-  console.info('start', req.user.group);
+  console.info(req.body);
 
   if (req.user.group === 'accountant') {
     async.parallel([
@@ -175,6 +175,7 @@ exports.filter = (req, res, next) => {
       function(cb) {
         Ozp
           .find({
+            user: req.body.user,
             departament: req.body.departament,
             date: {
               $gte: start,
