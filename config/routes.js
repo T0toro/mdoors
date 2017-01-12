@@ -35,13 +35,13 @@ module.exports = (app, passport) => {
     return next();
   });
 
-  app.use((req, res, next) => {
-    if (req.url === '/dashboard/users' && req.isAuthenticated() && req.user.group !== 'accountant') {
-      return res.redirect('/dashboard');
-    }
-    
-    return next();
-  });
+  // app.use((req, res, next) => {
+  //   if (req.url === '/dashboard/users' && req.isAuthenticated() && req.user.group !== 'accountant') {
+  //     return res.redirect('/dashboard');
+  //   }
+
+  //   return next();
+  // });
 
   // --------------------------------------------
   // ---------------- Dashboard -----------------

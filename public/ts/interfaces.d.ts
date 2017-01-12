@@ -18,17 +18,39 @@ interface OrderListState {}
 
 // Ozp list
 
-interface OzpListContainerProps {}
+interface OzpListContainerProps {
+    ozpFetch: any
+}
 interface OzpListContainerState {
-    ozps: any[]
+    ozps: any[],
+    ozpsShifts: any[]
 }
 
-interface OzpListProps {}
+interface OzpListProps {
+    store: any
+}
+
 interface OzpListState {}
+
+// Total
+
+interface OzpTotalProps {
+    ozpsSumm: number,
+    shifts: any,
+    ozpShifts: any
+}
+
+interface OzpTotalState {
+    summ: number,
+    prepayment: number,
+    shiftsCount: 0
+}
+
 
 // Odds list
 
 interface OddsListContainerProps {}
+
 interface OddsListContainerState {
     orders: any[],
     users?: any,

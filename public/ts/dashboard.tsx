@@ -16,18 +16,29 @@ import 'select2';
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 
 /**
  * React Containers
  */
 
+// Order
 import OrderListContainer from './containers/orderListContainer';
+
+// Ozps
+import OzpStore from './stores/ozp';
 import OzpListContainer from './containers/ozpListContainer';
 
 /**
  * Expos
  */
 $(function () {
+
+  $.ajaxSetup({
+      headers: { 'X-CSRF-Token': $('meta[name="_csrf"]').attr('content') }
+  });
+
+
   // Show calendar helper
   !!$('.makdoors-datepicker').length && $('.makdoors-datepicker').datepicker();
 
@@ -49,7 +60,9 @@ $(function () {
 
   !!$('.list-ozp').length && (() => {
     ReactDOM.render(
-      <OzpListContainer />,
+      <Provider store={OzpStore} >
+        <OzpListContainer />
+      </Provider>,
       $('.list-ozp')[0]
     );
   })();

@@ -20,7 +20,7 @@ block content
                   select(name="year", id="ozp-year").form-control
                     option= startYear
                     while startYear !== currentYear
-                      option ++startYear
+                      option= ++startYear
                 .form-group
                   label(for="ozp-mounth") Месяц:
                   select(name="mounth", id="ozp-mounth").form-control
@@ -36,12 +36,18 @@ block content
                     option(value="10") Октябрь
                     option(value="11") Ноябрь
                     option(value="12") Декабрь
-                .form-group
-                  label(for="ozp-departament") Отдел:
-                  select(name="departament", id="ozp-departament").form-control
-                    if (departaments)
+                if (!!Object.keys(departaments).length)
+                  .form-group
+                    label(for="ozp-departament") Отдел:
+                    select(name="departament", id="ozp-departament").form-control
                       each departament, key in departaments
                         option(value="#{key}")= departament
+                if (!!Object.keys(users).length)
+                  .form-group
+                    label(for="ozp-user") Сотрудник:
+                    select(name="user", id="ozp-user").form-control
+                      each user, key in users
+                        option(value="#{key}")= user
                 .form-group.pull-right
                   input(type="submit", name="submit", class="btn btn-primary btn-ozp-filter", value="Показать")
                   button.btn.btn-primary.btn-print
