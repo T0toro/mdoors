@@ -33,6 +33,12 @@ import OzpListContainer from './containers/ozpListContainer';
  * Expos
  */
 $(function () {
+
+  $.ajaxSetup({
+      headers: { 'X-CSRF-Token': $('meta[name="_csrf"]').attr('content') }
+  });
+
+
   // Show calendar helper
   !!$('.makdoors-datepicker').length && $('.makdoors-datepicker').datepicker();
 

@@ -21,84 +21,89 @@ const mongoose = require('mongoose'),
  * Expos
  */
 
-exports.index = (req, res, next) => res.render('dashboard/ozp/index');
-
-exports.indexAdmin = (req, res, next) => {
-  const year = new Date().getFullYear(),
+exports.index = (req, res, next) => {
+ const year = new Date().getFullYear(),
         month = new Date().getMonth() + 1,
         start = new Date(year, month - 1, 1),
         end = new Date(year, month, 1);
+
+  if (req.user.group === 'accountant') {
+    async.parallel([
+      function(cb) {
+        User
+          .find()
+          .exec(function(err, users) {
+            return cb(err, users);
+          });
+      },
+      function(cb) {
+        Departament
+          .find()
+          .exec(function(err, departaments) {
+            return cb(err, departaments);
+          });
+      },
+      function(cb) {
+        Ozp
+          .find()
+          .sort({
+            date: -1
+          })
+          .exec((err, ozps) => {
+            return cb(err, ozps);
+          });
+      },
+      function(cb) {
+        OzpShifts
+          .findOne({
+            date: {
+              $gte: start,
+              $lt: end
+            }
+          })
+          .exec(function(err, ozpShifts) {
+            return cb(err, ozpShifts);
+          });
+      }
+    ], function(err, result) {
+      if (err) { return next(err); }
+
+      let users = {},
+          departaments = {};
+
+      if (Array.isArray(result[0]) && !!result[0].length) {
+        result[0].forEach(function(user) {
+          users[user.id] = user.name;
+        });
+      }
+
+      if (Array.isArray(result[1]) && !!result[1].length) {
+        result[1].forEach(function(departament) {
+          departaments[departament.id] = departament.name;
+        });
+      }
+
+      return res.json({
+        code: 200,
+        users: users,
+        departaments: departaments,
+        ozps: result[2],
+        ozpShifts: result[3]
+      });
+    });
+  } else {
+    return res.render('dashboard/ozp/index')
+  }
+};
+
+exports.indexAdmin = (req, res, next) => {
 
   if (req.user.group !== 'accountant') res.json({
     code: 403,
     msg: 'У вас нет доступа к данному разделу'
   });
 
-  async.parallel([
-    function(cb) {
-      User
-        .find()
-        .exec(function(err, users) {
-          return cb(err, users);
-        });
-    },
-    function(cb) {
-      Departament
-        .find()
-        .exec(function(err, departaments) {
-          return cb(err, departaments);
-        });
-    },
-    function(cb) {
-      Ozp
-        .find()
-        .sort({
-          date: -1
-        })
-        .exec((err, ozps) => {
-          return cb(err, ozps);
-        });
-    },
-    function(cb) {
-      OzpShifts
-        .find({
-          date: {
-            $gte: start,
-            $lt: end
-          }
-        })
-        .exec(function(err, ozpShifts) {
-          return cb(err, ozpShifts);
-        });
-    }
-  ], function(err, result) {
-    if (err) { return next(err); }
-
-    let users = {},
-        departaments = {};
-
-    if (Array.isArray(result[0]) && !!result[0].length) {
-      result[0].forEach(function(user) {
-        users[user.id] = user.name;
-      });
-    }
-
-    if (Array.isArray(result[1]) && !!result[1].length) {
-      result[1].forEach(function(departament) {
-        departaments[departament.id] = departament.name;
-      });
-    }
-
-    return res.json({
-      code: 200,
-      users: users,
-      departaments: departaments,
-      ozps: result[2],
-      ozpShifts: result[3]
-    });
-  });
 };
-
 
 exports.indexUser = (req, res, next) => {
   const year = new Date().getFullYear(),
@@ -148,6 +153,8 @@ exports.filter = (req, res, next) => {
         year  = Number(req.body.year),
         start = new Date(year, month - 1, 1),
         end = new Date(year, month, 1);
+
+  console.info('start', req.user.group);
 
   if (req.user.group === 'accountant') {
     async.parallel([
@@ -233,7 +240,7 @@ exports.filter = (req, res, next) => {
       },
       function(cb) {
         OzpShifts
-          .find({
+          .findOne({
             user: req.user.id,
             date: {
               $gte: start,
@@ -247,7 +254,7 @@ exports.filter = (req, res, next) => {
     ], function(err, result) {
       if (err) { return next(err); }
 
-      return res.render('dashboard/ozp/index', {
+      return res.json({
         ozps: result[0],
         ozpShifts: result[1]
       });
@@ -322,7 +329,7 @@ exports.setShift = (req, res, next) => {
     }, (err) => {
       if (err) { return next(err); }
 
-      return res.redirect('/dashboard/odds');
+      return res.redirect('/dashboard/ozp');
     });
 };
 

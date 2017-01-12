@@ -29,10 +29,22 @@ interface OzpListContainerState {
 interface OzpListProps {
     store: any
 }
+
 interface OzpListState {}
 
-interface OzpTotalProps {}
-interface OzpTotalState {}
+// Total
+
+interface OzpTotalProps {
+    ozpsSumm: number,
+    shifts: any,
+    ozpShifts: any
+}
+
+interface OzpTotalState {
+    summ: number,
+    prepayment: number,
+    shiftsCount: 0
+}
 
 
 // Odds list

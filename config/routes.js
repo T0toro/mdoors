@@ -39,7 +39,7 @@ module.exports = (app, passport) => {
     if (req.url === '/dashboard/users' && req.isAuthenticated() && req.user.group !== 'accountant') {
       return res.redirect('/dashboard');
     }
-    
+
     return next();
   });
 

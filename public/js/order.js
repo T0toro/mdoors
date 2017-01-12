@@ -1,8 +1,4 @@
 $(function () {
-    $.ajaxSetup({
-        headers: { 'X-CSRF-Token': $('meta[name="_csrf"]').attr('content') }
-    });
-
     new Vue({
         el: '.page-order',
         beforeMount: function () {
@@ -23,10 +19,6 @@ $(function () {
         },
         mounted: function () {
             var self = this;
-
-            $.ajaxSetup({
-                headers: { 'X-CSRF-Token': $('meta[name="_csrf"]').attr('content') }
-            });
 
             $.get('/dashboard/orders/info')
                 .done(function (data) {
