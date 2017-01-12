@@ -10318,7 +10318,7 @@ webpackJsonp([0,1],[
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var require;var require;/* WEBPACK VAR INJECTION */(function($) {/*!
+	var require;var require;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function($) {/*!
 	 * Select2 4.0.3
 	 * https://select2.github.io
 	 *
@@ -55335,7 +55335,6 @@ webpackJsonp([0,1],[
 	    }
 	    switch (action.type) {
 	        case ozp_1.FETCH_OZP:
-	            console.info(action.data);
 	            var ozpsSumm_1 = 0;
 	            if (Array.isArray(action.data.ozps) && !!action.data.ozps.length) {
 	                action.data.ozps.forEach(function (ozp) {
@@ -55405,6 +55404,7 @@ webpackJsonp([0,1],[
 	 */
 	var React = __webpack_require__(6);
 	var react_redux_1 = __webpack_require__(183);
+	var jquery_1 = __webpack_require__(1);
 	/**
 	 * Components
 	 */
@@ -55416,17 +55416,26 @@ webpackJsonp([0,1],[
 	var OzpHeader = function (_super) {
 	    __extends(OzpHeader, _super);
 	    function OzpHeader() {
-	        return _super.apply(this, arguments) || this;
+	        return _super.call(this) || this;
 	    }
+	    OzpHeader.prototype.sendReport = function () {
+	        jquery_1.post('/dashboard/ozp/sendOrder', {
+	            data: this.props.ozps
+	        }).done(function (data) {
+	            console.info('test', data);
+	        });
+	    };
 	    OzpHeader.prototype.render = function () {
-	        return React.createElement("header", null, React.createElement("h2", null, "\u041E\u0442\u0447\u0435\u0442 \u043E \u0417\u041F", React.createElement("button", { type: 'button', "data-toggle": 'modal', "data-target": '#modalOzp', className: 'btn btn-primary pull-right' }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C"), React.createElement("button", { type: 'button', "data-toggle": 'modal', "data-target": '#modalOzpShift', className: 'btn btn-primary pull-right', style: { marginRight: '15px' } }, "\u0410\u0432\u0430\u043D\u0441/\u0421\u043C\u0435\u043D\u044B"), React.createElement("button", { className: 'btn btn-primary pull-right', style: { marginRight: '15px' } }, "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C \u043E\u0442\u0447\u0435\u0442")), React.createElement(AddOzp_1.default, null), React.createElement(AddShift_1.default, null));
+	        return React.createElement("header", null, React.createElement("h2", null, "\u041E\u0442\u0447\u0435\u0442 \u043E \u0417\u041F", React.createElement("button", { type: 'button', "data-toggle": 'modal', "data-target": '#modalOzp', className: 'btn btn-primary pull-right' }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C"), React.createElement("button", { type: 'button', "data-toggle": 'modal', "data-target": '#modalOzpShift', className: 'btn btn-primary pull-right', style: { marginRight: '15px' } }, "\u0410\u0432\u0430\u043D\u0441/\u0421\u043C\u0435\u043D\u044B"), React.createElement("button", { className: 'btn btn-primary pull-right', style: { marginRight: '15px' }, onClick: this.sendReport.bind(this) }, "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C \u043E\u0442\u0447\u0435\u0442")), React.createElement(AddOzp_1.default, null), React.createElement(AddShift_1.default, null));
 	    };
 	    return OzpHeader;
 	}(React.Component);
 	;
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = react_redux_1.connect(function (state) {
-	    return {};
+	    return {
+	        ozps: state.list
+	    };
 	})(OzpHeader);
 
 /***/ },
@@ -55456,9 +55465,9 @@ webpackJsonp([0,1],[
 	    };
 	    AddOzp.prototype.render = function () {
 	        var _this = this;
-	        return React.createElement("div", { id: "modalOzp", tabIndex: -1, role: "dialog", "aria-labelledby": "myModalLabel", className: "modal fade" }, React.createElement("div", { role: "document", className: "modal-dialog" }, React.createElement("div", { className: "modal-content" }, React.createElement("div", { className: "modal-header" }, React.createElement("button", { type: "button", "data-dismiss": "modal", "aria-label": "Close", className: "close" }, " ", React.createElement("span", { "aria-hidden": "true" }, "\xD7 ")), React.createElement("h4", { id: "myModalLabel", className: "modal-title" }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0437\u0430\u043F\u0438\u0441\u044C ")), React.createElement("div", { className: "modal-body" }, React.createElement("form", { action: "/dashboard/ozp/store", name: "ozp", id: "form-ozp", method: "POST", style: { margin: 0 } }, React.createElement("input", { type: "hidden", name: "_csrf", ref: function ref(input) {
+	        return React.createElement("div", { id: 'modalOzp', tabIndex: -1, role: 'dialog', "aria-labelledby": 'myModalLabel', className: 'modal fade' }, React.createElement("div", { role: 'document', className: 'modal-dialog' }, React.createElement("div", { className: 'modal-content' }, React.createElement("div", { className: 'modal-header' }, React.createElement("button", { type: 'button', "data-dismiss": 'modal', "aria-label": 'Close', className: 'close' }, " ", React.createElement("span", { "aria-hidden": 'true' }, "\xD7 ")), React.createElement("h4", { id: 'myModalLabel', className: 'modal-title' }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0437\u0430\u043F\u0438\u0441\u044C ")), React.createElement("div", { className: 'modal-body' }, React.createElement("form", { action: '/dashboard/ozp/store', name: 'ozp', id: 'form-ozp', method: 'POST', style: { margin: 0 } }, React.createElement("input", { type: 'hidden', name: '_csrf', ref: function ref(input) {
 	                _this.csrf = input;
-	            } }), React.createElement("div", { className: "form-group" }, React.createElement("label", { htmlFor: "ozp-date" }, "\u0414\u0430\u0442\u0430: "), React.createElement("input", { type: "text", name: "date", id: "ozp-date", className: "form-control makdoors-datepicker", value: moment().locale('ru').format('L') })), React.createElement("div", { className: "form-group" }, React.createElement("label", { htmlFor: "ozp-amount" }, "\u0421\u0443\u043C\u043C\u0430 (\u0440.): "), React.createElement("input", { type: "text", name: "amount", id: "ozp-amount", className: "form-control" })), React.createElement("div", { className: "form-group" }, React.createElement("label", { htmlFor: "ozp-payment" }, "\u041F\u0440\u0435\u0434\u043E\u043F\u043B\u0430\u0442\u0430 (\u0440.): "), React.createElement("input", { type: "text", name: "payment", id: "ozp-payment", className: "form-control" })), React.createElement("div", { className: "form-group" }, React.createElement("label", { htmlFor: "ozp-address" }, "\u0410\u0434\u0440\u0435\u0441 \u0434\u043E\u0441\u0442\u0430\u0432\u043A\u0438 \u0438\u043B\u0438 \u043D\u043E\u043C\u0435\u0440 \u0438 \u0434\u0430\u0442\u0430 \u0437\u0430\u043A\u0430\u0437\u0430 \u043D\u0430 \u0441\u0430\u043C\u043E\u0432\u044B\u0432\u043E\u0437: "), React.createElement("textarea", { name: "address", id: "ozp-address", className: "form-control" })))), React.createElement("div", { className: "modal-footer" }, React.createElement("button", { type: "button", "data-dismiss": "modal", className: "btn btn-default" }, "\u0417\u0430\u043A\u0440\u044B\u0442\u044C "), React.createElement("button", { form: "ozp", className: "btn btn-primary btn-ozp-send" }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0432 \u043E\u0442\u0447\u0435\u0442 ")))));
+	            } }), React.createElement("div", { className: 'form-group' }, React.createElement("label", { htmlFor: 'ozp-date' }, "\u0414\u0430\u0442\u0430: "), React.createElement("input", { type: 'text', name: 'date', id: 'ozp-date', className: 'form-control makdoors-datepicker', defaultValue: moment().locale('ru').format('L') })), React.createElement("div", { className: 'form-group' }, React.createElement("label", { htmlFor: 'ozp-amount' }, "\u0421\u0443\u043C\u043C\u0430 (\u0440.): "), React.createElement("input", { type: 'text', name: 'amount', id: 'ozp-amount', className: 'form-control' })), React.createElement("div", { className: 'form-group' }, React.createElement("label", { htmlFor: 'ozp-payment' }, "\u041F\u0440\u0435\u0434\u043E\u043F\u043B\u0430\u0442\u0430 (\u0440.): "), React.createElement("input", { type: 'text', name: 'payment', id: 'ozp-payment', className: 'form-control' })), React.createElement("div", { className: 'form-group' }, React.createElement("label", { htmlFor: 'ozp-address' }, "\u0410\u0434\u0440\u0435\u0441 \u0434\u043E\u0441\u0442\u0430\u0432\u043A\u0438 \u0438\u043B\u0438 \u043D\u043E\u043C\u0435\u0440 \u0438 \u0434\u0430\u0442\u0430 \u0437\u0430\u043A\u0430\u0437\u0430 \u043D\u0430 \u0441\u0430\u043C\u043E\u0432\u044B\u0432\u043E\u0437: "), React.createElement("textarea", { name: 'address', id: 'ozp-address', className: 'form-control' })))), React.createElement("div", { className: 'modal-footer' }, React.createElement("button", { type: 'button', "data-dismiss": 'modal', className: 'btn btn-default' }, "\u0417\u0430\u043A\u0440\u044B\u0442\u044C "), React.createElement("button", { form: 'ozp', className: 'btn btn-primary btn-ozp-send' }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0432 \u043E\u0442\u0447\u0435\u0442 ")))));
 	    };
 	    return AddOzp;
 	}(React.Component);
@@ -55492,9 +55501,9 @@ webpackJsonp([0,1],[
 	    };
 	    AddShift.prototype.render = function () {
 	        var _this = this;
-	        return React.createElement("div", { id: "modalOzpShift", tabIndex: -1, role: "dialog", "aria-labelledby": "myModalLabel", className: "modal fade" }, React.createElement("div", { role: "document", className: "modal-dialog" }, React.createElement("div", { className: "modal-content" }, React.createElement("div", { className: "modal-header" }, React.createElement("button", { type: "button", "data-dismiss": "modal", "aria-label": "Close", className: "close" }, React.createElement("span", { "aria-hidden": "true" }, "\xD7")), React.createElement("h4", { id: "myModalLabel", className: "modal-title" }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0437\u0430\u043F\u0438\u0441\u044C")), React.createElement("div", { className: "modal-body" }, React.createElement("form", { action: "/dashboard/ozp/setShift", name: "ozp", id: "form-ozpShift", method: "POST", style: { margin: 0 } }, React.createElement("input", { type: "hidden", name: "_csrf", ref: function ref(input) {
+	        return React.createElement("div", { id: 'modalOzpShift', tabIndex: -1, role: 'dialog', "aria-labelledby": 'myModalLabel', className: 'modal fade' }, React.createElement("div", { role: 'document', className: 'modal-dialog' }, React.createElement("div", { className: 'modal-content' }, React.createElement("div", { className: 'modal-header' }, React.createElement("button", { type: 'button', "data-dismiss": 'modal', "aria-label": 'Close', className: 'close' }, React.createElement("span", { "aria-hidden": 'true' }, "\xD7")), React.createElement("h4", { id: 'myModalLabel', className: 'modal-title' }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0437\u0430\u043F\u0438\u0441\u044C")), React.createElement("div", { className: 'modal-body' }, React.createElement("form", { action: '/dashboard/ozp/setShift', name: 'ozp', id: 'form-ozpShift', method: 'POST', style: { margin: 0 } }, React.createElement("input", { type: 'hidden', name: '_csrf', ref: function ref(input) {
 	                _this.csrf = input;
-	            } }), React.createElement("div", { className: "form-group" }, React.createElement("label", { htmlFor: "ozpShift-date" }, "\u0414\u0430\u0442\u0430:"), React.createElement("input", { type: "text", name: "date", className: "form-control makdoors-datepicker", value: moment().locale('ru').format('L') })), React.createElement("div", { className: "form-group" }, React.createElement("label", { htmlFor: "ozpShift-amount" }, "\u0410\u0432\u0430\u043D\u0441 (\u0440.):"), React.createElement("input", { type: "text", name: "amount", className: "form-control" })), React.createElement("div", { className: "form-group" }, React.createElement("label", { htmlFor: "ozpShift-payment" }, "\u041A\u043E\u043B - \u0432\u043E \u0441\u043C\u0435\u043D:"), React.createElement("input", { type: "text", name: "count", className: "form-control" })))), React.createElement("div", { className: "modal-footer" }, React.createElement("button", { type: "button", "data-dismiss": "modal", className: "btn btn-default" }, "\u0417\u0430\u043A\u0440\u044B\u0442\u044C"), React.createElement("button", { form: "ozp", className: "btn btn-primary btn-ozpShift-send" }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0432 \u043E\u0442\u0447\u0435\u0442")))));
+	            } }), React.createElement("div", { className: 'form-group' }, React.createElement("label", { htmlFor: 'ozpShift-date' }, "\u0414\u0430\u0442\u0430:"), React.createElement("input", { type: 'text', name: 'date', className: 'form-control makdoors-datepicker', defaultValue: moment().locale('ru').format('L') })), React.createElement("div", { className: 'form-group' }, React.createElement("label", { htmlFor: 'ozpShift-amount' }, "\u0410\u0432\u0430\u043D\u0441 (\u0440.):"), React.createElement("input", { type: 'text', name: 'amount', className: 'form-control' })), React.createElement("div", { className: 'form-group' }, React.createElement("label", { htmlFor: 'ozpShift-payment' }, "\u041A\u043E\u043B - \u0432\u043E \u0441\u043C\u0435\u043D:"), React.createElement("input", { type: 'text', name: 'count', className: 'form-control' })))), React.createElement("div", { className: 'modal-footer' }, React.createElement("button", { type: 'button', "data-dismiss": 'modal', className: 'btn btn-default' }, "\u0417\u0430\u043A\u0440\u044B\u0442\u044C"), React.createElement("button", { form: 'ozp', className: 'btn btn-primary btn-ozpShift-send' }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0432 \u043E\u0442\u0447\u0435\u0442")))));
 	    };
 	    return AddShift;
 	}(React.Component);

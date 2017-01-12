@@ -19,29 +19,27 @@ block content
               fieldset
                 input(type="hidden", name="_csrf", value="#{csrf}")
                 .form-group
-                  label(for="odds-year") Год:
-                  select(name="year", id="odds-year").form-control
-                    while startYear <= currentYear
-                      option= startYear++
+                  label(for="ozp-year") Год:
+                  select(name="year", id="ozp-year").form-control
+                    while startYear < currentYear + 1
+                      if(startYear === currentYear)
+                        option(selected="selected")= startYear
+                      else
+                        option= startYear
+                      - ++startYear
                 .form-group
-                  label(for="odds-mounth") Месяц:
-                  select(name="mounth", id="odds-mounth").form-control
-                    option(value="1") Январь
-                    option(value="2") Февраль
-                    option(value="3") Март
-                    option(value="4") Апрель
-                    option(value="5") Май
-                    option(value="6") Июнь
-                    option(value="7") Июль
-                    option(value="8") Август
-                    option(value="9") Сентябрь
-                    option(value="10") Октябрь
-                    option(value="11") Ноябрь
-                    option(value="12") Декабрь
-                .form-group
-                  label(for="odds-departament") Отдел:
-                  select(name="departament", id="odds-departament").form-control
-                    if (departaments)
+                  label(for="ozp-month") Месяц:
+                  - var months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+                  select(name="month", id="ozp-month").form-control
+                    each month, index in months
+                      if (currentMonth === index)
+                        option(value="#{index + 1}", selected="selected")= month
+                      else
+                        option(value="#{index + 1}")= month
+                if (!!Object.keys(departaments).length)
+                  .form-group
+                    label(for="odds-departament") Отдел:
+                    select(name="departament", id="odds-departament").form-control
                       each departament, key in departaments
                         option(value="#{key}")= departament
                 .form-group.pull-right

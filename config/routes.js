@@ -113,6 +113,7 @@ module.exports = (app, passport) => {
   app.post('/dashboard/ozp/update', ozp.update);
   app.post('/dashboard/ozp/setShift', ozp.setShift);
   app.post('/dashboard/ozp/filter', ozp.filter);
+  app.post('/dashboard/ozp/sendOrder', ozp.sendOrder);
 
   // Odds
   // --------------------------------------------

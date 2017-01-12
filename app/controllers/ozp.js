@@ -10,12 +10,17 @@
  * Module dependencies
  */
 
-const mongoose = require('mongoose'),
-      async = require('async'),
-      Ozp = mongoose.model('Ozp'),
-      OzpShifts = mongoose.model('OzpShifts'),
-      User = mongoose.model('User'),
+const mongoose    = require('mongoose'),
+      async       = require('async'),
+      path        = require('path'),
+      Etpl        = require('email-templates').EmailTemplate,
+      email       = require('nodemailer'),
+      moment      = require('moment'),
+      Ozp         = mongoose.model('Ozp'),
+      OzpShifts   = mongoose.model('OzpShifts'),
+      User        = mongoose.model('User'),
       Departament = mongoose.model('Departament');
+
 
 /*
  * Expos
@@ -269,6 +274,64 @@ exports.filter = (req, res, next) => {
   }
 };
 
+exports.sendOrder = (req, res, next) => {
+  let transporter = email.createTransport({
+      service: 'Yandex',
+      auth: {
+          user: 'orders@makdoors.ru',
+          pass: 'qrj7tw43bt'
+      }
+  }),
+  reportEmail = 'report@makdoors.ru',
+  reportTpl = path.join(`${__dirname}/../views`, 'emails', 'report'),
+  reportObj = {
+    // Seller info
+    name: req.user.name,
+    lastname: req.user.lastname,
+    departament: req.user.departament,
+    telephone: req.user.telephone,
+
+    // Report info
+    ozps: req.body.data.ozps,
+    ozpShifts: req.body.data.ozpShifts,
+    summ: req.body.data.ozpsSumm,
+    moment: moment
+  },
+  reportLetter = new Etpl(reportTpl),
+  mailOptions = {
+    from: 'orders@makdoors.ru',
+    to: 'dveri74-buh@mail.ru, troinof@yandex.ru',
+    subject: `${req.user.name} ${req.user.lastname} Отчет ОЗП - makdoors.ru`,
+    html: ''
+  };
+
+  reportLetter
+    .render(reportObj)
+    .then((result) => {
+      mailOptions.html = result.html;
+      transporter.sendMail(mailOptions, (error, info) => {
+        let msg  = '',
+            ss   = {},
+            code = 0;
+
+        if(error) {
+          code = 504;
+          msg  = 'Ошибка при отправке отчета';
+          ss   = error;
+        } else {
+          code = 200;
+          msg  = 'Отчет успешно отправлен';
+          ss   = info;
+        }
+
+        return res.json({
+          code: 200,
+          msg: msg,
+          info: ss
+        });
+      });
+    });
+}
 
 exports.edit = (req, res, next) => {
   const id = req.params.id;
@@ -283,7 +346,6 @@ exports.edit = (req, res, next) => {
       });
     });
 };
-
 
 exports.store = (req, res, next) => {
   const date = req.body.date.split('.');

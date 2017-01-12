@@ -1,0 +1,62 @@
+- var paymentSumm = 0;
+- var startYear   = 2016;
+- var currentYear = new Date().getFullYear();
+
+.block.block-info.container
+  .col-md-12.row
+    .col-md-6.col-sm-12
+      header
+        h2 Отчет о ЗП
+      section
+        p
+          strong ФИО:
+          = `${name} ${lastname}`
+        p
+          strong Отдел:
+          = departament
+        p
+          strong Телефон:
+          = telephone
+      table.table.table-bordered
+        thead
+          tr
+          th #
+          th Дата
+          th Сумма (р.)
+          th Предоплата (р.)
+          th Адрес доставки или номер и дата заказа на самовывоз
+          th(colspan="2", width="230")
+        tbody
+          if (Array.isArray(ozps) && !!ozps.length)
+            each ozp, index in ozps
+              - paymentSumm += ozp.payment != null ? parseInt(ozp.payment) : 0;
+              tr
+                td= index + 1
+                td= moment(ozp.date).locale('ru').format('L')
+                td= ozp.amount != null ? ozp.amount : 0
+                td= ozp.payment != null ? ozp.payment : 0
+                td= ozp.address
+                td.table-controls
+        tfoot
+          tr
+            td(colspan="5")
+            td(colspan="3")
+              table.table.table-bordered
+                tbody
+                  tr
+                    td Итого:
+                    td= `${paymentSumm} р.`
+                    if (Array.isArray(ozpShifts) && !!ozpShifts.length)
+                      tr
+                        td Аванс:
+                        td= `${ozpShifts[ozpShifts.length - 1].amount}р.`
+                      tr
+                        td Кол-во смен:
+                        td= ozpShifts[ozpShifts.length - 1].count
+                    else
+                      tr
+                        td Аванс:
+                        td 0
+                      tr
+                        td Кол-во смен:
+                        td 0
