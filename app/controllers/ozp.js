@@ -149,12 +149,25 @@ exports.indexUser = (req, res, next) => {
 };
 
 exports.filter = (req, res, next) => {
-  const month = Number(req.body.mounth),
-        year  = Number(req.body.year),
-        start = new Date(year, month - 1, 1),
-        end = new Date(year, month, 1);
+  const month  = Number(req.body.month),
+        year   = Number(req.body.year),
+        start  = new Date(year, month - 1, 1),
+        end    = new Date(year, month, 1);
 
-  console.info(req.body);
+   let query  = {
+          date: {
+            $gte: start,
+            $lt: end
+          }
+        };
+
+  if (req.body.user && !!req.body.user.length) {
+    query['user'] = req.body.user;
+  }
+
+  if (req.body.departament && !!req.body.departament.length) {
+    query['departament'] = req.body.departament;
+  }
 
   if (req.user.group === 'accountant') {
     async.parallel([
@@ -174,14 +187,7 @@ exports.filter = (req, res, next) => {
       },
       function(cb) {
         Ozp
-          .find({
-            user: req.body.user,
-            departament: req.body.departament,
-            date: {
-              $gte: start,
-              $lt: end
-            }
-          })
+          .find(query)
           .exec((err, ozps) => {
             return cb(err, ozps);
           });
