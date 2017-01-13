@@ -20,6 +20,11 @@ $(function () {
         mounted: function () {
             var self = this;
 
+
+              $.ajaxSetup({
+                  headers: { 'X-CSRF-Token': $('meta[name="_csrf"]').attr('content') }
+              });
+
             $.get('/dashboard/orders/info')
                 .done(function (data) {
                     data.attributes.forEach(function (attr) {
