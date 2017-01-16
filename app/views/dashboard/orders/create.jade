@@ -466,8 +466,8 @@ block content
                     .form-group
                       label(for="arka-color").col-sm-3.control-label Цвет:
                       .col-sm-6
-                        select(name="color", id="arka-color").form-control
-                          option Полный без углов
+                        select(name="arkColor", id="arka-el").form-control
+                          option(v-for="color in arkaColors") {{ color.name }}
                     .form-group
                       label(for="arka-radius").col-sm-3.control-label Радиус:
                       .col-sm-6
