@@ -405,6 +405,7 @@ block content
                 td {{ arka.height + 'x' + arka.width + 'x' + arka.deep }}
                 td {{ arka.view }}
                 td {{ arka.radius }}
+                td {{ arka.color }}
                 td {{ arka.count }}
                 td {{ arka.price }}р
                 td {{ arka.price * arka.count }}р
@@ -462,6 +463,11 @@ block content
                           option вид 5
                           option вид 6
                           option вид 7
+                    .form-group
+                      label(for="arka-color").col-sm-3.control-label Цвет:
+                      .col-sm-6
+                        select(name="color", id="arka-color").form-control
+                          option Полный без углов
                     .form-group
                       label(for="arka-radius").col-sm-3.control-label Радиус:
                       .col-sm-6
@@ -647,18 +653,19 @@ block content
               table.table.table-bordered.table-head-center
                 thead
                   tr
-                  th #
-                  th Название
-                  th Размер
-                  th Вид
-                  th радиус
-                  th Кол-во
-                  th Цена
-                    br
-                    |( за ед )
-                  th Цена
-                    br
-                    |( итог )
+                    th #
+                    th Название
+                    th Размер
+                    th Вид
+                    th радиус
+                    th Цвет
+                    th Кол-во
+                    th Цена
+                      br
+                      |( за ед )
+                    th Цена
+                      br
+                      |( итог )
                 tbody.text-center
                   tr(v-for="(arka, index) in arki")
                     td {{ index + 1 }}
@@ -666,6 +673,7 @@ block content
                     td {{ arka.height + 'x' + arka.width + 'x' + arka.deep }}
                     td {{ arka.view }}
                     td {{ arka.radius }}
+                    td {{ arka.color }}
                     td {{ arka.count }}
                     td {{ arka.price }}р
                     td {{ arka.price * arka.count }}р

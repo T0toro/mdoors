@@ -162,6 +162,44 @@
           td(colspan="3")
           td(colspan="1") Итого
           td(colspan="1")= `${furnTotalPrice}р`
+  .block.block-arki.col-sm-12
+    h2 Арки
+    hr
+    table.table.table-bordered.table-head-center
+      thead
+        tr
+          th #
+          th Название
+          th Размер
+          th Вид
+          th радиус
+          th Цвет
+          th Кол-во
+          th Цена
+            br
+            |( за ед )
+          th Цена
+            br
+            |( итог )
+      tbody.text-center
+        if (Array.isArray(arki) && !!arki.length)
+          each arka, index in arki
+            - arkTotalPrice += arka.price * arka.count;
+            tr
+              td= index + 1
+              td= arka.name
+              td #{arka.height} x #{arka.width} x #{arka.deep}
+              td= arka.view
+              td= arka.radius
+              td= arka.color
+              td= arka.count
+              td #{arka.price} р
+              td #{arka.price * arka.count} р
+      tfoot.ark-price
+        tr
+          td(colspan="7")
+          td(colspan="1") Итого
+          td(colspan="1")= arkTotalPrice + 'р'
   .total-price.col-sm-12
     .clearfix
       .pricebox.pull-right
