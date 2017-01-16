@@ -1,4 +1,5 @@
-const webpack = require('webpack');
+const webpack = require('webpack'),
+      path    = require('path');
 
 module.exports = {
     entry: {
@@ -39,9 +40,15 @@ module.exports = {
             'jQuery': 'jquery',
         }),
         new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
+          cacheFolder: path.resolve(__dirname, 'public/cached_uglify/'),
+          minimize: true,
+          sourceMap: false,
+          output: {
+            comments: false
+          },
+          compressor: {
+            warnings: false
+          }
         })
     ]
 };
