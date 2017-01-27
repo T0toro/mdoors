@@ -9,6 +9,15 @@
  */
 
 import * as React from 'react';
+import { connect } from 'react-redux';
+import * as moment from 'moment';
+import { ajax as request } from 'jquery';
+
+/**
+ * Actions
+ */
+
+import { FETCH_OZP } from '../../actions/ozp';
 
 /**
  * Components
@@ -23,6 +32,8 @@ import MonthDDList from '../helpers/monthDDList';
 
 class TableFilter extends React.Component<any, any> {
     csrf: any;
+    month: number;
+    year: number;
 
   constructor() {
     super();
@@ -30,6 +41,22 @@ class TableFilter extends React.Component<any, any> {
 
   componentDidMount() {
     this.csrf.value = $('meta[name="_csrf"]').attr('content');
+  }
+
+  _ozpFilter(e: any) {
+    e.preventDefault();
+
+    let data = $('#form-odds-filter').serialize();
+
+    request({
+      method: 'POST',
+      url: '/dashboard/ozp/filter',
+      data: data
+    }).done((data: any) => {
+      if (data.code !== 200) return false;
+
+      this.props.ozpStoreUpdate(data);
+    });
   }
 
   render() {
@@ -40,7 +67,7 @@ class TableFilter extends React.Component<any, any> {
           <YearDDList />
           <MonthDDList />
           <div className='form-group pull-right'>
-            <input type='submit' name='submit' value='Показать' className='btn btn-primary btn-odds-filter' />
+            <input type='submit' name='submit' value='Показать' className='btn btn-primary btn-odds-filter' onClick={ this._ozpFilter.bind(this) } />
           </div>
         </fieldset>
       </form>
@@ -48,4 +75,19 @@ class TableFilter extends React.Component<any, any> {
   }
 }
 
-export default TableFilter;
+export default connect(
+  state => ({
+    items: state.list
+  }),
+  dispatch => ({
+    ozpStoreUpdate: (data: any) => {
+      dispatch({
+        type: FETCH_OZP,
+        data: {
+          ozps: data.ozps,
+          ozpShifts: data.ozpShifts
+        }
+      });
+    }
+  })
+)(TableFilter);

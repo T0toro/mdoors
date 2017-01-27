@@ -267,6 +267,7 @@ exports.filter = (req, res, next) => {
       if (err) { return next(err); }
 
       return res.json({
+        code: 200,
         ozps: result[0],
         ozpShifts: result[1]
       });
