@@ -18,8 +18,8 @@ import * as React from 'react';
 const MonthList = () => {
   return (
     <div className='form-group'>
-      <label htmlFor='odds-mounth'>Месяц:</label>
-      <select name='mounth' id='odds-mounth' className='form-control'>
+      <label htmlFor='odds-month'>Месяц:</label>
+      <select name='month' id='odds-month' className='form-control'>
         <option value='1'>Январь</option>
         <option value='2'>Февраль</option>
         <option value='3'>Март</option>
