@@ -60,26 +60,26 @@
             td
               strong Телефон
             td= telephone
-  .block.block-doors.col-sm-12
-    h2 Двери
-    table.table.table-bordered.table-head-center
-      thead
-        tr
-          th #
-          th Модель
-          th Размер
-          th Цвет
-          th Тип
-          th Стекло
-          th Кол-во
-          th Цена
-            br
-            |( за ед )
-          th Цена
-            br
-            |( итог )
-      tbody.text-center
-        if (Array.isArray(doors) && !!doors.length)
+  if (Array.isArray(doors) && !!doors.length)
+    .block.block-doors.col-sm-12
+      h2 Двери
+      table.table.table-bordered.table-head-center
+        thead
+          tr
+            th #
+            th Модель
+            th Размер
+            th Цвет
+            th Тип
+            th Стекло
+            th Кол-во
+            th Цена
+              br
+              |( за ед )
+            th Цена
+              br
+              |( итог )
+        tbody.text-center
           each door, index in doors
             - doorsTotalPrice += door.price * door.count;
             tr
@@ -92,30 +92,30 @@
               td= door.count
               td= door.price + 'р'
               td= (door.price * door.count) + 'р'
-      tfoot.furnityra-price
-        tr
-          td(colspan="7")
-          td(colspan="1") Итого
-          td(colspan="1")= doorsTotalPrice + 'р'
-  .block.block-pagon.col-sm-12
-    h2 Погонаж
-    table.table.table-bordered.table-head-center
-      thead
-        tr
-          th #
-          th Тип
-          th Цвет
-          th Размер
-          th Уплотнитель
-          th Кол-во
-          th Цена
-            br
-            |( за ед )
-          th Цена
-            br
-            |( итог )
-      tbody.text-center
-        if (Array.isArray(pagonazsh) && !!pagonazsh.length)
+        tfoot.furnityra-price
+          tr
+            td(colspan="7")
+            td(colspan="1") Итого
+            td(colspan="1")= doorsTotalPrice + 'р'
+  if (Array.isArray(pagonazsh) && !!pagonazsh.length)
+    .block.block-pagon.col-sm-12
+      h2 Погонаж
+      table.table.table-bordered.table-head-center
+        thead
+          tr
+            th #
+            th Тип
+            th Цвет
+            th Размер
+            th Уплотнитель
+            th Кол-во
+            th Цена
+              br
+              |( за ед )
+            th Цена
+              br
+              |( итог )
+        tbody.text-center
           each pagon, index in pagonazsh
             - pagonTotalPrice += pagon.price * pagon.count;
             tr
@@ -127,28 +127,28 @@
               td= pagon.count
               td= `${pagon.price}р`
               td= `${pagon.price * pagon.count}р`
-      tfoot.pagon-price
-        tr
-          td(colspan="6")
-          td(colspan="1") Итого
-          td(colspan="1")= `${pagonTotalPrice}р`
-  .block.block-furnityra.col-sm-12
-    h2 Фурнитура
-    hr
-    table.table.table-bordered.table-head-center
-      thead
-        tr
-          th #
-          th Элемент
-          th Кол-во
-          th Цена
-            br
-            |( за ед )
-          th Цена
-            br
-            |( итог )
-      tbody.text-center
-        if (Array.isArray(furnityra) && !!furnityra.length)
+        tfoot.pagon-price
+          tr
+            td(colspan="6")
+            td(colspan="1") Итого
+            td(colspan="1")= `${pagonTotalPrice}р`
+  if (Array.isArray(furnityra) && !!furnityra.length)
+    .block.block-furnityra.col-sm-12
+      h2 Фурнитура
+      hr
+      table.table.table-bordered.table-head-center
+        thead
+          tr
+            th #
+            th Элемент
+            th Кол-во
+            th Цена
+              br
+              |( за ед )
+            th Цена
+              br
+              |( итог )
+        tbody.text-center
           each furn, index in furnityra
             - furnTotalPrice += furn.price * furn.count;
             tr
@@ -157,32 +157,32 @@
               td= furn.count
               td= `${furn.price}р`
               td= `${furn.price * furn.count}р`
-      tfoot.pagon-price
-        tr
-          td(colspan="3")
-          td(colspan="1") Итого
-          td(colspan="1")= `${furnTotalPrice}р`
-  .block.block-arki.col-sm-12
-    h2 Арки
-    hr
-    table.table.table-bordered.table-head-center
-      thead
-        tr
-          th #
-          th Название
-          th Размер
-          th Вид
-          th радиус
-          th Цвет
-          th Кол-во
-          th Цена
-            br
-            |( за ед )
-          th Цена
-            br
-            |( итог )
-      tbody.text-center
-        if (Array.isArray(arki) && !!arki.length)
+        tfoot.pagon-price
+          tr
+            td(colspan="3")
+            td(colspan="1") Итого
+            td(colspan="1")= `${furnTotalPrice}р`
+  if (Array.isArray(arki) && !!arki.length)
+    .block.block-arki.col-sm-12
+      h2 Арки
+      hr
+      table.table.table-bordered.table-head-center
+        thead
+          tr
+            th #
+            th Название
+            th Размер
+            th Вид
+            th радиус
+            th Цвет
+            th Кол-во
+            th Цена
+              br
+              |( за ед )
+            th Цена
+              br
+              |( итог )
+        tbody.text-center
           each arka, index in arki
             - arkTotalPrice += arka.price * arka.count;
             tr
@@ -191,15 +191,15 @@
               td #{arka.height} x #{arka.width} x #{arka.deep}
               td= arka.view
               td= arka.radius
-              td= arka.color
+              td= arka.arkColor
               td= arka.count
               td #{arka.price} р
               td #{arka.price * arka.count} р
-      tfoot.ark-price
-        tr
-          td(colspan="7")
-          td(colspan="1") Итого
-          td(colspan="1")= arkTotalPrice + 'р'
+        tfoot.ark-price
+          tr
+            td(colspan="7")
+            td(colspan="1") Итого
+            td(colspan="1")= arkTotalPrice + 'р'
   .total-price.col-sm-12
     .clearfix
       .pricebox.pull-right

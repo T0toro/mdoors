@@ -21,11 +21,6 @@ const mongoose    = require('mongoose'),
  * Expos
  */
 
-
-/**
- * odds list
- */
-
 exports.index = (req, res, next) => {
   const year = new Date().getFullYear(),
         month = new Date().getMonth() + 1,
@@ -134,7 +129,7 @@ exports.index = (req, res, next) => {
 };
 
 exports.filter = (req, res, next) => {
-  const month = Number(req.body.mounth),
+  const month = Number(req.body.month),
         year  = Number(req.body.year),
         start = new Date(year, month - 1, 1),
         end = new Date(year, month, 1);

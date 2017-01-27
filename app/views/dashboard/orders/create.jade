@@ -406,7 +406,7 @@ block content
                 td {{ arka.height + 'x' + arka.width + 'x' + arka.deep }}
                 td {{ arka.view }}
                 td {{ arka.radius }}
-                td {{ arka.color }}
+                td {{ arka.arkColor }}
                 td {{ arka.count }}
                 td {{ arka.price }}р
                 td {{ arka.price * arka.count }}р
@@ -553,7 +553,7 @@ block content
                       td
                         strong Телефон
                       td {{ telephone }}
-            section.block.block-doors
+            section(v-show="!!doors.length").block.block-doors
               h5 Двери
               hr
               table.table.table-bordered.table-head-center
@@ -588,7 +588,7 @@ block content
                     td(colspan="7")
                     td(colspan="1") Итого
                     td(colspan="1") {{ doorsTotalPrice }}р
-            section.block.block-pagon
+            section(v-show="!!pagonazsh.length").block.block-pagon
               h5 Погонаж
               hr
               table.table.table-bordered.table-head-center
@@ -621,7 +621,7 @@ block content
                     td(colspan="6")
                     td(colspan="1") Итого
                     td(colspan="1") {{ pagonTotalPrice }}р
-            section.block.block-furnityra
+            section(v-show="!!furnityra.length").block.block-furnityra
               h5 Фурнитура
               hr
               table.table.table-bordered.table-head-center
@@ -648,7 +648,7 @@ block content
                     td(colspan="3")
                     td(colspan="1") Итого
                     td(colspan="1") {{ furnTotalPrice }}р
-            section.block.block-arki
+            section(v-show="!!arki.length").block.block-arki
               h5 Арки
               hr
               table.table.table-bordered.table-head-center
@@ -674,7 +674,7 @@ block content
                     td {{ arka.height + 'x' + arka.width + 'x' + arka.deep }}
                     td {{ arka.view }}
                     td {{ arka.radius }}
-                    td {{ arka.color }}
+                    td {{ arka.arkColor }}
                     td {{ arka.count }}
                     td {{ arka.price }}р
                     td {{ arka.price * arka.count }}р

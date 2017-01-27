@@ -74,8 +74,8 @@ block content
               fieldset
                 input(type="hidden", name="_csrf", value="#{csrf}")
                 .form-group
-                  label(for="ozp-year") Год:
-                  select(name="year", id="ozp-year").form-control
+                  label(for="odds-year") Год:
+                  select(name="year", id="odds-year").form-control
                     while startYear < currentYear + 1
                       if(startYear === currentYear)
                         option(selected="selected")= startYear
@@ -83,9 +83,9 @@ block content
                         option= startYear
                       - ++startYear
                 .form-group
-                  label(for="ozp-month") Месяц:
+                  label(for="odds-month") Месяц:
                   - var months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
-                  select(name="month", id="ozp-month").form-control
+                  select(name="month", id="odds-month").form-control
                     each month, index in months
                       if (currentMonth === index)
                         option(value="#{index + 1}", selected="selected")= month
