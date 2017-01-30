@@ -225,7 +225,7 @@ exports.store = (req, res, next) => {
 
     let mailOptions = {
         from: 'orders@makdoors.ru',
-        to: 'troinof@yandex.ru',
+        to: orderEmail,
         subject: 'Заказ с сайта - makdoors.ru',
         html: ''
     };
