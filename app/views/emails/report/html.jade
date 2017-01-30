@@ -20,12 +20,11 @@
       table.table.table-bordered
         thead
           tr
-          th #
-          th Дата
-          th Сумма (р.)
-          th Предоплата (р.)
-          th Адрес доставки или номер и дата заказа на самовывоз
-          th(colspan="2", width="230")
+            th #
+            th Дата
+            th Сумма (р.)
+            th Предоплата (р.)
+            th Адрес доставки или номер и дата заказа на самовывоз
         tbody
           if (Array.isArray(ozps) && !!ozps.length)
             each ozp, index in ozps
@@ -36,11 +35,10 @@
                 td= ozp.amount != null ? ozp.amount : 0
                 td= ozp.payment != null ? ozp.payment : 0
                 td= ozp.address
-                td.table-controls
         tfoot
           tr
-            td(colspan="5")
-            td(colspan="3")
+            td(colspan="4")
+            td(colspan="1")
               table.table.table-bordered
                 tbody
                   tr

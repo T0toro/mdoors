@@ -159,12 +159,12 @@ exports.filter = (req, res, next) => {
         start  = new Date(year, month - 1, 1),
         end    = new Date(year, month, 1);
 
-   let query  = {
-          date: {
-            $gte: start,
-            $lt: end
-          }
-        };
+  let query  = {
+    date: {
+      $gte: start,
+      $lt: end
+    }
+  };
 
   if (req.body.user && !!req.body.user.length) {
     query['user'] = req.body.user;
@@ -276,61 +276,67 @@ exports.filter = (req, res, next) => {
 };
 
 exports.sendOrder = (req, res, next) => {
-  let transporter = email.createTransport({
-      service: 'Yandex',
-      auth: {
-          user: 'orders@makdoors.ru',
-          pass: 'qrj7tw43bt'
-      }
-  }),
-  reportEmail = 'report@makdoors.ru',
-  reportTpl = path.join(`${__dirname}/../views`, 'emails', 'report'),
-  reportObj = {
-    // Seller info
-    name: req.user.name,
-    lastname: req.user.lastname,
-    departament: req.user.departament,
-    telephone: req.user.telephone,
+  Departament
+    .findById(req.user.departament)
+    .exec((err, departament) => {
+      if(err) { return next(err); }
 
-    // Report info
-    ozps: req.body.data.ozps,
-    ozpShifts: req.body.data.ozpShifts,
-    summ: req.body.data.ozpsSumm,
-    moment: moment
-  },
-  reportLetter = new Etpl(reportTpl),
-  mailOptions = {
-    from: 'orders@makdoors.ru',
-    to: 'dveri74-buh@mail.ru, troinof@yandex.ru',
-    subject: `${req.user.name} ${req.user.lastname} Отчет ОЗП - makdoors.ru`,
-    html: ''
-  };
+      let transporter = email.createTransport({
+          service: 'Yandex',
+          auth: {
+              user: 'orders@makdoors.ru',
+              pass: 'qrj7tw43bt'
+          }
+      }),
+      reportEmail = 'report@makdoors.ru',
+      reportTpl = path.join(`${__dirname}/../views`, 'emails', 'report'),
+      reportObj = {
+        // Seller info
+        name: req.user.name,
+        lastname: req.user.lastname,
+        departament: departament.name,
+        telephone: req.user.telephone,
 
-  reportLetter
-    .render(reportObj)
-    .then((result) => {
-      mailOptions.html = result.html;
-      transporter.sendMail(mailOptions, (error, info) => {
-        let msg  = '',
-            ss   = {},
-            code = 0;
+        // Report info
+        ozps: req.body.data.ozps,
+        ozpShifts: req.body.data.ozpShifts,
+        summ: req.body.data.ozpsSumm,
+        moment: moment
+      },
+      reportLetter = new Etpl(reportTpl),
+      mailOptions = {
+        from: 'orders@makdoors.ru',
+        to: 'dveri74-buh@mail.ru, troinof@yandex.ru',
+        subject: `${req.user.name} ${req.user.lastname} Отчет ОЗП - makdoors.ru`,
+        html: ''
+      };
 
-        if(error) {
-          code = 504;
-          msg  = 'Ошибка при отправке отчета';
-          ss   = error;
-        } else {
-          code = 200;
-          msg  = 'Отчет успешно отправлен';
-          ss   = info;
-        }
+      reportLetter
+        .render(reportObj)
+        .then((result) => {
+          mailOptions.html = result.html;
+          transporter.sendMail(mailOptions, (error, info) => {
+            let msg  = '',
+                ss   = {},
+                code = 0;
 
-        return res.json({
-          code: 200,
-          msg: msg,
-          info: ss
+            if(error) {
+              code = 504;
+              msg  = 'Ошибка при отправке отчета';
+              ss   = error;
+            } else {
+              code = 200;
+              msg  = 'Отчет успешно отправлен';
+              ss   = info;
+            }
+
+            return res.json({
+              code: 200,
+              msg: msg,
+              info: ss
+            });
+          });
         });
-      });
     });
 }
 
