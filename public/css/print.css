@@ -3,6 +3,15 @@
     display: none !important;
 }
 
+.print-xs {
+    font-size: 10px;
+}
+
+.print-xs th,
+.print-xs td {
+    padding: 0 !important;
+}
+
 .print {
     display: block !important;
 }

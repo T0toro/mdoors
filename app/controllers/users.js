@@ -140,7 +140,7 @@ exports.restore = (req, res, next) => {
           service: 'Yandex',
           auth: {
             user: 'access@makdoors.ru',
-            pass: 'x8RhDShCtb3tCf5'
+            pass: 'makdoors713'
           }
         });
         let restoreTpl = path.join(`${__dirname}/../views`, 'emails', 'restore'),

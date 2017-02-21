@@ -11,7 +11,7 @@ block content
   article.content
     header
       h2 Отчет о ДДС
-    table.table.table-bordered.text-center
+    table.table.table-bordered.text-center.print-xs
       thead
         tr.no-print
           th(colspan="8")
@@ -57,7 +57,7 @@ block content
           th.text-center Комментарий
           th.text-center Сумма (р.)
           th.text-center Комментарий
-          th(colspan="1", width="230")
+          th.no-print(colspan="1", width="230")
       tbody
         if (Array.isArray(oddss) && !!oddss.length)
           each odd, index in oddss
@@ -71,7 +71,7 @@ block content
               td= odd.receivedComment
               td= odd.retiredAmount != null ? parseInt(odd.retiredAmount) : 0
               td= odd.retiredComment
-              td.text-right
+              td.no-print.text-right
                 if (req.user.group === 'manager' || req.user.group === 'accountant')
                   a(href="/dashboard/odds/destroy/#{odd.id}").btn.btn-danger
                     i.fa.fa-trash
@@ -82,9 +82,8 @@ block content
               | На данный момент отчетов нет
       tfoot
         tr
-          td(colspan="5")
-          td(colspan="3")
-            table.table.table-bordered
+          td(colspan="8")
+            table(style="width: 37%;").table.table-bordered.pull-right
               tbody
                 tr
                   td Остаток:
