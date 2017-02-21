@@ -239,10 +239,18 @@ exports.store = (req, res, next) => {
          transporter.sendMail(mailOptions, (error, info) => {
             if(error) {
                 console.log('Ошибка отправки: ' + error);
+                order.status = 2;
+                order.save((err) => {
+                  if (err) { return next(err); }
+                });
             }
             else {
                 console.log('Письмо успешно отправлено: ' + info);
                 console.info(mailOptions.to);
+                order.status = 1;
+                order.save((err) => {
+                  if (err) { return next(err); }
+                });
             }
           });
       });
@@ -271,9 +279,11 @@ exports.edit = (req, res, next) => {
 exports.destroy = (req, res, next) => {
   const id = req.params.id || '';
 
-  if (req.user.departament !== 'accountant') return res.json({
+  console.info(req.user);
+
+  if (req.user.group !== 'accountant') return res.json({
     code: 403,
-    msg: ''
+    msg: 'У вас нет прав для выполнения данного действия'
   });
 
   Order

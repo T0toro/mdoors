@@ -30,7 +30,25 @@ const OrderListItem = (props: any) => {
         selected: number  = props.pageSelected,
         start: number     = selected === 0 ? 1 : selected * limit + 1;
 
-  let   removeButton: any = null;
+  let   removeButton: any = null,
+        orderStatus;
+  
+  switch(order.status) {
+    case 0:
+      orderStatus = <span style={{ color: '#089de3' }}>ожидает отправки</span>;
+      break
+    
+    case 1:
+      orderStatus = <span style={{ color: '#92CD00' }}>доставлено</span>;
+      break;
+    
+    case 2:
+      orderStatus = <span style={{ color: '#CC0000' }}>ошибка доставки</span>;
+      break;
+    
+    default:
+      break;
+  }
 
   if (access === 'accountant') {
     removeButton = <RemoveButton url={`/dashboard/orders/destroy/${order._id}`} />;
@@ -45,6 +63,7 @@ const OrderListItem = (props: any) => {
       <td>{order.product}</td>
       <td>{order.address.slice(0, 20)}...</td>
       <td>{order.telephone.slice(0, 15)}...</td>
+      <td style={{ textAlign: 'center' }}>{orderStatus}</td>
       <td className='table-controls'>
         <ShowButton url={`/dashboard/orders/show/${order._id}`} />
         {removeButton}
@@ -57,7 +76,14 @@ const OrderList = (props: any) => {
   return (
     <tbody>
       {props.items.map((item: any, index: number) => {
-        return <OrderListItem key={index} index={index} item={item} access={props.access} user={props.users[item.user]} pageSelected={ props.pageSelected }/>;
+        return <OrderListItem
+                  key={index}
+                  index={index}
+                  item={item}
+                  access={props.access}
+                  user={props.users[item.user]}
+                  pageSelected={ props.pageSelected }
+               />;
       })}
     </tbody>
   );

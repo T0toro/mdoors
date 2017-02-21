@@ -93,7 +93,8 @@ class OrderListContainer extends React.Component<OrderListContainerProps, OrderL
               <th>Продукт</th>
               <th>Адрес доставки</th>
               <th>Телефон</th>
-              <th colSpan={2} width='230'></th>
+              <th>Статус отправки</th>
+              <th colSpan={2} style={{ padding: '0 80px' }}></th>
             </tr>
           </thead>
           <OrderList items={orders} users={users} pageSelected={ this.state.pageSelected } access={ this.state.access } />
