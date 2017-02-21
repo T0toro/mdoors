@@ -104,6 +104,11 @@ const OrderSchema = new Schema({
   prepay: {
     type: Number,
     default: 0
+  },
+
+  status: {
+    type: Number,
+    default: 0
   }
 });
 
