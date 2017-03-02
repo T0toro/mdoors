@@ -22,10 +22,10 @@ const mongoose    = require('mongoose'),
  */
 
 exports.index = (req, res, next) => {
-  const year = new Date().getFullYear(),
+  const year  = new Date().getFullYear(),
         month = new Date().getMonth() + 1,
         start = new Date(year, month - 1, 1),
-        end = new Date(year, month, 1);
+        end   = new Date(year, month, 1);
 
   if (req.user.group === 'accountant') {
     async.parallel([
@@ -132,7 +132,7 @@ exports.filter = (req, res, next) => {
   const month = Number(req.body.month),
         year  = Number(req.body.year),
         start = new Date(year, month - 1, 1),
-        end = new Date(year, month, 1);
+        end   = new Date(year, month, 1);
 
   if (req.user.group === 'accountant') {
     async.parallel([
@@ -166,7 +166,7 @@ exports.filter = (req, res, next) => {
       function(cb) {
         OddsBalance
           .find({
-            departament: req.user.departament,
+            departament: req.body.departament,
             date: {
               $gte: start,
               $lt: end
@@ -202,21 +202,41 @@ exports.filter = (req, res, next) => {
       });
     });
   } else {
-    Odds
-      .find({
-        user: req.user.id,
-        date: {
-          $gte: start,
-          $lt: end
-        }
-      })
-      .exec((err, oddss) => {
-        if (err) { return next(err); }
+    async.parallel([
+      function(cb) {
+        Odds
+          .find({
+            user: req.user.id,
+            date: {
+              $gte: start,
+              $lt: end
+            }
+          })
+          .exec((err, oddss) => {
+            return cb(err, oddss);
+          });
+      },
+      function(cb) {
+        OddsBalance
+          .find({
+            departament: req.user.departament,
+            date: {
+              $gte: start,
+              $lt: end
+            }
+          })
+          .exec(function(err, oddsBalance) {
+            return cb(err, oddsBalance);
+          });
+      }
+    ], function(err, result) {
+      if (err) { return next(err); }
 
-        return res.render('dashboard/odds/index', {
-          oddss: oddss
-        });
+      return res.render('dashboard/odds/index', {
+        oddss: result[0],
+        oddsBalance: result[1]
       });
+    });
   }
 };
 

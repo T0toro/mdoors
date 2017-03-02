@@ -27,10 +27,10 @@ const mongoose    = require('mongoose'),
  */
 
 exports.index = (req, res, next) => {
- const year   = new Date().getFullYear(),
-        month = new Date().getMonth() + 1,
-        start = new Date(year, month - 1, 1),
-        end   = new Date(year, month, 1);
+ const year  = new Date().getFullYear(),
+       month = new Date().getMonth() + 1,
+       start = new Date(year, month - 1, 1),
+       end   = new Date(year, month, 1);
 
   if (req.user.group === 'accountant') {
     async.parallel([
@@ -200,7 +200,7 @@ exports.filter = (req, res, next) => {
       function(cb) {
         OzpShifts
           .find({
-            departament: req.body.departament,
+            departament: query.departament,
             date: {
               $gte: start,
               $lt: end

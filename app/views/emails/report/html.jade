@@ -1,4 +1,7 @@
 - var paymentSumm = 0;
+- var ozpa        = 0;
+- var ozpp        = 0;
+- var paymentSumm = 0;
 - var startYear   = 2016;
 - var currentYear = new Date().getFullYear();
 
@@ -28,12 +31,14 @@
         tbody
           if (Array.isArray(ozps) && !!ozps.length)
             each ozp, index in ozps
-              - paymentSumm += ozp.payment != null ? parseInt(ozp.payment) : 0;
+              - ozpp        = (ozp.payment != null && !!ozp.payment.length) ? parseInt(ozp.payment) : 0;
+              - ozpa        = (ozp.amount != null && !!ozp.amount.length) ? parseInt(ozp.amount) : 0;
+              - paymentSumm += ozpa;
               tr
                 td= index + 1
                 td= moment(ozp.date).locale('ru').format('L')
-                td= ozp.amount != null ? ozp.amount : 0
-                td= ozp.payment != null ? ozp.payment : 0
+                td= ozpa
+                td= ozpp
                 td= ozp.address
         tfoot
           tr

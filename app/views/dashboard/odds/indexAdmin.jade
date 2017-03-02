@@ -87,7 +87,10 @@ block content
               tbody
                 tr
                   td Остаток:
-                  td 0
+                  if( Array.isArray(oddsBalance) && !!oddsBalance.length )
+                    td= `${oddsBalance[oddsBalance.length -1].balance} р.`
+                  else
+                    td не задан
                 tr
                   td Итого поступило:
                   td= `${receivedAmountSumm} р.`
