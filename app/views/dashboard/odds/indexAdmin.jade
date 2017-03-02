@@ -99,4 +99,7 @@ block content
                   td= `${retiredAmountSumm} р.`
                 tr
                   td Итого в кассе:
-                  td= `${oddsBalance[oddsBalance.length -1].balance + receivedAmountSumm - retiredAmountSumm} р.`
+                  if( Array.isArray(oddsBalance) && !!oddsBalance.length )
+                    td= `${oddsBalance[oddsBalance.length -1].balance + receivedAmountSumm - retiredAmountSumm} р.`
+                  else
+                    td= `${receivedAmountSumm - retiredAmountSumm} р.`
