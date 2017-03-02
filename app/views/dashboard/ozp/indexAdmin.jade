@@ -62,7 +62,7 @@ block content
       tbody
         if (Array.isArray(ozps) && !!ozps.length)
           each ozp, index in ozps
-            - paymentSumm += ozp.payment != null ? parseInt(ozp.payment) : 0;
+            - paymentSumm += ozp.amount != null ? parseInt(ozp.amount) : 0;
             tr
               td.no-print= index + 1
               td= moment(ozp.date).locale('ru').format('L')
