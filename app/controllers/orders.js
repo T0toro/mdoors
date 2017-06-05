@@ -176,11 +176,11 @@ exports.store = (req, res, next) => {
       '5819989f4bebf14032fc1b44',
       '582a92c16c09946b8c36469c'
     ],
-    'pryahinaa@list.ru, dveri74-buh@mail.ru, orders@makdoors.ru': [
+    'vdmakdoors@mail.ru, dveri74-buh@mail.ru, orders@makdoors.ru': [
       '5819991b4bebf14032fc1b46',
       '5822bbcc83abe41b9f451c03'
     ],
-    'pryahinaa@list.ru, orders@makdoors.ru': [
+    'vdmakdoors@mail.ru, orders@makdoors.ru': [
       '5819979e4bebf14032fc1b3f',
       '581998ee4bebf14032fc1b45'
     ]
