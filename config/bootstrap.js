@@ -23,7 +23,8 @@ module.exports = (app) => {
     name: 'admin'
   }, (err, user) => {
     if (err) { return console.info('При поиске пользователя возникла ошибка: ', err); }
-
+    
+    console.info(user);
     if (!user) {
       User.create({
         name: 'admin',
