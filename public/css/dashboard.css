@@ -3,6 +3,9 @@
     border-radius: 0;
 }
 
+/* Pagination
+ *---------------------------------------------*/
+
 .pagination {
     border: 2px solid #1abc9c;
     background: transparent;
@@ -27,14 +30,23 @@
     color: #888;
 }
 
+/* Tables
+ *---------------------------------------------*/
+
 .table-head-center th {
     vertical-align: middle !important;
     text-align: center;
 }
 
+/* Content
+ *---------------------------------------------*/
+
 .content-wrapper {
     padding: 1rem 0;
 }
+
+/* Forms
+ *---------------------------------------------*/
 
 form {
     margin: 50px 0;
@@ -160,4 +172,36 @@ form legend {
 
 .btn-print {
     margin-left: 15px;
+}
+
+/* Home
+ *---------------------------------------------*/
+
+.page-home {
+    background-color: #eee;
+}
+
+
+/* News
+ *---------------------------------------------*/
+
+.news-list-item {
+    margin-bottom: 20px;
+    border: 1px solid #34495e;
+    box-shadow: 0 0 .5px
+}
+
+.news-list-item-header {
+    padding: 15px 0;
+    color: #fff;
+    background-color: #34495e
+}
+
+.news-list-item-header h4,
+.news-list-item-header p {
+    margin: 0;
+}
+
+.news-list-item-body {
+    padding: 20px;
 }
