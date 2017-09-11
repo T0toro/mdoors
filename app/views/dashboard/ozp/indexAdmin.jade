@@ -38,12 +38,14 @@ block content
                   .form-group
                     label(for="ozp-departament") Отдел:
                     select(name="departament", id="ozp-departament").form-control
+                      option(value="") Любой
                       each departament, key in departaments
                         option(value="#{key}")= departament
                 if (!!Object.keys(users).length)
                   .form-group
                     label(for="ozp-user") Сотрудник:
                     select(name="user", id="ozp-user").form-control
+                      option(value="") Любой
                       each user, key in users
                         option(value="#{key}")= user
                 .form-group.pull-right
