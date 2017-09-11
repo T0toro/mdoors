@@ -22,6 +22,37 @@ const mongoose    = require('mongoose'),
       Departament = mongoose.model('Departament');
 
 
+async function getAcountantData(start, end) {
+  const usersList        = await User.find();
+  const departamentsList = await Departament.find();
+  const ozps             = await Ozp.find().sort({ date: -1 });
+  const ozpShifts        = await OzpShifts.findOne({ date: { $gte: start, $lt: end } });
+
+  let usersHash = {},
+      departamentsHash = {};
+
+  if (Array.isArray(usersList) && !!usersList.length) {
+    usersList.forEach(function(user) {
+      usersHash[user.id] = user.name;
+    });
+  }
+
+  if (Array.isArray(departamentsList) && !!departamentsList.length) {
+    departamentsList.forEach(function(departament) {
+      departamentsHash[departament.id] = departament.name;
+    });
+  }
+
+  return {
+    code: 200,
+    users: users,
+    departaments: departaments,
+    ozps: result[2],
+    ozpShifts: result[3]
+  }
+}
+
+
 /*
  * Expos
  */
@@ -33,69 +64,9 @@ exports.index = (req, res, next) => {
        end   = new Date(year, month, 1);
 
   if (req.user.group === 'accountant') {
-    async.parallel([
-      function(cb) {
-        User
-          .find()
-          .exec(function(err, users) {
-            return cb(err, users);
-          });
-      },
-      function(cb) {
-        Departament
-          .find()
-          .exec(function(err, departaments) {
-            return cb(err, departaments);
-          });
-      },
-      function(cb) {
-        Ozp
-          .find()
-          .sort({
-            date: -1
-          })
-          .exec((err, ozps) => {
-            return cb(err, ozps);
-          });
-      },
-      function(cb) {
-        OzpShifts
-          .findOne({
-            date: {
-              $gte: start,
-              $lt: end
-            }
-          })
-          .exec(function(err, ozpShifts) {
-            return cb(err, ozpShifts);
-          });
-      }
-    ], function(err, result) {
-      if (err) { return next(err); }
+    const ozps = getAcountantData(start, end);
 
-      let users = {},
-          departaments = {};
-
-      if (Array.isArray(result[0]) && !!result[0].length) {
-        result[0].forEach(function(user) {
-          users[user.id] = user.name;
-        });
-      }
-
-      if (Array.isArray(result[1]) && !!result[1].length) {
-        result[1].forEach(function(departament) {
-          departaments[departament.id] = departament.name;
-        });
-      }
-
-      return res.render('dashboard/ozp/indexAdmin', {
-        code: 200,
-        users: users,
-        departaments: departaments,
-        ozps: result[2],
-        ozpShifts: result[3]
-      });
-    });
+    return res.render('dashboard/ozp/indexAdmin', ozps);
   } else {
     return res.render('dashboard/ozp/index')
   }
@@ -120,7 +91,8 @@ exports.indexUser = (req, res, next) => {
     function(cb) {
       Ozp
       .find({
-        user: req.user.id
+        user: req.user.id,
+        date: { $gte: start, $lt: end }
       })
       .sort({
         date: -1
@@ -133,10 +105,7 @@ exports.indexUser = (req, res, next) => {
       OzpShifts
         .find({
           departament: req.user.departament,
-          date: {
-            $gte: start,
-            $lt: end
-          }
+          date: { $gte: start, $lt: end }
         })
         .exec(function(err, ozpShifts) {
           return cb(err, ozpShifts);

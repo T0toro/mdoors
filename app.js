@@ -45,6 +45,7 @@ connect();
 
 mongoose.connection.on('error', console.log);
 mongoose.connection.on('disconnected', connect);
+mongoose.Promise = Promise;
 
 // Bootstrap models
 // ----------------------------------------------

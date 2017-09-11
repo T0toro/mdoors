@@ -12,10 +12,57 @@
 
 const mongoose    = require('mongoose'),
       async       = require('async'),
+      moment      = require('moment'),
       Odds        = mongoose.model('Odds'),
       OddsBalance = mongoose.model('OddsBalance'),
       User        = mongoose.model('User'),
       Departament = mongoose.model('Departament');
+
+
+async function getAccountantData(start = 0, end = 0) {
+  console.info('start 0');
+  const usersList       = await User.find(),
+        departamentList = await Departament.find(),
+        oddsList        = await Odds.find({ date: { $gte: start, $lt: end } }).sort({ date: -1 }),
+        oddsBalance     = await OddsBalance.find({ date: { $gte: start, $lt: end } });
+
+  let usersHash = {},
+      departamentsHash = {};
+
+  if(Array.isArray(usersList) && !!usersList.length) {
+    usersList.forEach(function(user) {
+      usersHash[user.id] = user.name;
+    });
+  }
+
+  if(Array.isArray(departamentList) && !!departamentList.length) {
+    departamentList.forEach(function(departament) {
+      departamentsHash[departament.id] = departament.name;
+    });
+  }
+
+  return {
+    users: usersHash,
+    departaments: departamentsHash,
+    oddss: oddsList,
+    oddsBalance: oddsBalance
+  }
+}
+
+async function getSellerData(req, start, end) {
+  console.info(req.user);
+  const departament = req.user.departament || '';
+        oddsBalance = await OddsBalance.find({
+          departament: departament,
+          date: { $gte: start, $lt: end }
+        }),
+        oddsList = await Odds.find({ user: req.user.id }).sort({ date: -1 });
+
+  return {
+    oddsBalance: oddsBalance,
+    oddss: oddsList
+  }
+}
 
 /*
  * Expos
@@ -25,106 +72,20 @@ exports.index = (req, res, next) => {
   const year  = new Date().getFullYear(),
         month = new Date().getMonth() + 1,
         start = new Date(year, month - 1, 1),
-        end   = new Date(year, month, 1);
+        end   = new Date(year, month - 1, 31);
 
   if (req.user.group === 'accountant') {
-    async.parallel([
-      function(cb) {
-        User
-          .find()
-          .exec(function(err, users) {
-            return cb(err, users);
-          });
-      },
-      function(cb) {
-        Departament
-          .find()
-          .exec(function(err, departaments) {
-            return cb(err, departaments);
-          });
-      },
-      function(cb) {
-        Odds
-          .find()
-          .sort({
-            date: -1
-          })
-          .exec(function(err, oddss) {
-            return cb(err, oddss);
-          });
-      },
-      function(cb) {
-        OddsBalance
-          .find({
-            date: {
-              $gte: start,
-              $lt: end
-            }
-          })
-          .exec(function(err, oddsBalance) {
-            return cb(err, oddsBalance);
-          });
-      }
-    ], function(err, result) {
-      if (err) { return next(err); }
+    (async () => {
+      const odds = await getAccountantData(start, end); 
 
-      let users = {},
-          departaments = {};
-
-      if(Array.isArray(result[0]) && !!result[0].length) {
-        result[0].forEach(function(user) {
-          users[user.id] = user.name;
-        });
-      }
-
-      if(Array.isArray(result[1]) && !!result[1].length) {
-        result[1].forEach(function(departament) {
-          departaments[departament.id] = departament.name;
-        });
-      }
-
-      return res.render('dashboard/odds/indexAdmin', {
-        users: users,
-        departaments: departaments,
-        oddss: result[2],
-        oddsBalance: result[3]
-      });
-    });
+      return res.render('dashboard/odds/indexAdmin', odds);
+    })();
   } else {
-    async.parallel([
-      function(cb) {
-        OddsBalance
-          .find({
-            departament: req.user.departament,
-            date: {
-              $gte: start,
-              $lt: end
-            }
-          })
-          .exec(function(err, oddsBalance) {
-            return cb(err, oddsBalance);
-          });
-      },
-      function(cb) {
-        Odds
-          .find({
-            user: req.user.id
-          })
-          .sort({
-            date: -1
-          })
-          .exec(function(err, oddss) {
-            return cb(err, oddss);
-          });
-      }
-    ], (err, result) => {
-      if (err) { return next(err); }
+    (async () => {
+      const odds = await getSellerData(req, start, end);
 
-      return res.render('dashboard/odds/index', {
-        oddsBalance: result[0],
-        oddss: result[1]
-      });
-    });
+      return res.render('dashboard/odds/index', odds);
+    })();
   }
 };
 
@@ -132,112 +93,21 @@ exports.filter = (req, res, next) => {
   const month = Number(req.body.month),
         year  = Number(req.body.year),
         start = new Date(year, month - 1, 1),
-        end   = new Date(year, month, 1);
+        end   = new Date(year, month - 1, 31);
 
   if (req.user.group === 'accountant') {
-    async.parallel([
-      function(cb) {
-        User
-          .find()
-          .exec((err, users) => {
-            return cb(err, users);
-          });
-      },
-      function(cb) {
-        Departament
-          .find()
-          .exec((err, departaments) => {
-            return cb(err, departaments);
-          });
-      },
-      function(cb) {
-        Odds
-          .find({
-            departament: req.body.departament,
-            date: {
-              $gte: start,
-              $lt: end
-            }
-          })
-          .exec((err, oddss) => {
-            return cb(err, oddss);
-          });
-      },
-      function(cb) {
-        OddsBalance
-          .find({
-            departament: req.body.departament,
-            date: {
-              $gte: start,
-              $lt: end
-            }
-          })
-          .exec(function(err, oddsBalance) {
-            return cb(err, oddsBalance);
-          });
-      }
-    ], function(err, result) {
-      if (err) { return next(err); }
+    (async () => {
+      const odds = await getAccountantData(start, end); 
 
-      let users = {},
-          departaments = {};
-
-      if (Array.isArray(result[0]) && !!result[0].length) {
-        result[0].forEach(function(user) {
-          users[user.id] = user.name;
-        });
-      }
-
-      if (Array.isArray(result[1]) && !!result[1].length) {
-        result[1].forEach(function(departament) {
-          departaments[departament.id] = departament.name;
-        });
-      }
-
-      return res.render('dashboard/odds/indexAdmin', {
-        users: users,
-        departaments: departaments,
-        oddss: result[2],
-        oddsBalance: result[3]
-      });
-    });
+      return res.render('dashboard/odds/indexAdmin', odds);
+    })();
   } else {
-    async.parallel([
-      function(cb) {
-        Odds
-          .find({
-            user: req.user.id,
-            date: {
-              $gte: start,
-              $lt: end
-            }
-          })
-          .exec((err, oddss) => {
-            return cb(err, oddss);
-          });
-      },
-      function(cb) {
-        OddsBalance
-          .find({
-            departament: req.user.departament,
-            date: {
-              $gte: start,
-              $lt: end
-            }
-          })
-          .exec(function(err, oddsBalance) {
-            return cb(err, oddsBalance);
-          });
-      }
-    ], function(err, result) {
-      if (err) { return next(err); }
+    (async () => {
+      const odds = await getSellerData(req, start, end);
 
-      return res.render('dashboard/odds/index', {
-        oddss: result[0],
-        oddsBalance: result[1]
-      });
-    });
-  }
+      return res.render('dashboard/odds/index', odds);
+    })();
+  } 
 };
 
 exports.store = (req, res, next) => {

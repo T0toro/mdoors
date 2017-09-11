@@ -18,24 +18,19 @@ const bcrypt   = require('bcryptjs'),
  * Expose
  */
 
-module.exports = (app) => {
-  User.findOne({
-    name: 'admin'
-  }, (err, user) => {
-    if (err) { return console.info('При поиске пользователя возникла ошибка: ', err); }
-    
-    console.info(user);
-    if (!user) {
-      User.create({
-        name: 'admin',
-        group: 'accountant',
-        login: 'admin@mail.com',
-        password: bcrypt.hashSync('123', 8),
-      }, (err) => {
-        if (err) { return console.info('При создании пользователя произошла ошибка: ', err); }
+module.exports = async (app) => {
+  const user = await User.findOne({ name: 'admin' });
+  
+  if (!!Object.keys(user).length) return true;
 
-        return true;
-      });
-    }
-  });
+  try {
+    await User.create({
+      name: 'admin',
+      group: 'accountant',
+      login: 'admin@mail.com',
+      password: bcrypt.hashSync('123', 8),
+    });
+  } catch(e) {
+    return console.info('При создании пользователя произошла ошибка: ', e);
+  }
 };

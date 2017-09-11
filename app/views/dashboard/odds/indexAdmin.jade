@@ -4,10 +4,11 @@ block script
   script(src="/js/vendor/moment.min.js")
 
 block content
-  - var retiredAmountSumm = 0;
-  - var receivedAmountSumm = 0;
-  - var startYear   = 2016;
-  - var currentYear = new Date().getFullYear();
+  - let retiredAmountSumm = 0;
+  - let receivedAmountSumm = 0;
+  - let startYear   = 2016;
+  - const currentYear = new Date().getFullYear();
+  - const currentMonth = new Date().getMonth();
   article.content
     header
       h2 Отчет о ДДС
