@@ -20,7 +20,6 @@ const mongoose    = require('mongoose'),
 
 
 async function getAccountantData(start = 0, end = 0) {
-  console.info('start 0');
   const usersList       = await User.find(),
         departamentList = await Departament.find(),
         oddsList        = await Odds.find({ date: { $gte: start, $lt: end } }).sort({ date: -1 }),
@@ -50,13 +49,14 @@ async function getAccountantData(start = 0, end = 0) {
 }
 
 async function getSellerData(req, start, end) {
-  console.info(req.user);
-  const departament = req.user.departament || '';
+  const departament = req.user.departament || '',
         oddsBalance = await OddsBalance.find({
           departament: departament,
           date: { $gte: start, $lt: end }
         }),
         oddsList = await Odds.find({ user: req.user.id }).sort({ date: -1 });
+
+  console.info(oddsList, req.user);
 
   return {
     oddsBalance: oddsBalance,
