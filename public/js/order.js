@@ -33,7 +33,6 @@ $(function() {
             }
 
             if (data.attributeGroups[0] && attr.group.indexOf(data.attributeGroups[0]._id) !== -1 && (data.products[5] && attr.product.indexOf(data.products[5]._id) !== -1)) {
-              console.info('test', attr);
               self.arkaColors.push(attr);
             }
 

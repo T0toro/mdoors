@@ -279,8 +279,6 @@ exports.edit = (req, res, next) => {
 exports.destroy = (req, res, next) => {
   const id = req.params.id || '';
 
-  console.info(req.user);
-
   if (req.user.group !== 'accountant') return res.json({
     code: 403,
     msg: 'У вас нет прав для выполнения данного действия'
@@ -299,35 +297,16 @@ exports.destroy = (req, res, next) => {
 // ----------------------------------------------
 
 exports.info = (req, res, next) => {
-  async.parallel([
-    (cb) => {
-      Product
-        .find()
-        .exec((err, products) => {
-          return cb(err, products);
-        });
-    },
-    (cb) => {
-      Attribute
-        .find()
-        .exec((err, attributes) => {
-          return cb(err, attributes);
-        });
-    },
-    (cb) => {
-      AttributeGroup
-        .find()
-        .exec((err, attributeGroups) => {
-          return cb(err, attributeGroups);
-        });
-    }],
-    (err, result) => {
-      if (err) { return next(err); }
-
-      return res.json({
-        products: result[0],
-        attributes: result[1],
-        attributeGroups: result[2]
-      });
-  });
+  Promise.all([
+    Product.find(),
+    Attribute.find(),
+    AttributeGroup.find()
+  ]).then(
+    result => res.json({
+      products: result[0],
+      attributes: result[1],
+      attributeGroups: result[2]
+    }),
+    error => next(err)
+  );
 };

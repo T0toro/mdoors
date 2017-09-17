@@ -56,8 +56,6 @@ async function getSellerData(req, start, end) {
         }),
         oddsList = await Odds.find({ user: req.user.id }).sort({ date: -1 });
 
-  console.info(oddsList, req.user);
-
   return {
     oddsBalance: oddsBalance,
     oddss: oddsList

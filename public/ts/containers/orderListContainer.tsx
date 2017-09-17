@@ -109,7 +109,6 @@ class OrderListContainer extends React.Component<OrderListContainerProps, OrderL
                         marginPagesDisplayed={2}
                         pageRangeDisplayed={5}
                         containerClassName={'pagination'}
-                        subContainerClassName={'pages pagination'}
                         activeClassName={'active'} />
         </div>
       </article>

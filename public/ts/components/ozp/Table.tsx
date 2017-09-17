@@ -53,7 +53,7 @@ class OzpTable extends React.Component<any, any> {
             <th>Сумма (р.)</th>
             <th>Предоплата (р.)</th>
             <th>Адрес доставки или номер и дата заказа на самовывоз</th>
-            <th colSpan={2} width='230'></th>
+            <th colSpan={2}></th>
           </tr>
         </thead>
         <TableList items={this.props.items} />

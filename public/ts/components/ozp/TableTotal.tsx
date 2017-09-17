@@ -20,7 +20,7 @@ import { connect } from 'react-redux';
  * Expo
  */
 
-class OzpTotal extends React.Component<OzpTotalProps, OzpTotalState> {
+class OzpTotal extends React.Component<any, OzpTotalState> {
   constructor() {
     super();
   }

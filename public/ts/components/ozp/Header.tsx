@@ -30,8 +30,6 @@ class OzpHeader extends React.Component<any, any> {
   sendReport() {
     post('/dashboard/ozp/sendOrder', {
       data: this.props.ozps
-    }).done((data) => {
-      console.info('test', data);
     });
   }
 

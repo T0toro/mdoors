@@ -40,6 +40,7 @@ interface OzpTotalProps {
     ozpShifts: any
 }
 
+
 interface OzpTotalState {
     summ: number,
     prepayment: number,
