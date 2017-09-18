@@ -5,6 +5,7 @@ block content
   - var startYear    = 2016;
   - var currentYear  = new Date().getFullYear();
   - var currentMonth = new Date().getMonth();
+  - var shiftsCount  = Object.keys(ozpShifts);
   article.content
     header
       h2 Отчет о ЗП
@@ -91,13 +92,13 @@ block content
                 tr
                   td Итого:
                   td= `${paymentSumm} р.`
-                if (Array.isArray(ozpShifts) && !!ozpShifts.length)
+                if (shiftsCount && !!shiftsCount.length)
                   tr
                     td Аванс:
-                    td= `${ozpShifts[ozpShifts.length - 1].amount}р.`
+                    td= `${ozpShifts.amount}р.`
                   tr
                     td Кол-во смен:
-                    td= ozpShifts[ozpShifts.length - 1].count
+                    td= 22
                 else
                   tr
                     td Аванс:
