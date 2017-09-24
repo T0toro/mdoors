@@ -19,10 +19,12 @@ const mongoose    = require('mongoose'),
       Departament = mongoose.model('Departament');
 
 
-async function getAccountantData(start = 0, end = 0) {
-  const usersList       = await User.find(),
+async function getAccountantData(start = 0, end = 0, query) {
+  const basicQuery      = { date: { $gte: start, $lt: end } },
+        oddsQuery       = Object.assign(basicQuery, query),
+        usersList       = await User.find(),
         departamentList = await Departament.find(),
-        oddsList        = await Odds.find({ date: { $gte: start, $lt: end } }).sort({ date: -1 }),
+        oddsList        = await Odds.find(oddsQuery).sort({ date: 1 }),
         oddsBalance     = await OddsBalance.find({ date: { $gte: start, $lt: end } });
 
   let usersHash = {},
@@ -54,7 +56,7 @@ async function getSellerData(req, start, end) {
           departament: departament,
           date: { $gte: start, $lt: end }
         }),
-        oddsList = await Odds.find({ user: req.user.id }).sort({ date: -1 });
+        oddsList = await Odds.find({ user: req.user.id }).sort({ date: 1 });
 
   return {
     oddsBalance: oddsBalance,
@@ -91,11 +93,20 @@ exports.filter = (req, res, next) => {
   const month = Number(req.body.month),
         year  = Number(req.body.year),
         start = new Date(year, month - 1, 1),
-        end   = new Date(year, month - 1, 31);
+        end   = new Date(year, month - 1, 31),
+        query  = {};
+
+  if (req.body.user && !!req.body.user.length) {
+    query['user'] = req.body.user;
+  }
+
+  if (req.body.departament && !!req.body.departament.length) {
+    query['departament'] = req.body.departament;
+  }
 
   if (req.user.group === 'accountant') {
     (async () => {
-      const odds = await getAccountantData(start, end); 
+      const odds = await getAccountantData(start, end, query); 
 
       return res.render('dashboard/odds/indexAdmin', odds);
     })();

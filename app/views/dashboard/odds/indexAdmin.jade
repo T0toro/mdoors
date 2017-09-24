@@ -54,11 +54,11 @@ block content
           th.text-center.no-print #
           th.text-center Дата
           th.text-center.no-print Отдел
-          th.text-center Сумма (р.)
+          th(width="120").text-center Сумма (р.)
           th.text-center Комментарий
-          th.text-center Сумма (р.)
+          th(width="120").text-center Сумма (р.)
           th.text-center Комментарий
-          th.no-print(colspan="1", width="230")
+          th.no-print(colspan="1", width="80")
       tbody
         if (Array.isArray(oddss) && !!oddss.length)
           each odd, index in oddss

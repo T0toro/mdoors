@@ -22,13 +22,13 @@ const mongoose    = require('mongoose'),
       Departament = mongoose.model('Departament');
 
 
-async function getAcountantData(start, end, query) {
+async function getAcountantData(start = 0, end = 0, query) {
   const basicQuery = { date: { $gte: start, $lt: end } };
   const ozpsQuery = Object.assign(basicQuery, query);
 
   const usersList        = await User.find();
   const departamentsList = await Departament.find();
-  const ozps             = await Ozp.find(ozpsQuery).sort({ date: -1 });
+  const ozps             = await Ozp.find(ozpsQuery).sort({ date: 1 });
   const ozpShifts        = await OzpShifts.findOne({ date: { $gte: start, $lt: end } });
 
   let usersHash = {}, departamentsHash = {};
