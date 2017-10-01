@@ -6,8 +6,8 @@
  */
 
 import { createStore } from 'redux';
-import ozpApp from '../reducers/ozps/index';
+import app from '../reducers/ozps/app';
 
-let store = createStore(ozpApp);
+const store = createStore(app);
 
 export default store;

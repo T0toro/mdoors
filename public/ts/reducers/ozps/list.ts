@@ -10,12 +10,12 @@ import { FETCH_OZP } from '../../actions/ozp';
 const initialState: {
   ozps: any[],
   ozpsShifts: any[],
-  ozpsSumm: number
+  ozpsSumm: number,
 } = {
-    ozps: [],
-    ozpsShifts: [],
-    ozpsSumm: 0
-  };
+  ozps: [],
+  ozpsShifts: [],
+  ozpsSumm: 0,
+};
 
 export default (state = initialState, action: any) => {
   switch (action.type) {
@@ -27,8 +27,8 @@ export default (state = initialState, action: any) => {
       }
 
       return {
+        ozpsSumm,
         ...action.data,
-        ozpsSumm: ozpsSumm
       };
     default:
       return state;

@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Month List
  * @description render simple dropDown list contains month

@@ -1,7 +1,4 @@
-'use strict';
-
-/// <reference path="../../interfaces.d.ts" />
-
+import '../../interfaces.d.ts';
 
 /**
  * Ozp Total
@@ -15,7 +12,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-
 /**
  * Expo
  */
@@ -26,10 +22,10 @@ class OzpTotal extends React.Component<any, OzpTotalState> {
   }
 
   // TODO: Refactor
-  render() {
-    let shiftsCount  = 0,
-        shiftsAmount = 0,
-        shifts    = this.props.shifts;
+  public render() {
+    let shiftsCount  = 0;
+    let shiftsAmount = 0;
+    const shifts = this.props.shifts;
 
     if (shifts && !!shifts.length) {
       shiftsCount = shifts[shifts.length - 1].count,
@@ -53,13 +49,13 @@ class OzpTotal extends React.Component<any, OzpTotalState> {
           </tr>
         </tbody>
       </table>
-    )
+    );
   }
 }
 
 export default connect(
   state => ({
     ozpsSumm: state.list.ozpsSumm,
-    shifts: state.list.ozpShifts
-  })
+    shifts: state.list.ozpShifts,
+  }),
 )(OzpTotal);

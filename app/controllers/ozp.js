@@ -129,15 +129,9 @@ exports.filter = async (req, res) => {
   const year = Number(req.body.year);
   const start = new Date(year, month - 1, 1);
   const end = new Date(year, month - 1, 31);
-  const query = {};
-
-  if (req.body.user && !!req.body.user.length) {
-    query.user = req.body.user;
-  }
-
-  if (req.body.departament && !!req.body.departament.length) {
-    query.departament = req.body.departament;
-  }
+  const query = {
+    ...req.body,
+  };
 
   if (req.user.group === 'accountant') {
     const ozp = await getAcountantData(start, end, query);
@@ -145,7 +139,7 @@ exports.filter = async (req, res) => {
     return res.render('dashboard/ozp/indexAdmin', ozp);
   }
 
-  const ozp = await getSellerData(start, end);
+  const ozp = await getSellerData(req, start, end);
 
   return res.json(ozp);
 };

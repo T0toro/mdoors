@@ -5,17 +5,17 @@
  * @description representation table in ozp page
  */
 
+import { ajax as request } from 'jquery';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { ajax as request } from 'jquery';
 
 /**
  * MainComponents
  */
 
+import TableFilter from '../ozp/TableFilter';
 import TableList from '../ozp/TableList';
 import TableTotal from '../ozp/TableTotal';
-import TableFilter from '../ozp/TableFilter';
 
 /**
  * Actions
@@ -28,17 +28,17 @@ import { FETCH_OZP } from '../../actions/ozp';
  */
 
 class OzpTable extends React.Component<any, any> {
-  componentDidMount() {
+  public componentDidMount() {
     request({
-      url: '/dashboard/uozp.json'
+      url: '/dashboard/uozp.json',
     }).done((data) => {
-      if (data.code !== 200) return false;
+      if (data.code !== 200) { return false; }
 
       this.props.ozpFetch(data);
     });
   }
 
-  render() {
+  public render() {
     return (
       <table className='table table-bordered'>
         <thead>
@@ -68,11 +68,11 @@ class OzpTable extends React.Component<any, any> {
       </table>
     );
   }
-};
+}
 
 export default connect(
   state => ({
-    items: state.list
+    items: state.list,
   }),
   dispatch => ({
     ozpFetch: (data: any) => {
@@ -80,9 +80,9 @@ export default connect(
         type: FETCH_OZP,
         data: {
           ozps: data.ozps,
-          ozpShifts: data.ozpShifts
-        }
+          ozpShifts: data.ozpShifts,
+        },
       });
-    }
-  })
+    },
+  }),
 )(OzpTable);

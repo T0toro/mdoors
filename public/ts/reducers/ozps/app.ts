@@ -8,8 +8,8 @@
 import { combineReducers } from 'redux';
 import list from './list';
 
-const ozpApp = combineReducers({
-    list
+const app = combineReducers({
+  list,
 });
 
-export default ozpApp;
+export default app;

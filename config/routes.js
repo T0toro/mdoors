@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * App routes
  *
@@ -9,16 +7,16 @@
  * Module dependencies.
  */
 
-const home            = require('./../app/controllers/home'),
-      users           = require('./../app/controllers/users'),
-      news            = require('./../app/controllers/news'),
-      ozp             = require('./../app/controllers/ozp'),
-      odds            = require('./../app/controllers/odds'),
-      orders          = require('./../app/controllers/orders'),
-      products        = require('./../app/controllers/products'),
-      attributes      = require('./../app/controllers/attributes'),
-      departaments    = require('./../app/controllers/departaments'),
-      attributeGroups = require('./../app/controllers/attributeGroups');
+const home = require('./../app/controllers/home');
+const users = require('./../app/controllers/users');
+const news = require('./../app/controllers/news');
+const ozp = require('./../app/controllers/ozp');
+const odds = require('./../app/controllers/odds');
+const orders = require('./../app/controllers/orders');
+const products = require('./../app/controllers/products');
+const attributes = require('./../app/controllers/attributes');
+const departaments = require('./../app/controllers/departaments');
+const attributeGroups = require('./../app/controllers/attributeGroups');
 
 /*!
  * Expose
@@ -47,7 +45,7 @@ module.exports = (app, passport) => {
   // ---------------- Dashboard -----------------
   // --------------------------------------------
 
-  app.get('/', (req, res) => { return res.redirect('/dashboard'); });
+  app.get('/', (req, res) => res.redirect('/dashboard'));
 
   app.get('/dashboard', home.index);
 
@@ -170,7 +168,7 @@ module.exports = (app, passport) => {
   app.post('/login', passport.authenticate('local', {
     failureRedirect: '/login',
     successRedirect: '/dashboard',
-    failureFlash: true
+    failureFlash: true,
   }));
 
   app.get('/logout', users.logout);

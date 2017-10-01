@@ -2,14 +2,13 @@
 
 /// <reference path="../interfaces.d.ts" />
 
-
 /**
  * OrderList
  * @description render order index page
  */
 
-import * as React from 'react';
 import * as moment from 'moment';
+import * as React from 'react';
 
 /**
  * Components
@@ -23,29 +22,29 @@ import ShowButton from './buttons/show';
  */
 
 const OrderListItem = (props: any) => {
-  const user: any         = props.user,
-        order: any        = props.item,
-        limit: number     = 8,
-        access: string    = props.access,
-        selected: number  = props.pageSelected,
-        start: number     = selected === 0 ? 1 : selected * limit + 1;
+  const user: any = props.user;
+  const order: any = props.item;
+  const limit: number = 8;
+  const access: string = props.access;
+  const selected: number = props.pageSelected;
+  const start: number = selected === 0 ? 1 : selected * limit + 1;
 
-  let   removeButton: any = null,
-        orderStatus;
-  
-  switch(order.status) {
+  let removeButton: any = null;
+  let orderStatus;
+
+  switch (order.status) {
     case 0:
       orderStatus = <span style={{ color: '#089de3' }}>ожидает отправки</span>;
-      break
-    
+      break;
+
     case 1:
       orderStatus = <span style={{ color: '#92CD00' }}>доставлено</span>;
       break;
-    
+
     case 2:
       orderStatus = <span style={{ color: '#CC0000' }}>ошибка доставки</span>;
       break;
-    
+
     default:
       break;
   }

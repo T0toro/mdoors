@@ -51,13 +51,18 @@ const getAccountantData = async (start = 0, end = 0, query) => {
 
 const getSellerData = async (req, start, end) => {
   const departament = req.user.departament || '';
+  const basicQuery = { date: { $gte: start, $lt: end } };
+  const oddsQuery = Object.assign(basicQuery, {
+    user: req.user.id,
+  });
+
 
   const [oddsBalance, oddss] = await Promise.all([
     OddsBalance.find({
       departament,
       date: { $gte: start, $lt: end },
     }),
-    Odds.find({ user: req.user.id }).sort({ date: 1 }),
+    Odds.find(oddsQuery).sort({ date: 1 }),
   ]);
 
   return {

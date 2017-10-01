@@ -1,7 +1,4 @@
-'use strict';
-
-/// <reference path='../interfaces.d.ts' />
-
+import '../interfaces.d.ts';
 
 /**
  * Ozp List
@@ -18,20 +15,20 @@ import * as React from 'react';
  * My Components
  */
 
-import OzpHeader from '../components/ozp/Header';
-import OzpTable from '../components/ozp/Table';
+import OzpHeader from '../components/ozp/OzpHeader';
+import OzpTable from '../components/ozp/OzpTable';
 
 /**
  * Expo
  */
 
 const OzpListContainer = () => {
-    return (
-      <article>
-        <OzpHeader />
-        <OzpTable />
-      </article>
-    );
-}
+  return (
+    <article>
+      <OzpHeader />
+      <OzpTable />
+    </article>
+  );
+};
 
 export default OzpListContainer;

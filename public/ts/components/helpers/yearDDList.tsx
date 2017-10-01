@@ -13,9 +13,9 @@ import * as React from 'react';
 
 const currentYear: number = new Date().getFullYear();
 
-let options: any = [];
+const options: any = [];
 
-for (let i = 2016; i <= currentYear; i++) {
+for (let i = 2016; i <= currentYear; i += 1) {
   options.push(<option key={i}>{i}</option>);
 }
 

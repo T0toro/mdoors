@@ -29,7 +29,7 @@ class OzpHeader extends React.Component<any, any> {
 
   sendReport() {
     post('/dashboard/ozp/sendOrder', {
-      data: this.props.ozps
+      data: this.props.ozps,
     });
   }
 
@@ -50,6 +50,6 @@ class OzpHeader extends React.Component<any, any> {
 
 export default connect(
   state => ({
-    ozps: state.list
-  })
+    ozps: state.list,
+  }),
 )(OzpHeader);
