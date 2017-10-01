@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Odds controller
  *
@@ -10,73 +8,77 @@
  * Module dependencies
  */
 
-const mongoose    = require('mongoose'),
-      async       = require('async'),
-      moment      = require('moment'),
-      Odds        = mongoose.model('Odds'),
-      OddsBalance = mongoose.model('OddsBalance'),
-      User        = mongoose.model('User'),
-      Departament = mongoose.model('Departament');
+const mongoose = require('mongoose');
 
+const Odds = mongoose.model('Odds');
+const OddsBalance = mongoose.model('OddsBalance');
+const User = mongoose.model('User');
+const Departament = mongoose.model('Departament');
 
-async function getAccountantData(start = 0, end = 0, query) {
-  const basicQuery      = { date: { $gte: start, $lt: end } },
-        oddsQuery       = Object.assign(basicQuery, query),
-        usersList       = await User.find(),
-        departamentList = await Departament.find(),
-        oddsList        = await Odds.find(oddsQuery).sort({ date: 1 }),
-        oddsBalance     = await OddsBalance.find({ date: { $gte: start, $lt: end } });
+const getAccountantData = async (start = 0, end = 0, query) => {
+  const basicQuery = { date: { $gte: start, $lt: end } };
+  const oddsQuery = Object.assign(basicQuery, query);
 
-  let usersHash = {},
-      departamentsHash = {};
+  const [users, departaments, oddss, oddsBalance] = await Promise.all([
+    User.find(),
+    Departament.find(),
+    Odds.find(oddsQuery).sort({ date: 1 }),
+    OddsBalance.find({ date: { $gte: start, $lt: end } }),
+  ]);
 
-  if(Array.isArray(usersList) && !!usersList.length) {
-    usersList.forEach(function(user) {
+  const usersHash = {};
+  const departamentsHash = {};
+
+  if (Array.isArray(users) && !!users.length) {
+    users.forEach((user) => {
       usersHash[user.id] = user.name;
     });
   }
 
-  if(Array.isArray(departamentList) && !!departamentList.length) {
-    departamentList.forEach(function(departament) {
+  if (Array.isArray(departaments) && !!departaments.length) {
+    departaments.forEach((departament) => {
       departamentsHash[departament.id] = departament.name;
     });
   }
 
   return {
+    oddss,
+    oddsBalance,
     users: usersHash,
     departaments: departamentsHash,
-    oddss: oddsList,
-    oddsBalance: oddsBalance
-  }
-}
+  };
+};
 
-async function getSellerData(req, start, end) {
-  const departament = req.user.departament || '',
-        oddsBalance = await OddsBalance.find({
-          departament: departament,
-          date: { $gte: start, $lt: end }
-        }),
-        oddsList = await Odds.find({ user: req.user.id }).sort({ date: 1 });
+const getSellerData = async (req, start, end) => {
+  const departament = req.user.departament || '';
+
+  const [oddsBalance, oddss] = await Promise.all([
+    OddsBalance.find({
+      departament,
+      date: { $gte: start, $lt: end },
+    }),
+    Odds.find({ user: req.user.id }).sort({ date: 1 }),
+  ]);
 
   return {
-    oddsBalance: oddsBalance,
-    oddss: oddsList
-  }
-}
+    oddsBalance,
+    oddss,
+  };
+};
 
 /*
  * Expos
  */
 
-exports.index = (req, res, next) => {
-  const year  = new Date().getFullYear(),
-        month = new Date().getMonth() + 1,
-        start = new Date(year, month - 1, 1),
-        end   = new Date(year, month - 1, 31);
+exports.index = async (req, res) => {
+  const year = new Date().getFullYear();
+  const month = new Date().getMonth() + 1;
+  const start = new Date(year, month - 1, 1);
+  const end = new Date(year, month - 1, 31);
 
   if (req.user.group === 'accountant') {
     (async () => {
-      const odds = await getAccountantData(start, end); 
+      const odds = await getAccountantData(start, end);
 
       return res.render('dashboard/odds/indexAdmin', odds);
     })();
@@ -89,74 +91,56 @@ exports.index = (req, res, next) => {
   }
 };
 
-exports.filter = (req, res, next) => {
-  const month = Number(req.body.month),
-        year  = Number(req.body.year),
-        start = new Date(year, month - 1, 1),
-        end   = new Date(year, month - 1, 31),
-        query  = {};
-
-  if (req.body.user && !!req.body.user.length) {
-    query['user'] = req.body.user;
-  }
-
-  if (req.body.departament && !!req.body.departament.length) {
-    query['departament'] = req.body.departament;
-  }
+exports.filter = async (req, res) => {
+  const month = Number(req.body.month);
+  const year = Number(req.body.year);
+  const start = new Date(year, month - 1, 1);
+  const end = new Date(year, month - 1, 31);
+  const query = {
+    ...req.body,
+  };
 
   if (req.user.group === 'accountant') {
-    (async () => {
-      const odds = await getAccountantData(start, end, query); 
+    const odds = await getAccountantData(start, end, query);
 
-      return res.render('dashboard/odds/indexAdmin', odds);
-    })();
-  } else {
-    (async () => {
-      const odds = await getSellerData(req, start, end);
+    return res.render('dashboard/odds/indexAdmin', odds);
+  }
 
-      return res.render('dashboard/odds/index', odds);
-    })();
-  } 
+  const odds = await getSellerData(req, start, end);
+
+  return res.render('dashboard/odds/index', odds);
 };
 
-exports.store = (req, res, next) => {
+exports.store = async (req, res) => {
   const date = req.body.date.split('.');
 
-  Odds.create({
+  await Odds.create({
     user: req.user.id,
     departament: req.user.departament,
     date: new Date(date[2], date[1] - 1, date[0]),
     receivedAmount: req.body.receivedAmount,
     receivedComment: req.body.receivedComment,
     retiredAmount: req.body.retiredAmount,
-    retiredComment: req.body.retiredComment
-  }, (err) => {
-    if (err) { return next(err); }
-
-    return res.redirect('/dashboard/odds');
+    retiredComment: req.body.retiredComment,
   });
+
+  return res.redirect('/dashboard/odds');
 };
 
-exports.edit = (req, res, next) => {
+exports.edit = async (req, res) => {
   const id = req.params.id;
 
-  Odds
-    .findById(id)
-    .exec((err, odds) => {
-      if(err) { return next(err); }
+  const odds = await Odds.findById(id);
 
-      return res.render('dashboard/odds/edit', {
-        odds: odds
-      });
-    });
+  return res.render('dashboard/odds/edit', { odds });
 };
 
-exports.update = (req, res, next) => {
-  const date = req.body.date.split('.'),
-        id   = req.body.id;
+exports.update = async (req, res) => {
+  const date = req.body.date.split('.');
+  const id = req.body.id;
 
-  Odds.update({
-    _id: id
+  await Odds.update({
+    _id: id,
   }, {
     user: req.user.id,
     departament: req.user.departament,
@@ -164,37 +148,29 @@ exports.update = (req, res, next) => {
     receivedAmount: req.body.receivedAmount,
     receivedComment: req.body.receivedComment,
     retiredAmount: req.body.retiredAmount,
-    retiredComment: req.body.retiredComment
-  }, (err) => {
-    if (err) { return next(err); }
-
-    return res.redirect('/dashboard/odds');
+    retiredComment: req.body.retiredComment,
   });
+
+  return res.redirect('/dashboard/odds');
 };
 
-exports.setBalance = (req, res, next) => {
+exports.setBalance = async (req, res) => {
   const date = req.body.date.split('.');
 
-  OddsBalance.create({
+  await OddsBalance.create({
     date: new Date(date[2], date[1] - 1, date[0]),
     user: req.user.id,
     departament: req.user.departament,
-    balance: req.body.balance
-  }, (err) => {
-    if (err) { return next(err); }
-
-    return res.redirect('/dashboard/odds');
+    balance: req.body.balance,
   });
+
+  return res.redirect('/dashboard/odds');
 };
 
-exports.destroy = (req, res, next) => {
+exports.destroy = async (req, res) => {
   const id = req.params.id || '';
 
-  Odds
-    .findByIdAndRemove(id)
-    .exec((err) => {
-      if (err) { return next(err); }
+  await Odds.findByIdAndRemove(id);
 
-      return res.redirect('/dashboard/odds');
-    });
+  return res.redirect('/dashboard/odds');
 };

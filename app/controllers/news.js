@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * News controller
  *
@@ -10,9 +8,9 @@
  * Module dependencies
  */
 
-const mongoose = require('mongoose'),
-      moment   = require('moment'),
-      News     = mongoose.model('News');
+const mongoose = require('mongoose');
+
+const News = mongoose.model('News');
 
 /*
  * Expos
@@ -23,18 +21,10 @@ const mongoose = require('mongoose'),
  * News list
  */
 
-exports.index = (req, res, next) => {
-  News
-    .find()
-    .exec((err, news) => {
-      if (err) { return next(err); }
+exports.index = async (req, res) => {
+  const news = await News.find().sort({ createdAt: -1 });
 
-      if (Array.isArray(news)) {
-        return res.render('dashboard/news/index', { news: news });
-      }
-
-      return res.render('dashboard/news/index');
-    });
+  return res.render('dashboard/news/index', { news });
 };
 
 exports.create = (req, res) => res.render('dashboard/news/create');
@@ -43,7 +33,7 @@ exports.store = (req, res, next) => {
   News.create({
     name: req.body.name,
     thumb: req.body.thumb,
-    content: req.body.content
+    content: req.body.content,
   }, (err) => {
     if (err) { return next(err); }
 
@@ -59,34 +49,28 @@ exports.edit = (req, res, next) => {
     .exec((err, news) => {
       if (err) { return next(err); }
 
-      if (news) { return res.render('dashboard/news/edit', { news: news }); }
+      if (news) { return res.render('dashboard/news/edit', { news }); }
 
       return res.redirect('/dashboard/news');
     });
 };
 
-exports.update = (req, res, next) => {
+exports.update = async (req, res) => {
   const id = req.body.id || '';
 
-  News.update({ _id: id }, {
+  await News.update({ _id: id }, {
     name: req.body.name,
     thumb: req.body.thumb,
-    content: req.body.content
-  }, (err) => {
-    if (err) { return next(err); }
-
-    return res.redirect('/dashboard/news');
+    content: req.body.content,
   });
+
+  return res.redirect('/dashboard/news');
 };
 
-exports.destroy = (req, res, next) => {
+exports.destroy = async (req, res) => {
   const id = req.params.id || '';
 
-  News
-    .findByIdAndRemove(id)
-    .exec((err) => {
-      if (err) { return next(err); }
+  await News.findByIdAndRemove(id);
 
-      return res.redirect('/dashboard/news');
-    });
+  return res.redirect('/dashboard/news');
 };

@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Departament controller
  *
@@ -10,78 +8,58 @@
  * Module dependencies
  */
 
-const mongoose    = require('mongoose'),
-      bcrypt      = require('bcryptjs'),
-      Departament = mongoose.model('Departament');
+const mongoose = require('mongoose');
+
+const Departament = mongoose.model('Departament');
 
 /*!
  * Expos
  */
 
-exports.index = (req, res, next) => {
-  Departament
-    .find()
-    .exec((err, departaments) => {
-      if (err) { return next(departaments); }
+exports.index = async (req, res) => {
+  const departaments = await Departament.find();
 
-      return res.render('dashboard/departaments/index', {
-        departaments: departaments
-      });
-    });
+  return res.render('dashboard/departaments/index', { departaments });
 };
 
-exports.create  = (req, res, next) => res.render('dashboard/departaments/create');
+exports.create = (req, res) => res.render('dashboard/departaments/create');
 
-exports.store   = (req, res, next) => {
-  Departament.create({
+exports.store = async (req, res) => {
+  await Departament.create({
     name: req.body.name,
     address: req.body.address,
-    telephone: req.body.telephone
-  }, (err, departament) => {
-    if (err) { return next(err) }
-
-    return res.redirect('/dashboard/departaments');
+    telephone: req.body.telephone,
   });
+
+  return res.redirect('/dashboard/departaments');
 };
 
-exports.edit    = (req, res, next) => {
+exports.edit = async (req, res) => {
   const id = req.params.id || '';
 
-  Departament
-    .findById(id)
-    .exec((err, departament) => {
-      if (err) { return next(err); }
+  const departament = await Departament.findById(id);
 
-      return res.render('dashboard/departaments/edit', {
-        departament: departament
-      });
-    });
+  return res.render('dashboard/departaments/edit', { departament });
 };
 
-exports.update  = (req, res, next) => {
+exports.update = async (req, res) => {
   const id = req.body.id || '';
 
   Departament.update({
-    _id: id
+    _id: id,
   }, {
     name: req.body.name,
     address: req.body.address,
-    telephone: req.body.telephone
-  }, (err, departament) => {
-    if (err) { return next(err) }
-
-    return res.redirect('/dashboard/departaments');
+    telephone: req.body.telephone,
   });
+
+  return res.redirect('/dashboard/departaments');
 };
 
-exports.destroy = (req, res, next) => {
+exports.destroy = async (req, res) => {
   const id = req.params.id || '';
 
-  Departament
-    .findByIdAndRemove(id)
-    .exec((err) => {
-      if (err) { return next(err); }
+  await Departament.findByIdAndRemove(id);
 
-      return res.redirect('/dashboard/departaments');
-    });
+  return res.redirect('/dashboard/departaments');
 };

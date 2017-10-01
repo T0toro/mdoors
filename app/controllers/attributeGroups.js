@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * AttributeGroup controller
  *
@@ -10,8 +8,9 @@
  * Module dependencies
  */
 
-const mongoose        = require('mongoose'),
-      AttributeGroup  = mongoose.model('AttributeGroup');
+const mongoose = require('mongoose');
+
+const AttributeGroup = mongoose.model('AttributeGroup');
 
 /*
  * Expos
@@ -22,70 +21,46 @@ const mongoose        = require('mongoose'),
  * AttributeGroup list
  */
 
-exports.index = (req, res, next) => {
-  AttributeGroup
-    .find()
-    .exec((err, attributeGroups) => {
-      if (err) { return next(err); }
+exports.index = async (req, res) => {
+  const attributeGroups = AttributeGroup.find();
 
-      if (Array.isArray(attributeGroups)) {
-        return res.render('dashboard/attribute_groups/index', {
-            attributeGroups: attributeGroups
-        });
-      }
-
-      return res.render('dashboard/attribute_groups/index');
-    });
+  return res.render('dashboard/attribute_groups/index', { attributeGroups });
 };
 
 exports.create = (req, res) => res.render('dashboard/attribute_groups/create');
 
-exports.store = (req, res, next) => {
-  AttributeGroup.create({
+exports.store = async (req, res) => {
+  await AttributeGroup.create({
     name: req.body.name,
-    slug: req.body.slug
-  }, (err, attributeGroups) => {
-    if (err) { return next(err); }
-
-    return res.redirect('/dashboard/attribute-groups');
+    slug: req.body.slug,
   });
+
+  return res.redirect('/dashboard/attribute-groups');
 };
 
-exports.edit = (req, res, next) => {
+exports.edit = async (req, res) => {
   const id = req.params.id || '';
 
-  AttributeGroup
-    .findById(id)
-    .exec((err, attributeGroup) => {
-      if (err) { return next(err); }
+  await AttributeGroup.findById(id);
 
-      if (attributeGroup) { return res.render('dashboard/attribute_groups/edit', { attributeGroup: attributeGroup }); }
-
-      return res.redirect('/dashboard/attribute-groups');
-    });
+  return res.redirect('/dashboard/attribute-groups');
 };
 
-exports.update = (req, res, next) => {
+exports.update = async (req, res) => {
   const id = req.body.id || '';
 
-  AttributeGroup.update({ _id: id }, {
+  await AttributeGroup.update({ _id: id }, {
     name: req.body.name,
-    slug: req.body.slug
-  }, (err, attributeGroups) => {
-    if (err) { return next(err); }
-
-    return res.redirect('/dashboard/attribute-groups');
+    slug: req.body.slug,
   });
+
+  return res.redirect('/dashboard/attribute-groups');
 };
 
-exports.destroy = (req, res, next) => {
+exports.destroy = async (req, res) => {
   const id = req.params.id || '';
 
-  AttributeGroup
-    .findByIdAndRemove(id)
-    .exec((err, attributeGroups) => {
-      if (err) { return next(err); }
+  AttributeGroup.findByIdAndRemove(id);
 
-      return res.redirect('/dashboard/attribute-groups');
-    });
+  return res.redirect('/dashboard/attribute-groups');
 };

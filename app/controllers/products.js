@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Product controller
  *
@@ -10,9 +8,9 @@
  * Module dependencies
  */
 
-const mongoose = require('mongoose'),
-      moment   = require('moment'),
-      Product = mongoose.model('Product');
+const mongoose = require('mongoose');
+
+const Product = mongoose.model('Product');
 
 /*
  * Expos
@@ -23,75 +21,53 @@ const mongoose = require('mongoose'),
  * Product list
  */
 
-exports.index = (req, res, next) => {
-  Product
-    .find()
-    .exec((err, products) => {
-      if (err) { return next(err); }
+exports.index = async (req, res) => {
+  const products = await Product.find();
 
-      if (Array.isArray(products)) {
-        return res.render('dashboard/products/index', { products: products });
-      }
-
-      return res.render('dashboard/products/index');
-    });
+  return res.render('dashboard/products/index', { products });
 };
 
 exports.create = (req, res) => res.render('dashboard/products/create');
 
-exports.store = (req, res, next) => {
+exports.store = async (req, res) => {
   const userDate = req.body.manufactureDate.split('.');
 
-  Product.create({
+  await Product.create({
     name: req.body.name,
     slug: req.body.slug,
     count: req.body.count,
-    manufactureDate: new Date(userDate[2], userDate[1] - 1, userDate[0])
-  }, (err) => {
-    if (err) { return next(err); }
-
-    return res.redirect('/dashboard/products');
+    manufactureDate: new Date(userDate[2], userDate[1] - 1, userDate[0]),
   });
+
+  return res.redirect('/dashboard/products');
 };
 
-exports.edit = (req, res, next) => {
+exports.edit = async (req, res) => {
   const id = req.params.id || '';
 
-  Product
-    .findById(id)
-    .exec((err, product) => {
-      if (err) { return next(err); }
+  const product = await Product.findById(id);
 
-      if (product) { return res.render('dashboard/products/edit', { product: product }); }
-
-      return res.redirect('/dashboard/products');
-    });
+  return res.render('dashboard/products/edit', { product });
 };
 
-exports.update = (req, res, next) => {
-  const id = req.body.id || '',
-        userDate = req.body.manufactureDate.split('.');
+exports.update = async (req, res) => {
+  const id = req.body.id || '';
+  const userDate = req.body.manufactureDate.split('.');
 
   Product.update({ _id: id }, {
     name: req.body.name,
     slug: req.body.slug,
     count: req.body.count,
-    manufactureDate: new Date(userDate[2], userDate[1] - 1, userDate[0])
-  }, (err) => {
-    if (err) { return next(err); }
-
-    return res.redirect('/dashboard/products');
+    manufactureDate: new Date(userDate[2], userDate[1] - 1, userDate[0]),
   });
+
+  return res.redirect('/dashboard/products');
 };
 
-exports.destroy = (req, res, next) => {
+exports.destroy = async (req, res) => {
   const id = req.params.id || '';
 
-  Product
-    .findByIdAndRemove(id)
-    .exec((err) => {
-      if (err) { return next(err); }
+  await Product.findByIdAndRemove(id);
 
-      return res.redirect('/dashboard/products');
-    });
+  return res.redirect('/dashboard/products');
 };

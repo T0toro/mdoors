@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * App main file
  *
@@ -10,15 +8,15 @@
  * Module dependencies
  */
 
-const fs       = require('fs'),
-      path     = require('path'),
-      express  = require('express'),
-      moment   = require('moment'),
-      mongoose = require('mongoose'),
-      passport = require('passport'),
+const fs = require('fs');
+const path = require('path');
+const express = require('express');
+const moment = require('moment');
+const mongoose = require('mongoose');
+const passport = require('passport');
 
-      app      = express(),
-      port     = process.env.PORT || 8085;
+const app = express();
+const port = process.env.PORT || 8085;
 
 // Connect to mongodb
 function connect() {
@@ -26,9 +24,9 @@ function connect() {
     'mongodb://localhost/mdoors', {
       server: {
         socketOptions: {
-          keepAlive: 1
-        }
-      }
+          keepAlive: 1,
+        },
+      },
     });
 }
 
@@ -43,7 +41,6 @@ app.locals.moment = moment;
 
 connect();
 
-mongoose.connection.on('error', console.log);
 mongoose.connection.on('disconnected', connect);
 mongoose.Promise = Promise;
 
@@ -51,7 +48,7 @@ mongoose.Promise = Promise;
 // ----------------------------------------------
 
 fs.readdirSync(path.join(__dirname, '/app/models')).forEach((file) => {
-  if (~file.indexOf('.js')) {
+  if (file.indexOf('.js') !== -1) {
     require(path.join(__dirname, '/app/models/', file));
   }
 });
@@ -85,8 +82,8 @@ app.use((err, req, res, next) => {
   }
 
   // Error page
-  res.status(500).render('500', {
-    error: err.stack
+  return res.status(500).render('500', {
+    error: err.stack,
   });
 });
 
@@ -94,7 +91,7 @@ app.use((err, req, res, next) => {
 app.use((req, res) => {
   res.status(404).render('404', {
     url: req.originalUrl,
-    error: 'Not found'
+    error: 'Not found',
   });
 });
 
@@ -102,4 +99,3 @@ app.use((req, res) => {
 // ----------------------------------------------
 
 app.listen(port);
-console.log('Express app started on port ' + port);

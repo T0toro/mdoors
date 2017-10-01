@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Order controller
  *
@@ -10,22 +8,17 @@
  * Module dependencies
  */
 
-const mongoose       = require('mongoose'),
-      async          = require('async'),
-      path           = require('path'),
-      Etpl           = require('email-templates').EmailTemplate,
-      email          = require('nodemailer'),
-      Product        = mongoose.model('Product'),
-      Departament    = mongoose.model('Departament'),
-      Attribute      = mongoose.model('Attribute'),
-      AttributeGroup = mongoose.model('AttributeGroup'),
-      User           = mongoose.model('User'),
-      Order          = mongoose.model('Order');
+const mongoose = require('mongoose');
+const path = require('path');
+const Etpl = require('email-templates').EmailTemplate;
+const email = require('nodemailer');
 
-/*!
- * Expos
- */
-
+const Product = mongoose.model('Product');
+const Departament = mongoose.model('Departament');
+const Attribute = mongoose.model('Attribute');
+const AttributeGroup = mongoose.model('AttributeGroup');
+const User = mongoose.model('User');
+const Order = mongoose.model('Order');
 
 /**
  * Order list
@@ -34,139 +27,71 @@ const mongoose       = require('mongoose'),
 exports.index = (req, res) => res.render('dashboard/orders/index');
 
 // TODO: split to index and paginate
-exports.indexJson = (req, res) => {
-  const searchObj = (req.user.group === 'manager' || req.user.group === 'accountant') ? {} : { user: req.user._id },
-        page      = req.query.page || 0,
-        limit     = 8;
+exports.indexJson = async (req, res) => {
+  const searchObj = (req.user.group === 'manager' || req.user.group === 'accountant') ? {} : { user: req.user._id };
+  const page = req.query.page || 0;
+  const limit = 8;
 
-  async.parallel([
-    function(cb) {
-     Order
-      .find(searchObj) 
-      .skip(page * limit)
-      .limit(limit)
-      .sort({
-        createdAt: -1
-      })
-      .exec(function(err, orders) {
-        return cb(err, orders);
-      });
-    },
-    function(cb) {
-     Order
-      .count() 
-      .exec(function(err, records) {
-        return cb(err, records);
-      });
-    },
-    function(cb) {
-      User
-        .find()
-        .exec((err, users) => {
-          return cb(err, users);
-        });
-    },
-  ], function(err, result) {
-    if (err) { return next(err); }
+  const [orders, records, users] = await Promise.all([
+    Order.find(searchObj).skip(page * limit).limit(limit).sort({ createdAt: -1 }),
+    Order.count(),
+    User.find(),
+  ]);
 
-    let users = {},
-        data = null;
+  const usersHash = {};
 
-    if (Array.isArray(result[2]) && Boolean(result[2].length)) {
-      result[2].forEach(function(user) {
-        users[user.id] = user.name;
-      });
-    }
-
-    if (Array.isArray(result[0]) && Boolean(result[0].length)) {
-      return res.json({
-        orders: result[0],
-        records: result[1],
-        users: users,
-        access: req.user.group
-      });
-    }
+  users.forEach((user) => {
+    usersHash[user.id] = user.name;
   });
-}
 
-exports.show = (req, res, next) => {
+  return res.json({
+    orders,
+    records,
+    users: usersHash,
+    access: req.user.group,
+  });
+};
+
+exports.show = async (req, res) => {
   const id = req.params.id || '';
 
-  async.parallel([
-    (cb) => {
-      Order
-        .findById(id)
-        .exec((err, order) => {
-          return cb(err, order);
-        });
-    },
-    (cb) => {
-      User
-        .find()
-        .exec((err, users) => {
-          return cb(err, users);
-        });
-    }
-  ], function(err, result) {
-    if (err) { return next(err); }
+  const [users, order] = await Promise.all([
+    User.find(),
+    Order.findById(id),
+  ]);
 
-    if (Array.isArray(result[1]) && Boolean(result[1].length)) {
-      result[1].forEach((user) => {
-        if (String(user._id) === result[0].user) { result[0].user = user.name; }
-      });
-    }
 
-    if (result[0]) { return res.render('dashboard/orders/show', result[0]); }
+  users.forEach((user) => {
+    if (String(user._id) === order.user) { order.user = user.name; }
+  });
 
-    return res.render('dashboard/orders/index');
+  return res.render('dashboard/orders/show', order);
+};
+
+exports.create = async (req, res) => {
+  const [products, departaments] = await Promise.all([
+    Product.find(),
+    Departament.find(),
+  ]);
+
+  const departament = departaments.find(departamentItem => req.user.departament === departamentItem.id);
+
+  return res.render('dashboard/orders/create', {
+    products,
+    departament,
   });
 };
 
-exports.create = (req, res, next) => {
-  async.parallel([
-    function(cb) {
-      Product
-        .find()
-        .exec((err, products) => {
-          cb(err, products);
-        });
+exports.store = async (req, res) => {
+  const transporter = email.createTransport({
+    service: 'Yandex',
+    auth: {
+      user: 'orders@makdoors.ru',
+      pass: 'qrj7tw43bt',
     },
-    function(cb) {
-      Departament
-        .find()
-        .exec((err, departaments) => {
-          cb(err, departaments);
-        });
-    }
-  ], function(err, result) {
-    if (err) { return next(err); }
-
-    let _departament = [];
-
-    if (Array.isArray(result[1]) && !!result[1].length) {
-      result[1].forEach(function(departament) {
-        if (req.user.departament === departament.id) {
-          _departament = departament;
-        }
-      });
-    }
-
-    return res.render('dashboard/orders/create', {
-      products: result[0],
-      departament: _departament
-    });
   });
-};
 
-exports.store = (req, res, next) => {
-  let transporter = email.createTransport({
-      service: 'Yandex',
-      auth: {
-          user: 'orders@makdoors.ru',
-          pass: 'qrj7tw43bt'
-      }
-  }),
-  departamentEmails = {
+  const departamentEmails = {
     'mr.makdoors@mail.ru, orders@makdoors.ru': [
       '5819971b4bebf14032fc1b3d',
       '581997714bebf14032fc1b3e',
@@ -174,20 +99,20 @@ exports.store = (req, res, next) => {
       '581998354bebf14032fc1b41',
       '581998664bebf14032fc1b42',
       '5819989f4bebf14032fc1b44',
-      '582a92c16c09946b8c36469c'
+      '582a92c16c09946b8c36469c',
     ],
     'vdmakdoors@mail.ru, dveri74-buh@mail.ru, orders@makdoors.ru': [
       '5819991b4bebf14032fc1b46',
-      '5822bbcc83abe41b9f451c03'
+      '5822bbcc83abe41b9f451c03',
     ],
     'vdmakdoors@mail.ru, orders@makdoors.ru': [
       '5819979e4bebf14032fc1b3f',
-      '581998ee4bebf14032fc1b45'
-    ]
-  },
-  orderEmail = 'mr.makdoors@mail.ru',
-  orderTpl = path.join(`${__dirname}/../views`, 'emails', 'order'),
-  orderObj = {
+      '581998ee4bebf14032fc1b45',
+    ],
+  };
+
+  const orderTpl = path.join(`${__dirname}/../views`, 'emails', 'order');
+  const orderObj = {
     // Seller info
     departament: req.body.departament,
     user: req.user._id,
@@ -212,101 +137,84 @@ exports.store = (req, res, next) => {
 
     // Balance
     balance: req.body.balance,
-    prepay: req.body.prepay
-  },
-  orderLetter = new Etpl(orderTpl);
+    prepay: req.body.prepay,
+  };
 
-  Order.create(orderObj, (err, order) => {
-    if (err) { return next(err); }
+  const orderLetter = new Etpl(orderTpl);
+  const order = await Order.create(orderObj);
 
-    for(let email in departamentEmails) {
-      if (departamentEmails[email].indexOf(orderObj.productID) !== -1) { orderEmail = email; }
-    }
+  let orderEmail = 'mr.makdoors@mail.ru';
 
-    let mailOptions = {
-        from: 'orders@makdoors.ru',
-        to: orderEmail,
-        subject: 'Заказ с сайта - makdoors.ru',
-        html: ''
-    };
+  Object.keys(departamentEmails).forEach((mail) => {
+    if (departamentEmails[mail].indexOf(orderObj.productID) !== -1) { orderEmail = mail; }
+  });
 
-    orderObj.user = req.user.name;
+  const mailOptions = {
+    from: 'orders@makdoors.ru',
+    to: orderEmail,
+    subject: 'Заказ с сайта - makdoors.ru',
+    html: '',
+  };
 
-    orderLetter
-      .render(orderObj)
-      .then((result) => {
-        mailOptions.html = result.html;
-         transporter.sendMail(mailOptions, (error, info) => {
-            if(error) {
-                console.log('Ошибка отправки: ' + error);
-                order.status = 2;
-                order.save((err) => {
-                  if (err) { return next(err); }
-                });
-            }
-            else {
-                console.log('Письмо успешно отправлено: ' + info);
-                console.info(mailOptions.to);
-                order.status = 1;
-                order.save((err) => {
-                  if (err) { return next(err); }
-                });
-            }
-          });
-      });
+  orderObj.user = req.user.name;
 
+  const emailTemplate = await orderLetter.render(orderObj);
+
+  mailOptions.html = emailTemplate.html;
+
+  // Send email
+  const emailSendStatus = await transporter.sendMail(mailOptions);
+
+  if (emailSendStatus) {
+    order.status = 2;
+    await order.save();
+  } else {
+    order.status = 1;
+    await order.save();
+  }
+
+  return res.json({
+    order,
+    code: 200,
+  });
+};
+
+exports.edit = async (req, res) => {
+  const id = req.params.id || '';
+
+  const order = Order.findById(id);
+
+  res.render('dashboard/orders/edit', { order });
+};
+
+exports.destroy = async (req, res) => {
+  const id = req.params.id || '';
+
+  if (req.user.group !== 'accountant') {
     return res.json({
-      code: 200,
-      order: order
+      code: 403,
+      msg: 'У вас нет прав для выполнения данного действия',
     });
-  });
-};
+  }
 
-exports.edit = (req, res, next) => {
-  const id = req.params.id || '';
+  await Order.findByIdAndRemove(id);
 
-  Order
-    .findById(id)
-    .exec((err, order) => {
-      if (err) { return next(err); }
-
-      if (Order) { return res.render('dashboard/orders/edit', { Order: Order }); }
-
-      return res.redirect('/dashboard/orders');
-    });
-};
-
-exports.destroy = (req, res, next) => {
-  const id = req.params.id || '';
-
-  if (req.user.group !== 'accountant') return res.json({
-    code: 403,
-    msg: 'У вас нет прав для выполнения данного действия'
-  });
-
-  Order
-    .findByIdAndRemove(id)
-    .exec((err, order) => {
-      if (err) { return next(err); }
-
-      return res.redirect('/dashboard/orders');
-    });
+  return res.redirect('/dashboard/orders');
 };
 
 // JSON API
 // ----------------------------------------------
 
-exports.info = (req, res, next) => {
-  Promise.all([
-    Product.find(),
+exports.info = async (req, res) => {
+  const [attributeGroups, attributes, products] = await Promise.all([
+    AttributeGroup.find(),
     Attribute.find(),
-    AttributeGroup.find()
-  ]).then(
-    result => res.json({
-      products: result[0],
-      attributes: result[1],
-      attributeGroups: result[2]
-    }),
-    error => next(err)
-  );
+    Product.find(),
+  ]);
+
+  return res.json({
+    attributeGroups,
+    attributes,
+    products,
+  });
 };

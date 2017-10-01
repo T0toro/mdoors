@@ -1,28 +1,17 @@
-'use strict';
-
 /*!
  * Module dependencies.
  */
 
-const mongoose = require('mongoose'),
-      async    = require('async'),
-      News     = mongoose.model('News');
+const mongoose = require('mongoose');
+
+const News = mongoose.model('News');
 
 /*!
  * Expos
  */
 
-exports.index = (req, res, next) => {
-  News
-    .find()
-    .sort({
-      createdAt: -1
-    })
-    .exec((err, news) => {
-      if (err) { return next(err); }
+exports.index = async (req, res) => {
+  const news = await News.find().sort({ createdAt: -1 });
 
-      return res.render('dashboard/home/index', {
-        news: news
-      });
-    });
+  return res.render('dashboard/home/index', { news });
 };

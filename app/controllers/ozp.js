@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Ozp controller
  *
@@ -10,233 +8,216 @@
  * Module dependencies
  */
 
-const mongoose    = require('mongoose'),
-      async       = require('async'),
-      path        = require('path'),
-      Etpl        = require('email-templates').EmailTemplate,
-      email       = require('nodemailer'),
-      moment      = require('moment'),
-      Ozp         = mongoose.model('Ozp'),
-      OzpShifts   = mongoose.model('OzpShifts'),
-      User        = mongoose.model('User'),
-      Departament = mongoose.model('Departament');
+const mongoose = require('mongoose');
+const path = require('path');
+const Etpl = require('email-templates').EmailTemplate;
+const email = require('nodemailer');
+const moment = require('moment');
+
+const Ozp = mongoose.model('Ozp');
+const OzpShifts = mongoose.model('OzpShifts');
+const User = mongoose.model('User');
+const Departament = mongoose.model('Departament');
 
 
-async function getAcountantData(start = 0, end = 0, query) {
+const getAcountantData = async (start = 0, end = 0, query) => {
   const basicQuery = { date: { $gte: start, $lt: end } };
   const ozpsQuery = Object.assign(basicQuery, query);
 
-  const usersList        = await User.find();
-  const departamentsList = await Departament.find();
-  const ozps             = await Ozp.find(ozpsQuery).sort({ date: 1 });
-  const ozpShifts        = await OzpShifts.findOne({ date: { $gte: start, $lt: end } });
+  const [users, departaments, ozps, ozpShifts] = await Promise.all([
+    User.find(),
+    Departament.find(),
+    Ozp.find(ozpsQuery).sort({ date: 1 }),
+    OzpShifts.findOne({ date: { $gte: start, $lt: end } }),
+  ]);
 
-  let usersHash = {}, departamentsHash = {};
+  const usersHash = {};
+  const departamentsHash = {};
 
-  if (Array.isArray(usersList) && !!usersList.length) {
-    usersList.forEach(function(user) {
-      usersHash[user.id] = user.name;
-    });
-  }
+  users.forEach((user) => {
+    usersHash[user.id] = user.name;
+  });
 
-  if (Array.isArray(departamentsList) && !!departamentsList.length) {
-    departamentsList.forEach(function(departament) {
-      departamentsHash[departament.id] = departament.name;
-    });
-  }
+  departaments.forEach((departament) => {
+    departamentsHash[departament.id] = departament.name;
+  });
 
   return {
-    code: 200,
+    ozps,
+    ozpShifts,
     users: usersHash,
     departaments: departamentsHash,
-    ozps: ozps,
-    ozpShifts: ozpShifts
-  }
-}
+    code: 200,
+  };
+};
 
-async function getSellerData(start = 0, end = 0) {
-  const ozps = await Ozp.find({
-    user: req.user.id,
-    date: { $gte: start, $lt: end }
-  });
-  
-  const ozpShifts = await OzpShifts.findOne({
-    user: req.user.id,
-    date: { $gte: start, $lt: end }
-  });
+const getSellerData = async (req, start = 0, end = 0) => {
+  const [ozps, ozpShifts] = await Promise.all([
+    Ozp.find({
+      user: req.user.id,
+      date: { $gte: start, $lt: end },
+    }),
+    OzpShifts.findOne({
+      user: req.user.id,
+      date: { $gte: start, $lt: end },
+    }),
+  ]);
 
   return {
+    ozpShifts,
+    ozps,
     code: 200,
-    ozps: ozps,
-    ozpShifts: ozpShifts
-  }
-}
+  };
+};
 
 /*
  * Expos
  */
 
-exports.index = (req, res, next) => {
- const year  = new Date().getFullYear(),
-       month = new Date().getMonth() + 1,
-       start = new Date(year, month - 1, 1),
-       end   = new Date(year, month, 1);
+exports.index = async (req, res) => {
+  const year = new Date().getFullYear();
+  const month = new Date().getMonth() + 1;
+  const start = new Date(year, month - 1, 1);
+  const end = new Date(year, month, 1);
 
   if (req.user.group === 'accountant') {
-    (async () => {
-      const ozps = await getAcountantData(start, end);
+    const ozps = await getAcountantData(start, end);
 
-      return res.render('dashboard/ozp/indexAdmin', ozps);
-    })();
-  } else {
-    return res.render('dashboard/ozp/index')
+    return res.render('dashboard/ozp/indexAdmin', ozps);
+  }
+
+  return res.render('dashboard/ozp/index');
+};
+
+exports.indexAdmin = (req, res) => {
+  if (req.user.group !== 'accountant') {
+    res.json({
+      code: 403,
+      msg: 'У вас нет доступа к данному разделу',
+    });
   }
 };
 
-exports.indexAdmin = (req, res, next) => {
+exports.indexUser = async (req, res) => {
+  const year = new Date().getFullYear();
+  const month = new Date().getMonth() + 1;
+  const start = new Date(year, month - 1, 1);
+  const end = new Date(year, month - 1, 31);
 
-  if (req.user.group !== 'accountant') res.json({
-    code: 403,
-    msg: 'У вас нет доступа к данному разделу'
-  });
-
-};
-
-exports.indexUser = (req, res, next) => {
-  const year = new Date().getFullYear(),
-        month = new Date().getMonth() + 1,
-        start = new Date(year, month - 1, 1),
-        end   = new Date(year, month - 1, 31);
-
-  (async () => {
-    const ozps = await Ozp.find({
+  const [ozps, ozpShifts] = await Promise.all([
+    Ozp.find({
       user: req.user.id,
-      date: { $gte: start, $lt: end }
-    })
-    .sort({
-      date: -1
-    });
-
-    const ozpShifts = await OzpShifts.find({
+      date: { $gte: start, $lt: end },
+    }).sort({
+      date: -1,
+    }),
+    OzpShifts.find({
       departament: req.user.departament,
-      date: { $gte: start, $lt: end }
-    })
+      date: { $gte: start, $lt: end },
+    }),
+  ]);
 
-    return res.json({
-      code: 200,
-      ozps: ozps,
-      ozpShifts: ozpShifts
-    });
-  })();
+  return res.json({
+    ozpShifts,
+    ozps,
+    code: 200,
+  });
 };
 
-exports.filter = (req, res, next) => {
-  const month  = Number(req.body.month),
-        year   = Number(req.body.year),
-        start  = new Date(year, month - 1, 1),
-        end    = new Date(year, month - 1, 31),
-        query  = {};
+exports.filter = async (req, res) => {
+  const month = Number(req.body.month);
+  const year = Number(req.body.year);
+  const start = new Date(year, month - 1, 1);
+  const end = new Date(year, month - 1, 31);
+  const query = {};
 
   if (req.body.user && !!req.body.user.length) {
-    query['user'] = req.body.user;
+    query.user = req.body.user;
   }
 
   if (req.body.departament && !!req.body.departament.length) {
-    query['departament'] = req.body.departament;
+    query.departament = req.body.departament;
   }
 
   if (req.user.group === 'accountant') {
-    (async () => {
-      const ozp = await getAcountantData(start, end, query);
+    const ozp = await getAcountantData(start, end, query);
 
-      return res.render('dashboard/ozp/indexAdmin', ozp);
-    })();
-  } else {
-    (async () => {
-      const ozp = await getSellerData(start, end);
-
-      return res.json(ozp);
-    })();
+    return res.render('dashboard/ozp/indexAdmin', ozp);
   }
+
+  const ozp = await getSellerData(start, end);
+
+  return res.json(ozp);
 };
 
-exports.sendOrder = (req, res, next) => {
-  Departament
-    .findById(req.user.departament)
-    .exec((err, departament) => {
-      if(err) { return next(err); }
+exports.sendOrder = async (req, res) => {
+  const departament = await Departament.findById(req.user.departament);
 
-      let transporter = email.createTransport({
-          service: 'Yandex',
-          auth: {
-              user: 'orders@makdoors.ru',
-              pass: 'qrj7tw43bt'
-          }
-      }),
-      reportEmail = 'report@makdoors.ru',
-      reportTpl = path.join(`${__dirname}/../views`, 'emails', 'report'),
-      reportObj = {
-        // Seller info
-        name: req.user.name,
-        lastname: req.user.lastname,
-        departament: departament.name,
-        telephone: req.user.telephone,
+  const transporter = email.createTransport({
+    service: 'Yandex',
+    auth: {
+      user: 'orders@makdoors.ru',
+      pass: 'qrj7tw43bt',
+    },
+  });
 
-        // Report info
-        ozps: req.body.data.ozps,
-        ozpShifts: req.body.data.ozpShifts,
-        summ: req.body.data.ozpsSumm,
-        moment: moment
-      },
-      reportLetter = new Etpl(reportTpl),
-      mailOptions = {
-        from: 'orders@makdoors.ru',
-        to: 'dveri74-buh@mail.ru',
-        subject: `${req.user.name} ${req.user.lastname} Отчет ОЗП - makdoors.ru`,
-        html: ''
-      };
+  const reportTpl = path.join(`${__dirname}/../views`, 'emails', 'report');
 
-      reportLetter
-        .render(reportObj)
-        .then((result) => {
-          mailOptions.html = result.html;
-          transporter.sendMail(mailOptions, (error, info) => {
-            let msg  = '',
-                ss   = {},
-                code = 0;
+  const reportObj = {
+    moment,
+    // Seller info
+    name: req.user.name,
+    lastname: req.user.lastname,
+    departament: departament.name,
+    telephone: req.user.telephone,
 
-            if(error) {
-              code = 504;
-              msg  = 'Ошибка при отправке отчета';
-              ss   = error;
-            } else {
-              code = 200;
-              msg  = 'Отчет успешно отправлен';
-              ss   = info;
-            }
+    // Report info
+    ozps: req.body.data.ozps,
+    ozpShifts: req.body.data.ozpShifts,
+    summ: req.body.data.ozpsSumm,
+  };
 
-            return res.json({
-              code: 200,
-              msg: msg,
-              info: ss
-            });
-          });
-        });
+  const reportLetter = new Etpl(reportTpl);
+  const mailOptions = {
+    from: 'orders@makdoors.ru',
+    to: 'dveri74-buh@mail.ru',
+    subject: `${req.user.name} ${req.user.lastname} Отчет ОЗП - makdoors.ru`,
+    html: '',
+  };
+
+  const reportLetterTemplate = await reportLetter.render(reportObj);
+
+  mailOptions.html = reportLetterTemplate.html;
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    let msg = '';
+    let ss = {};
+    let code = 200;
+
+    if (error) {
+      code = 504;
+      msg = 'Ошибка при отправке отчета';
+      ss = error;
+    } else {
+      code = 200;
+      msg = 'Отчет успешно отправлен';
+      ss = info;
+    }
+
+    return res.json({
+      msg,
+      code,
+      info: ss,
     });
-}
+  });
+};
 
-exports.edit = (req, res, next) => {
+exports.edit = async (req, res) => {
   const id = req.params.id;
 
-  Ozp
-    .findById(id)
-    .exec((err, ozp) => {
-      if(err) { return next(err); }
+  const ozp = await Ozp.findById(id);
 
-      return res.render('dashboard/ozp/edit', {
-        ozp: ozp
-      });
-    });
+  return res.render('dashboard/ozp/edit', { ozp });
 };
 
 exports.store = (req, res, next) => {
@@ -248,7 +229,7 @@ exports.store = (req, res, next) => {
     date: new Date(date[2], date[1] - 1, date[0]),
     amount: req.body.amount,
     payment: req.body.payment,
-    address: req.body.address
+    address: req.body.address,
   }, (err) => {
     if (err) { return next(err); }
 
@@ -256,51 +237,42 @@ exports.store = (req, res, next) => {
   });
 };
 
-exports.update = (req, res, next) => {
-  const date = req.body.date.split('.'),
-        id   = req.body.id;
+exports.update = async (req, res) => {
+  const date = req.body.date.split('.');
+  const id = req.body.id;
 
-  Ozp.update({
-    _id: id
+  await Ozp.update({
+    _id: id,
   }, {
     user: req.user.id,
     departament: req.user.departament,
     date: new Date(date[2], date[1] - 1, date[0]),
     amount: req.body.amount,
     payment: req.body.payment,
-    address: req.body.address
-  }, (err) => {
-    if (err) { return next(err); }
-
-    return res.redirect('/dashboard/ozp');
+    address: req.body.address,
   });
+
+  return res.redirect('/dashboard/ozp');
 };
 
-exports.setShift = (req, res, next) => {
+exports.setShift = async (req, res) => {
   const date = req.body.date.split('.');
 
-  OzpShifts
-    .create({
-      date: new Date(date[2], date[1] - 1, date[0]),
-      user: req.user.id,
-      departament: req.user.departament,
-      amount: req.body.amount,
-      count: req.body.count
-    }, (err) => {
-      if (err) { return next(err); }
+  await OzpShifts.create({
+    date: new Date(date[2], date[1] - 1, date[0]),
+    user: req.user.id,
+    departament: req.user.departament,
+    amount: req.body.amount,
+    count: req.body.count,
+  });
 
-      return res.redirect('/dashboard/ozp');
-    });
+  return res.redirect('/dashboard/ozp');
 };
 
-exports.destroy = (req, res, next) => {
+exports.destroy = async (req, res) => {
   const id = req.params.id || '';
 
-  Ozp
-    .findByIdAndRemove(id)
-    .exec((err) => {
-      if (err) { return next(err); }
+  await Ozp.findByIdAndRemove(id);
 
-      return res.redirect('/dashboard/ozp');
-    });
+  return res.redirect('/dashboard/ozp');
 };

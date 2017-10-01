@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * User controller
  *
@@ -10,199 +8,130 @@
  * Module dependencies
  */
 
-const mongoose    = require('mongoose'),
-      bcrypt      = require('bcryptjs'),
-      path        = require('path'),
-      async       = require('async'),
-      passgen     = require('password-generator'),
-      Etpl        = require('email-templates').EmailTemplate,
-      email       = require('nodemailer'),
-      Departament = mongoose.model('Departament'),
-      User        = mongoose.model('User');
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const path = require('path');
+const passgen = require('password-generator');
+const Etpl = require('email-templates').EmailTemplate;
+const email = require('nodemailer');
+
+const Departament = mongoose.model('Departament');
+const User = mongoose.model('User');
 
 /*!
  * Expos
  */
 
-exports.index = (req, res, next) => {
-  async.parallel([
-    (cb) => {
-      Departament
-        .find()
-        .exec((err, departaments) => {
-          return cb(err, departaments);
-        });
-    },
-    (cb) => {
-      User
-        .find()
-        .exec((err, users) => {
-          return cb(err, users);
-        });
-    }], (err, result) => {
-      if (err) { return next(err); }
+exports.index = async (req, res) => {
+  const [departaments, users] = await Promise.all([
+    Departament.find(),
+    User.find(),
+  ]);
 
-      return res.render('dashboard/users/index', {
-        departaments: result[0],
-        users: result[1]
-      });
-    });
+  return res.render('dashboard/users/index', {
+    departaments,
+    users,
+  });
 };
 
-exports.create  = (req, res, next) => {
-  Departament
-    .find()
-    .exec((err, departaments) => {
+exports.create = async (req, res) => {
+  const departaments = Departament.find();
 
-      return res.render('dashboard/users/create', {
-        departaments: departaments
-      });
-    });
-}
+  return res.render('dashboard/users/create', {
+    departaments,
+  });
+};
 
-exports.store   = (req, res, next) => {
-  User.create({
+exports.store = async (req, res) => {
+  await User.create({
     name: req.body.name,
     login: req.body.login,
     group: req.body.group,
     lastname: req.body.lastname,
     telephone: req.body.telephone,
-    departament: req.body.departament
-  }, (err, user) => {
-    if (err) { return next(err) }
+    departament: req.body.departament,
+  });
 
-    return res.redirect('/dashboard/users');
+  return res.redirect('/dashboard/users');
+};
+
+exports.edit = async (req, res) => {
+  const id = req.params.id || '';
+
+  const [departaments, user] = await Promise.all([
+    Departament.find(),
+    User.findById(id),
+  ]);
+
+  return res.render('dashboard/users/edit', {
+    departaments,
+    user,
   });
 };
 
-exports.edit    = (req, res, next) => {
-  const id = req.params.id || '';
-
-  async.parallel([
-    (cb) => {
-      Departament
-        .find()
-        .exec((err, departaments) => {
-          return cb(err, departaments);
-        });
-    },
-    (cb) => {
-      User
-        .findById(id)
-        .exec((err, user) => {
-          return cb(err, user);
-        });
-    }], (err, result) => {
-      if (err) { return next(err); }
-
-      return res.render('dashboard/users/edit', {
-        departaments: result[0],
-        user: result[1]
-      });
-    });
-};
-
-exports.update  = (req, res, next) => {
+exports.update = async (req, res) => {
   const id = req.body.id || '';
 
-  User.update({
-    _id: id
+  await User.update({
+    _id: id,
   }, {
     name: req.body.name,
     login: req.body.login,
     group: req.body.group,
     lastname: req.body.lastname,
     telephone: req.body.telephone,
-    departament: req.body.departament
-  }, (err, user) => {
-    if (err) { return next(err) }
-
-    return res.redirect('/dashboard/users');
+    departament: req.body.departament,
   });
+
+  return res.redirect('/dashboard/users');
 };
 
-exports.destroy = (req, res, next) => {
+exports.destroy = async (req, res) => {
   const id = req.params.id || '';
 
-  User
-    .findByIdAndRemove(id)
-    .exec((err) => {
-      if (err) { return next(err); }
+  await User.findByIdAndRemove(id);
 
-      return res.redirect('/dashboard/users');
-    });
+  return res.redirect('/dashboard/users');
 };
 
-exports.restore = (req, res, next) => {
-  const id = req.body.id || '',
-        pass = passgen(),
-        transporter = email.createTransport({
-          service: 'Yandex',
-          auth: {
-            user: 'access@makdoors.ru',
-            pass: 'makdoors713'
-          }
-        });
-        let restoreTpl = path.join(`${__dirname}/../views`, 'emails', 'restore'),
-        restoreLetter = new Etpl(restoreTpl),
-        mailOptions = {
-          from: 'access@makdoors.ru',
-          to: 'access@makdoors.ru',
-          subject: 'Доступ к сайту - makdoors.ru',
-          html: ''
-        };
-
-  async.waterfall([
-    (cb) => {
-      User
-        .find({
-          _id: id
-        }).exec((err, user) => {
-          return cb(err, user);
-        });
+exports.restore = async (req, res) => {
+  const id = req.body.id || '';
+  const pass = passgen();
+  const transporter = email.createTransport({
+    service: 'Yandex',
+    auth: {
+      user: 'access@makdoors.ru',
+      pass: 'makdoors713',
     },
-    (user, cb) => {
-      User
-        .update({
-          _id: id
-        }, {
-          password: bcrypt.hashSync(pass, 8)
-        }).exec((err) => {
-          return cb(err, user);
-        });
-    },
-  ], (err, result) => {
-    if(err) { return next(err); }
+  });
+  const restoreTpl = path.join(`${__dirname}/../views`, 'emails', 'restore');
+  const restoreLetter = new Etpl(restoreTpl);
+  const mailOptions = {
+    from: 'access@makdoors.ru',
+    to: 'access@makdoors.ru',
+    subject: 'Доступ к сайту - makdoors.ru',
+    html: '',
+  };
 
-    restoreLetter
-      .render({
-        user: result[0],
-        pass: pass
-      })
-      .then((result) => {
-        mailOptions.html = result.html;
-         transporter.sendMail(mailOptions, (error, info) => {
-            if(error) {
-                console.log('Ошибка отправки: ' + error);
-            }
-            else {
-                console.log('Письмо успешно отправлено: ' + info);
-                console.info(mailOptions.to);
-            }
-          });
-      });
+  const user = await User.update({ _id: id }, { password: bcrypt.hashSync(pass, 8) });
 
-    return res.json({
-      code: 200
-    });
+  const restoreLetterTemplate = await restoreLetter.render({
+    pass,
+    user,
+  });
+
+  mailOptions.html = restoreLetterTemplate.html;
+
+  await transporter.sendMail(mailOptions);
+
+  return res.json({
+    code: 200,
   });
 };
 
-exports.login = (req, res) => {
-  res.render('user/login');
-};
+exports.login = (req, res) => res.render('user/login');
 
-exports.logout = (req, res, next) => {
+exports.logout = (req, res) => {
   req.logout();
   res.redirect('/login');
 };

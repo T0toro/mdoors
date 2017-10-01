@@ -96,6 +96,14 @@ class OrderListContainer extends React.Component<OrderListContainerProps, OrderL
               <th>Статус отправки</th>
               <th colSpan={2} style={{ padding: '0 80px' }}></th>
             </tr>
+            <tr>
+              <th colSpan="2"><input type="text"/></th>
+              <th><input type="text"/></th>
+              <th><input type="text"/></th>
+              <th><input type="text"/></th>
+              <th><input type="text"/></th>
+              <th><input type="text"/></th>
+            </tr>
           </thead>
           <OrderList items={orders} users={users} pageSelected={ this.state.pageSelected } access={ this.state.access } />
         </table>
