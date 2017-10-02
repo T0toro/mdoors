@@ -129,19 +129,20 @@ exports.filter = async (req, res) => {
   const year = Number(req.body.year);
   const start = new Date(year, month - 1, 1);
   const end = new Date(year, month - 1, 31);
-  const query = {
-    ...req.body,
-  };
+  const query = {};
+
+  if (!!req.body.departament && !!req.body.departament.length) { query.departament = req.body.departament; }
+  if (!!req.body.user && !!req.body.user.length) { query.user = req.body.user; }
 
   if (req.user.group === 'accountant') {
-    const ozp = await getAcountantData(start, end, query);
+    const ozps = await getAcountantData(start, end, query);
 
-    return res.render('dashboard/ozp/indexAdmin', ozp);
+    return res.render('dashboard/ozp/indexAdmin', ozps);
   }
 
-  const ozp = await getSellerData(req, start, end);
+  const ozps = await getSellerData(req, start, end);
 
-  return res.json(ozp);
+  return res.json(ozps);
 };
 
 exports.sendOrder = async (req, res) => {
@@ -183,7 +184,7 @@ exports.sendOrder = async (req, res) => {
 
   mailOptions.html = reportLetterTemplate.html;
 
-  transporter.sendMail(mailOptions, (error, info) => {
+  transporter.sendMail(mailOptions).then((error, info) => {
     let msg = '';
     let ss = {};
     let code = 200;

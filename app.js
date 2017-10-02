@@ -19,30 +19,13 @@ const app = express();
 const port = process.env.PORT || 8085;
 
 // Connect to mongodb
-function connect() {
-  mongoose.connect(
-    'mongodb://localhost/mdoors', {
-      server: {
-        socketOptions: {
-          keepAlive: 1,
-        },
-      },
-    });
-}
-
+mongoose.Promise = Promise;
+mongoose.connect('mongodb://localhost/mdoors', { useMongoClient: true });
 
 // Custom utils
 // ----------------------------------------------
 
 app.locals.moment = moment;
-
-// Open db connection
-// ----------------------------------------------
-
-connect();
-
-mongoose.connection.on('disconnected', connect);
-mongoose.Promise = Promise;
 
 // Bootstrap models
 // ----------------------------------------------

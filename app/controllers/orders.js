@@ -163,15 +163,15 @@ exports.store = async (req, res) => {
   mailOptions.html = emailTemplate.html;
 
   // Send email
-  const emailSendStatus = await transporter.sendMail(mailOptions);
-
-  if (emailSendStatus) {
-    order.status = 2;
-    await order.save();
-  } else {
-    order.status = 1;
-    await order.save();
-  }
+  transporter.sendMail(mailOptions).then((err) => {
+    if (!err) {
+      order.status = 2;
+      order.save();
+    } else {
+      order.status = 1;
+      order.save();
+    }
+  });
 
   return res.json({
     order,

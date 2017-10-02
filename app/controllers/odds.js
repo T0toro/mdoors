@@ -101,9 +101,10 @@ exports.filter = async (req, res) => {
   const year = Number(req.body.year);
   const start = new Date(year, month - 1, 1);
   const end = new Date(year, month - 1, 31);
-  const query = {
-    ...req.body,
-  };
+  const query = {};
+
+  if (!!req.body.departament && !!req.body.departament.length) { query.departament = req.body.departament; }
+  if (!!req.body.user && !!req.body.user.length) { query.user = req.body.user; }
 
   if (req.user.group === 'accountant') {
     const odds = await getAccountantData(start, end, query);

@@ -12,11 +12,6 @@ const mongoose = require('mongoose');
 
 const AttributeGroup = mongoose.model('AttributeGroup');
 
-/*
- * Expos
- */
-
-
 /**
  * AttributeGroup list
  */

@@ -14,11 +14,6 @@ const Product = mongoose.model('Product');
 const Attribute = mongoose.model('Attribute');
 const AttributeGroup = mongoose.model('AttributeGroup');
 
-/*
- * Expos
- */
-
-
 /**
  * Attribute list
  */
