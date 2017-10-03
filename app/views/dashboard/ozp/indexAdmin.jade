@@ -55,10 +55,10 @@ block content
                     i.fa.fa-print
         tr
           th.no-print #
-          th(width="110") Сумма (р.)
-          th.no-print Сотрудник
-          th.no-print Отдел
           th(width="120") Дата
+          th(width="150").no-print Сотрудник
+          th(width="150").no-print Отдел
+          th(width="110") Сумма (р.)
           th(width="140") Предоплата (р.)
           th(width="500") Адрес доставки или номер и дата заказа на самовывоз
           th.no-print(width="80")
@@ -68,10 +68,10 @@ block content
             - paymentSumm += ozp.amount != null ? parseInt(ozp.amount) : 0;
             tr
               td.no-print= index + 1
-              td= ozp.amount != null ? ozp.amount : 0
+              td= moment(ozp.date).locale('ru').format('L')
               td.no-print= users[ozp.user]
               td.no-print= departaments[ozp.departament]
-              td= moment(ozp.date).locale('ru').format('L')
+              td= ozp.amount != null ? ozp.amount : 0
               td= ozp.payment != null ? ozp.payment : 0
               td= ozp.address
               td.table-controls.no-print
