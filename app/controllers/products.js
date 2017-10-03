@@ -54,7 +54,7 @@ exports.update = async (req, res) => {
   const id = req.body.id || '';
   const userDate = req.body.manufactureDate.split('.');
 
-  Product.update({ _id: id }, {
+  await Product.update({ _id: id }, {
     name: req.body.name,
     slug: req.body.slug,
     count: req.body.count,
