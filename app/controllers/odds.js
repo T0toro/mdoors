@@ -23,7 +23,7 @@ const getAccountantData = async (start = 0, end = 0, query) => {
     User.find(),
     Departament.find(),
     Odds.find(oddsQuery).sort({ date: 1 }),
-    OddsBalance.find({ date: { $gte: start, $lt: end } }),
+    OddsBalance.find({ departament: query.departament, user: query.user, date: { $gte: start, $lt: end } }),
   ]);
 
   const usersHash = {};

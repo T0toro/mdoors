@@ -1,7 +1,4 @@
-'use strict';
-
-/// <reference path="../interfaces.d.ts" />
-
+import '../interfaces.d.ts';
 
 /**
  * OrderListContainer
@@ -27,8 +24,7 @@ import OrderList from '../components/orderList';
  */
 
 class OrderListContainer extends React.Component<OrderListContainerProps, OrderListContainerState> {
-  state: OrderListContainerState;
-  handlePageClick: any;
+  public state: OrderListContainerState;
 
   constructor() {
     super();
@@ -38,40 +34,40 @@ class OrderListContainer extends React.Component<OrderListContainerProps, OrderL
       pages: 1,
       users: {},
       access: 'seller',
-      pageSelected: 0
+      pageSelected: 0,
     };
 
     // Method binding
-    this.handlePageClick = this._handlePageClick.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
-  componentDidMount () {
+  protected componentDidMount () {
     get('/dashboard/orders.json')
       .done((data) => {
         this.setState({
           orders: data.orders,
           users: data.users,
           pages: Math.ceil(data.records / 10),
-          access: data.access
+          access: data.access,
         });
       });
 
   }
 
-  _handlePageClick(page: any) {
+  protected handlePageClick(page: any) {
     get('/dashboard/orders.json', {
-      page: page.selected
+      page: page.selected,
     }).done((data) => {
       this.setState({
         orders: data.orders,
-        pageSelected: page.selected
+        pageSelected: page.selected,
       });
     });
   }
 
-  render() {
-    const orders: any = this.state.orders,
-          users:  any = this.state.users;
+  protected render() {
+    const orders: any = this.state.orders;
+    const users: any = this.state.users;
 
     return (
       <article>

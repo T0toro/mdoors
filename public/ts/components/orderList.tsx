@@ -1,6 +1,4 @@
-'use strict';
-
-/// <reference path="../interfaces.d.ts" />
+import '../interfaces.d.ts';
 
 /**
  * OrderList
