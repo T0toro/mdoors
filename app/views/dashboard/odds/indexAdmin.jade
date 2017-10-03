@@ -41,6 +41,7 @@ block content
                   .form-group
                     label(for="odds-departament") Отдел:
                     select(name="departament", id="odds-departament").form-control
+                      option(value="") Любой
                       each departament, key in departaments
                         option(value="#{key}")= departament
                 .form-group.pull-right

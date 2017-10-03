@@ -28,7 +28,7 @@ const getAcountantData = async (start = 0, end = 0, query) => {
     User.find(),
     Departament.find(),
     Ozp.find(ozpsQuery).sort({ date: 1 }),
-    OzpShifts.findOne({ departament: query.departament, user: query.user, date: { $gte: start, $lt: end } }),
+    OzpShifts.findOne(ozpsQuery),
   ]);
 
   const usersHash = {};
@@ -85,6 +85,7 @@ exports.index = async (req, res) => {
 
     return res.render('dashboard/ozp/indexAdmin', ozps);
   }
+
 
   return res.render('dashboard/ozp/index');
 };

@@ -1,6 +1,4 @@
-'use strict';
-
-/// <reference path="../interfaces.d.ts" />
+import '../interfaces.d.ts';
 
 /**
  * Ozp List
@@ -11,9 +9,9 @@
  * Vendor
  */
 
+import * as moment from 'moment';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import * as moment from 'moment';
 
 /**
  * Expo
@@ -27,9 +25,9 @@ const OzpListItem = (props: any) => {
       <td>{props.amount}</td>
       <td>{props.payment}</td>
       <td>{props.address}</td>
-      <td className="table-controls no-print">
-        <a href={`/dashboard/ozp/edit/${props._id}`} className="btn btn-primary">
-          <i className="fa fa-pencil"></i>
+      <td className='table-controls no-print'>
+        <a href={`/dashboard/ozp/edit/${props._id}`} className='btn btn-primary'>
+          <i className='fa fa-pencil'></i>
         </a>
       </td>
     </tr>
