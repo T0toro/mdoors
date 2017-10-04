@@ -1,4 +1,4 @@
-import '../interfaces.d.ts';
+import '../../interfaces.d.ts';
 
 /**
  * Ozp List

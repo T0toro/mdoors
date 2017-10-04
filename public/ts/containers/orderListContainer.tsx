@@ -17,7 +17,7 @@ import * as ReactPaginate from 'react-paginate';
  * My code
  */
 
-import OrderList from '../components/orderList';
+import OrderList from '../components/OrderList';
 
 /**
  * Expos
@@ -41,7 +41,7 @@ class OrderListContainer extends React.Component<OrderListContainerProps, OrderL
     this.handlePageClick = this.handlePageClick.bind(this);
   }
 
-  protected componentDidMount () {
+  public componentDidMount () {
     get('/dashboard/orders.json')
       .done((data) => {
         this.setState({
@@ -54,7 +54,7 @@ class OrderListContainer extends React.Component<OrderListContainerProps, OrderL
 
   }
 
-  protected handlePageClick(page: any) {
+  public handlePageClick(page: any) {
     get('/dashboard/orders.json', {
       page: page.selected,
     }).done((data) => {
@@ -65,7 +65,7 @@ class OrderListContainer extends React.Component<OrderListContainerProps, OrderL
     });
   }
 
-  protected render() {
+  public render() {
     const orders: any = this.state.orders;
     const users: any = this.state.users;
 
