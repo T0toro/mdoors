@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * OzpTable
  * @description representation table in ozp page

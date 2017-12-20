@@ -19,7 +19,6 @@ const OzpShifts = mongoose.model('OzpShifts');
 const User = mongoose.model('User');
 const Departament = mongoose.model('Departament');
 
-
 const getAcountantData = async (start = 0, end = 0, query) => {
   const basicQuery = { date: { $gte: start, $lt: end } };
   const ozpsQuery = Object.assign(basicQuery, query);
@@ -56,7 +55,7 @@ const getSellerData = async (req, start = 0, end = 0) => {
     Ozp.find({
       user: req.user.id,
       date: { $gte: start, $lt: end },
-    }),
+    }).sort({ date: 1 }),
     OzpShifts.findOne({
       user: req.user.id,
       date: { $gte: start, $lt: end },
@@ -75,10 +74,9 @@ const getSellerData = async (req, start = 0, end = 0) => {
  */
 
 exports.index = async (req, res) => {
-  const year = new Date().getFullYear();
-  const month = new Date().getMonth() + 1;
-  const start = new Date(year, month - 1, 1);
-  const end = new Date(year, month, 1);
+  const currentDate = new Date();
+  const start = new Date(Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), 1));
+  const end = new Date(Date.UTC(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
 
   if (req.user.group === 'accountant') {
     const ozps = await getAcountantData(start, end);
@@ -100,18 +98,15 @@ exports.indexAdmin = (req, res) => {
 };
 
 exports.indexUser = async (req, res) => {
-  const year = new Date().getFullYear();
-  const month = new Date().getMonth() + 1;
-  const start = new Date(year, month - 1, 1);
-  const end = new Date(year, month - 1, 31);
+  const currentDate = new Date();
+  const start = new Date(Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), 1));
+  const end = new Date(Date.UTC(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
 
   const [ozps, ozpShifts] = await Promise.all([
     Ozp.find({
       user: req.user.id,
       date: { $gte: start, $lt: end },
-    }).sort({
-      date: -1,
-    }),
+    }).sort({ date: 1 }),
     OzpShifts.find({
       departament: req.user.departament,
       date: { $gte: start, $lt: end },
@@ -128,8 +123,8 @@ exports.indexUser = async (req, res) => {
 exports.filter = async (req, res) => {
   const month = Number(req.body.month);
   const year = Number(req.body.year);
-  const start = new Date(year, month - 1, 1);
-  const end = new Date(year, month - 1, 31);
+  const start = new Date(Date.UTC(year, month - 1, 1));
+  const end = new Date(Date.UTC(year, month, 1));
   const query = {};
 
   if (!!req.body.departament && !!req.body.departament.length) { query.departament = req.body.departament; }
@@ -217,12 +212,12 @@ exports.edit = async (req, res) => {
 };
 
 exports.store = (req, res, next) => {
-  const date = req.body.date.split('.');
+  const [day, month, year] = req.body.date.split('.');
 
   Ozp.create({
     user: req.user.id,
     departament: req.user.departament,
-    date: new Date(date[2], date[1] - 1, date[0]),
+    date: new Date(Date.UTC(year, month - 1, day)),
     amount: req.body.amount,
     payment: req.body.payment,
     address: req.body.address,
@@ -234,7 +229,7 @@ exports.store = (req, res, next) => {
 };
 
 exports.update = async (req, res) => {
-  const date = req.body.date.split('.');
+  const [day, month, year] = req.body.date.split('.');
   const id = req.body.id;
 
   await Ozp.update({
@@ -242,7 +237,7 @@ exports.update = async (req, res) => {
   }, {
     user: req.user.id,
     departament: req.user.departament,
-    date: new Date(date[2], date[1] - 1, date[0]),
+    date: new Date(Date.UTC(year, month - 1, day)),
     amount: req.body.amount,
     payment: req.body.payment,
     address: req.body.address,
@@ -252,10 +247,10 @@ exports.update = async (req, res) => {
 };
 
 exports.setShift = async (req, res) => {
-  const date = req.body.date.split('.');
+  const [day, month, year] = req.body.date.split('.');
 
   await OzpShifts.create({
-    date: new Date(date[2], date[1] - 1, date[0]),
+    date: new Date(Date.UTC(year, month - 1, day)),
     user: req.user.id,
     departament: req.user.departament,
     amount: req.body.amount,

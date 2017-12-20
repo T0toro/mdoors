@@ -67,7 +67,7 @@ block content
             - retiredAmountSumm += odd.retiredAmount != null ? parseInt(odd.retiredAmount) : 0;
             tr
               td.no-print= index + 1
-              td= moment(odd.date).locale('ru').format('L')
+              td= moment(odd.date).utc().locale('ru').format('L')
               td.no-print= departaments[odd.departament]
               td= odd.receivedAmount != null ? parseInt(odd.receivedAmount) : 0
               td= odd.receivedComment

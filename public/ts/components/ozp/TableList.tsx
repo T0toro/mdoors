@@ -1,5 +1,3 @@
-import '../../interfaces.d.ts';
-
 /**
  * Ozp List
  * @description component render ozp list
@@ -11,7 +9,6 @@ import '../../interfaces.d.ts';
 
 import * as moment from 'moment';
 import * as React from 'react';
-import { connect } from 'react-redux';
 
 /**
  * Expo
@@ -21,7 +18,7 @@ const OzpListItem = (props: any) => {
   return (
     <tr>
       <td>{props.index}</td>
-      <td>{moment(props.date).locale('ru').format('L')}</td>
+      <td>{moment(props.date).utc().locale('ru').format('L')}</td>
       <td>{props.amount}</td>
       <td>{props.payment}</td>
       <td>{props.address}</td>

@@ -111,7 +111,7 @@ block content
             - retiredAmountSumm += odd.retiredAmount != null ? parseInt(odd.retiredAmount) : 0;
             tr
               td= index + 1
-              td= moment(odd.date).locale('ru').format('L')
+              td= moment(odd.date).utc().locale('ru').format('L')
               td= odd.receivedAmount != null ? parseInt(odd.receivedAmount) : 0
               td= odd.receivedComment
               td= odd.retiredAmount != null ? parseInt(odd.retiredAmount) : 0

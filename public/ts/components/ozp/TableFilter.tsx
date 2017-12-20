@@ -1,14 +1,9 @@
-'use strict';
-
-import '../../interfaces.d.ts';
-
 /**
  * TableFilter
  * @description TableFilter representation
  */
 
 import { ajax as request } from 'jquery';
-import * as moment from 'moment';
 import * as React from 'react';
 import { connect } from 'react-redux';
 

@@ -69,7 +69,7 @@ block content
             - paymentSumm += ozp.amount != null ? parseInt(ozp.amount) : 0;
             tr
               td.no-print= index + 1
-              td= moment(ozp.date).locale('ru').format('L')
+              td= moment(ozp.date).utc().locale('ru').format('L')
               td.no-print= users[ozp.user]
               td.no-print= departaments[ozp.departament]
               td= ozp.amount != null ? ozp.amount : 0

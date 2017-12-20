@@ -9,10 +9,9 @@
  */
 
 const mongoose = require('mongoose');
-
 const Odds = mongoose.model('Odds');
-const OddsBalance = mongoose.model('OddsBalance');
 const User = mongoose.model('User');
+const OddsBalance = mongoose.model('OddsBalance');
 const Departament = mongoose.model('Departament');
 
 const getAccountantData = async (start = 0, end = 0, query) => {
@@ -76,10 +75,9 @@ const getSellerData = async (req, start, end) => {
  */
 
 exports.index = async (req, res) => {
-  const year = new Date().getFullYear();
-  const month = new Date().getMonth() + 1;
-  const start = new Date(year, month - 1, 1);
-  const end = new Date(year, month - 1, 31);
+  const currentDate = new Date();
+  const start = new Date(Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), 1));
+  const end = new Date(Date.UTC(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
 
   if (req.user.group === 'accountant') {
     (async () => {
@@ -99,8 +97,8 @@ exports.index = async (req, res) => {
 exports.filter = async (req, res) => {
   const month = Number(req.body.month);
   const year = Number(req.body.year);
-  const start = new Date(year, month - 1, 1);
-  const end = new Date(year, month - 1, 31);
+  const start = new Date(Date.UTC(year, month - 1, 1));
+  const end = new Date(Date.UTC(year, month, 1));
   const query = {};
 
   if (!!req.body.departament && !!req.body.departament.length) { query.departament = req.body.departament; }
@@ -118,12 +116,12 @@ exports.filter = async (req, res) => {
 };
 
 exports.store = async (req, res) => {
-  const date = req.body.date.split('.');
+  const [day, month, year] = req.body.date.split('.');
 
   await Odds.create({
     user: req.user.id,
     departament: req.user.departament,
-    date: new Date(date[2], date[1] - 1, date[0]),
+    date: new Date(Date.UTC(year, month - 1, day)),
     receivedAmount: req.body.receivedAmount,
     receivedComment: req.body.receivedComment,
     retiredAmount: req.body.retiredAmount,
@@ -142,7 +140,7 @@ exports.edit = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  const date = req.body.date.split('.');
+  const [day, month, year] = req.body.date.split('.');
   const id = req.body.id;
 
   await Odds.update({
@@ -150,7 +148,7 @@ exports.update = async (req, res) => {
   }, {
     user: req.user.id,
     departament: req.user.departament,
-    date: new Date(date[2], date[1] - 1, date[0]),
+    date: new Date(Date.UTC(year, month - 1, day)),
     receivedAmount: req.body.receivedAmount,
     receivedComment: req.body.receivedComment,
     retiredAmount: req.body.retiredAmount,
@@ -161,10 +159,10 @@ exports.update = async (req, res) => {
 };
 
 exports.setBalance = async (req, res) => {
-  const date = req.body.date.split('.');
+  const [day, month, year] = req.body.date.split('.');
 
   await OddsBalance.create({
-    date: new Date(date[2], date[1] - 1, date[0]),
+    date: new Date(Date.UTC(year, month - 1, day)),
     user: req.user.id,
     departament: req.user.departament,
     balance: req.body.balance,

@@ -1,5 +1,3 @@
-import '../../interfaces.d.ts';
-
 /**
  * Ozp Total
  * @description отображает итоговую сумму на основе кол-во смен и аванса

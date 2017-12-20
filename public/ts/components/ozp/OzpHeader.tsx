@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * OzpHeader
  * @description render ozp page header
