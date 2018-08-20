@@ -1,21 +1,12 @@
 {
-    "compilerOptions": {
-        "rootDir": "public/ts",
-        "outDir": "public/js",
-        "noImplicitAny": true,
-        "module": "commonjs",
-        "target": "es5",
-        "jsx": "react",
-        "lib": [
-            "es2015",
-            "dom"
-        ]
-    },
-    "exclude": [
-        "node_modules",
-        "bower_components",
-        "jspm_packages",
-        "tmp",
-        "temp"
-    ]
+  "compilerOptions": {
+    "rootDir": "public/ts",
+    "outDir": "public/js",
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "es5",
+    "jsx": "react",
+    "lib": ["es2015", "dom"]
+  },
+  "exclude": ["node_modules"]
 }

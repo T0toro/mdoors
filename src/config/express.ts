@@ -80,7 +80,7 @@ module.exports = function(app, passport) {
   // --------------------------------------------
 
   app.set('views', config.root + '/app/views');
-  app.set('view engine', 'jade');
+  app.set('view engine', 'pug');
 
   // Expose package.json to views
   // --------------------------------------------
@@ -113,9 +113,11 @@ module.exports = function(app, passport) {
   // --------------------------------------------
 
   app.use(cookieParser());
+  
   app.use(cookieSession({
     secret: 'secret'
   }));
+
   app.use(session({
     secret: pkg.name,
     proxy: true,
