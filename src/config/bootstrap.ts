@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Set some settings then app start
  *
@@ -10,17 +8,24 @@
  * Module dependencies
  */
 
-const bcrypt   = require('bcryptjs'),
-      mongoose = require('mongoose'),
-      User     = mongoose.model('User');
+import UserSchema from '../models/User';
 
-/*!
- * Expose
+import { hashSync } from 'bcryptjs';
+import { model } from 'mongoose';
+
+/**
+ * Model
  */
 
-module.exports = async (app) => {
+model('User', UserSchema);
+
+/*!
+ * Expo
+ */
+
+module.exports = async () => {
   const user = await User.findOne({ name: 'admin' });
-  
+
   if (!!Object.keys(user).length) return true;
 
   try {
@@ -28,9 +33,9 @@ module.exports = async (app) => {
       name: 'admin',
       group: 'accountant',
       login: 'admin@mail.com',
-      password: bcrypt.hashSync('123', 8),
+      password: hashSync('123', 8),
     });
-  } catch(e) {
+  } catch (e) {
     return console.info('При создании пользователя произошла ошибка: ', e);
   }
 };

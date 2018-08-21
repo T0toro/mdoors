@@ -8,12 +8,10 @@
  * Module dependencies
  */
 
-const fs = require('fs');
-const path = require('path');
-const express = require('express');
-const moment = require('moment');
-const mongoose = require('mongoose');
-const passport = require('passport');
+import * as mongoose from 'mongoose';
+import * as express from 'express';
+
+import passport from 'passport';
 
 const app = express();
 const port = process.env.PORT || 8085;
@@ -21,20 +19,6 @@ const port = process.env.PORT || 8085;
 // Connect to mongodb
 mongoose.Promise = Promise;
 mongoose.connect('mongodb://localhost/mdoors', { useMongoClient: true });
-
-// Custom utils
-// ----------------------------------------------
-
-app.locals.moment = moment;
-
-// Bootstrap models
-// ----------------------------------------------
-
-fs.readdirSync(path.join(__dirname, '/app/models')).forEach((file) => {
-  if (file.indexOf('.js') !== -1) {
-    require(path.join(__dirname, '/app/models/', file));
-  }
-});
 
 // Bootstrap passport config
 // ----------------------------------------------

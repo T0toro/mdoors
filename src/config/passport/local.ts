@@ -1,26 +1,24 @@
-'use strict';
-
 /**
- * Module dependencies.
+ * Dependencies
  */
 
-let mongoose, User, LocalStrategy;
+import { model } from 'mongoose';
+import { Strategy } from 'passport-local';
+import UserSchema from '../../models/User';
 
 /**
- * Module dependencies.
+ * Register model
  */
 
-mongoose = require('mongoose');
-LocalStrategy = require('passport-local').Strategy;
-User = mongoose.model('User');
+const User = model('User', UserSchema);
 
 /**
- * Expose
+ * Expo
  */
 
-module.exports = new LocalStrategy({
+export default new Strategy({
   usernameField: 'login',
-  passwordField: 'password'
+  passwordField: 'password',
 }, (login, password, done) => {
   User.findOne({login: login}, (err, user) => {
     if (err) { return done(err); }

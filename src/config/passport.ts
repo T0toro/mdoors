@@ -1,21 +1,15 @@
-'use strict';
-
 /**
- * Passport auth strategies
+ * Dependencies
  */
 
-/**
- * Module variables
- */
-
-let mongoose, User, local;
+import { Schema } from 'mongoose';
+import UserSchema from '../models/User';
 
 /**
- * Module dependencies.
+ * Register model
  */
 
-mongoose = require('mongoose');
-User = mongoose.model('User');
+const User = mongoose.model('User', UserSchema);
 
 local = require('./passport/local');
 

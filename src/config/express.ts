@@ -1,14 +1,6 @@
-'use strict';
-
 /**
-* Module variables
-*/
-
-let express, session, compression, morgan, config, cookieParser, cookieSession, bodyParser, methodOverride, csrf, mongoStore, flash, winston, helpers, pkg, env, log;
-
-/**
-* Module dependencies.
-*/
+ * Dependencies
+ */
 
 express = require('express');
 
