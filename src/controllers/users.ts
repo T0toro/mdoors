@@ -8,12 +8,12 @@
  * Module dependencies
  */
 
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const path = require('path');
-const passgen = require('password-generator');
-const Etpl = require('email-templates').EmailTemplate;
-const email = require('nodemailer');
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+import path from 'path';
+import passgen from 'password-generator';
+import EmailTemplate from 'email-templates';
+import email from 'nodemailer';
 
 const Departament = mongoose.model('Departament');
 const User = mongoose.model('User');
@@ -22,71 +22,72 @@ const User = mongoose.model('User');
  * Expos
  */
 
-exports.index = async (req, res) => {
+export const index = async (_, res) => {
   const [departaments, users] = await Promise.all([
     Departament.find(),
-    User.find(),
+    User.find()
   ]);
 
   return res.render('dashboard/users/index', {
     departaments,
-    users,
+    users
   });
 };
 
-exports.create = async (req, res) => {
+export const create = async (req, res) => {
   const departaments = Departament.find();
 
   return res.render('dashboard/users/create', {
-    departaments,
+    departaments
   });
 };
 
-exports.store = async (req, res) => {
+export const store = async (req, res) => {
   await User.create({
     name: req.body.name,
     login: req.body.login,
     group: req.body.group,
     lastname: req.body.lastname,
     telephone: req.body.telephone,
-    departament: req.body.departament,
+    departament: req.body.departament
   });
 
   return res.redirect('/dashboard/users');
 };
 
-exports.edit = async (req, res) => {
+export const edit = async (req, res) => {
   const id = req.params.id || '';
 
   const [departaments, user] = await Promise.all([
     Departament.find(),
-    User.findById(id),
+    User.findById(id)
   ]);
 
   return res.render('dashboard/users/edit', {
     departaments,
-    user,
+    user
   });
 };
 
-exports.update = async (req, res) => {
-  const id = req.body.id || '';
+export const update = async (req, res) => {
+  const { id, name, login, group, lastname, telephone, departament } = req.body;
 
-  await User.update({
-    _id: id,
-  }, {
-    name: req.body.name,
-    login: req.body.login,
-    group: req.body.group,
-    lastname: req.body.lastname,
-    telephone: req.body.telephone,
-    departament: req.body.departament,
-  });
+  await User.update(
+    { _id: id },
+    {
+      name,
+      login,
+      group,
+      lastname,
+      telephone,
+      departament,
+    },
+  );
 
   return res.redirect('/dashboard/users');
 };
 
-exports.destroy = async (req, res) => {
+export const destroy = async (req, res) => {
   const id = req.params.id || '';
 
   await User.findByIdAndRemove(id);
@@ -94,30 +95,37 @@ exports.destroy = async (req, res) => {
   return res.redirect('/dashboard/users');
 };
 
-exports.restore = async (req, res) => {
+export const restore = async (req, res) => {
   const id = req.body.id || '';
   const pass = passgen();
   const transporter = email.createTransport({
     service: 'Yandex',
     auth: {
       user: 'access@makdoors.ru',
-      pass: 'makdoors713',
-    },
+      pass: 'makdoors713'
+    }
   });
-  const restoreTpl = path.join(`${__dirname}/../views`, 'emails', 'restore');
-  const restoreLetter = new Etpl(restoreTpl);
+  const restorEmailTemplate = path.join(
+    `${__dirname}/../views`,
+    'emails',
+    'restore'
+  );
+  const restoreLetter = new EmailTemplate(restorEmailTemplate);
   const mailOptions = {
     from: 'access@makdoors.ru',
     to: 'access@makdoors.ru',
     subject: 'Доступ к сайту - makdoors.ru',
-    html: '',
+    html: ''
   };
 
-  const user = await User.update({ _id: id }, { password: bcrypt.hashSync(pass, 8) });
+  const user = await User.update(
+    { _id: id },
+    { password: bcrypt.hashSync(pass, 8) }
+  );
 
   const restoreLetterTemplate = await restoreLetter.render({
     pass,
-    user,
+    user
   });
 
   mailOptions.html = restoreLetterTemplate.html;
@@ -125,13 +133,13 @@ exports.restore = async (req, res) => {
   await transporter.sendMail(mailOptions);
 
   return res.json({
-    code: 200,
+    code: 200
   });
 };
 
-exports.login = (req, res) => res.render('user/login');
+export const login = (req, res) => res.render('user/login');
 
-exports.logout = (req, res) => {
+export const logout = (req, res) => {
   req.logout();
   res.redirect('/login');
 };

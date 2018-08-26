@@ -8,8 +8,8 @@
  * Module dependencies
  */
 
-import * as mongoose from 'mongoose';
-import * as express from 'express';
+import mongoose from 'mongoose';
+import express from 'express';
 
 import passport from 'passport';
 
@@ -42,25 +42,23 @@ require('./config/bootstrap')(app, passport);
 // Routes ext
 // ----------------------------------------------
 
-app.use((err, req, res, next) => {
+app.use((err, _, res, next) => {
   // Treat as 404
-  if (err.message && (~err.message.indexOf('not found') || (~err.message.indexOf('Cast to ObjectId failed')))) {
-    return next();
-  }
+  if (
+    err.message
+    && (err.message.includes('not found')
+    || (~err.message.includes('Cast to ObjectId failed')))
+  ) { return next(); }
 
   // Error page
-  return res.status(500).render('500', {
-    error: err.stack,
-  });
+  return res.status(500).json({ error: err.stack });
 });
 
 // Assume 404 since no middleware responded
-app.use((req, res) => {
-  res.status(404).render('404', {
-    url: req.originalUrl,
-    error: 'Not found',
-  });
-});
+app.use((req, res) => res.status(404).json({
+  url: req.originalUrl,
+  error: 'Not found',
+}));
 
 // Start app
 // ----------------------------------------------

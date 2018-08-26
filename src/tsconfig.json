@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "rootDir": "public/ts",
-    "outDir": "public/js",
+    "rootDir": "./src",
+    "outDir": "./dist",
     "noImplicitAny": true,
+    "esModuleInterop": true,
     "module": "commonjs",
     "target": "es5",
     "jsx": "react",
